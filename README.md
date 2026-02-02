@@ -38,9 +38,14 @@ Omni is a single, lightning-fast binary that turns your local machine into an Au
 
 ## 📦 Installation
 
-**Mac / Linux:**
+**One-Line Install:**
 ```bash
-curl -fsSL https://get.omni.ai | sh
+curl -sL https://git.io/omni | bash
+```
+*(Note: Until git.io link is active, use the direct link below)*
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/AureliusSystemsAI/omni/main/install.sh | bash
 ```
 
 **Pip:**
