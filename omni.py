@@ -113,6 +113,7 @@ def main():
     run.add_argument("task", help="The task description")
 
     list_cmd = subparsers.add_parser("list", help="List installed brains")
+    update_cmd = subparsers.add_parser("update", help="Update Omni to the latest version")
     
     args = parser.parse_args()
     
@@ -129,6 +130,21 @@ def main():
         print(f"  • {Colors.CYAN}@roe/sec-ops{Colors.ENDC} (v1.0)")
         print(f"  • {Colors.CYAN}@roe/architect{Colors.ENDC} (v1.0)")
         print(f"  • {Colors.CYAN}default-llama-3{Colors.ENDC} (base)")
+    elif args.command == "update":
+        print(f"\n{Colors.HEADER}🔄 UPDATING OMNI SYSTEM{Colors.ENDC}")
+        install_dir = os.path.expanduser("~/.omni")
+        if os.path.exists(install_dir):
+            try:
+                import subprocess
+                subprocess.run(["git", "-C", install_dir, "pull"], check=True)
+                print(f"  {Colors.GREEN}✔ Codebase updated.{Colors.ENDC}")
+                subprocess.run([os.path.join(install_dir, "venv/bin/pip"), "install", "-e", install_dir], check=True)
+                print(f"  {Colors.GREEN}✔ Dependencies updated.{Colors.ENDC}")
+                print(f"  {Colors.BLUE}ℹ️  Please restart your shell or run 'hash -r' to use new features.{Colors.ENDC}")
+            except Exception as e:
+                print(f"  {Colors.FAIL}X Update failed: {e}{Colors.ENDC}")
+        else:
+            print(f"  {Colors.FAIL}X Omni directory not found. Please reinstall.{Colors.ENDC}")
     else:
         print_logo()
         parser.print_help()
