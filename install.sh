@@ -29,7 +29,19 @@ python3 -m venv venv
 BIN_PATH="/usr/local/bin/omni"
 
 echo "  • Linking binary..."
-if [ -w "/usr/local/bin" ]; then
+BIN_PATH="/usr/local/bin/omni"
+BIN_DIR="/usr/local/bin"
+
+if [ ! -d "$BIN_DIR" ]; then
+    echo "    (Creating $BIN_DIR)"
+    if [ -w "/usr/local" ]; then
+        mkdir -p "$BIN_DIR"
+    else
+        sudo mkdir -p "$BIN_DIR"
+    fi
+fi
+
+if [ -w "$BIN_DIR" ]; then
     # We have write access, just link it
     ln -sf "$INSTALL_DIR/venv/bin/omni" "$BIN_PATH"
 else
