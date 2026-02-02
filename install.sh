@@ -1,57 +1,43 @@
 #!/bin/bash
 set -e
 
-# Omni Installer
-# Usage: curl -sL https://tinyurl.com/omni-install | bash
+# Omni Installer v1.1
+# "It just works."
 
 echo "⚡ Installing Omni..."
 
-# Detect OS
-OS="$(uname -s)"
-ARCH="$(uname -m)"
-
-if [ "$OS" == "Darwin" ]; then
-    echo "  • Detected macOS ($ARCH)"
-elif [ "$OS" == "Linux" ]; then
-    echo "  • Detected Linux ($ARCH)"
-else
-    echo "  X Unsupported OS: $OS"
-    exit 1
-fi
-
-# Clone/Pull
 INSTALL_DIR="$HOME/.omni"
+
+# 1. Clone/Update
 if [ -d "$INSTALL_DIR" ]; then
-    echo "  • Updating existing installation..."
+    echo "  • Updating..."
     cd "$INSTALL_DIR"
     git pull --quiet
 else
-    echo "  • Cloning repository..."
+    echo "  • Downloading..."
     git clone --quiet https://github.com/AureliusSystemsAI/omni.git "$INSTALL_DIR"
 fi
 
-# Setup Venv
-echo "  • Setting up Python environment..."
+# 2. Setup Venv
+echo "  • configuring brain..."
 cd "$INSTALL_DIR"
 python3 -m venv venv
 ./venv/bin/pip install -e . --quiet
 
-# Add to PATH (if not present)
-SHELL_CONFIG=""
-if [ "$SHELL" == "/bin/zsh" ]; then
-    SHELL_CONFIG="$HOME/.zshrc"
-elif [ "$SHELL" == "/bin/bash" ]; then
-    SHELL_CONFIG="$HOME/.bashrc"
-fi
+# 3. The "Just Works" Fix (Symlink)
+# Try to write to /usr/local/bin (Standard PATH)
+BIN_PATH="/usr/local/bin/omni"
 
-if [ -n "$SHELL_CONFIG" ]; then
-    if ! grep -q "$INSTALL_DIR/venv/bin" "$SHELL_CONFIG"; then
-        echo "  • Adding to PATH ($SHELL_CONFIG)..."
-        echo "export PATH=\"\$PATH:$INSTALL_DIR/venv/bin\"" >> "$SHELL_CONFIG"
-        echo "  ℹ️  Please run: source $SHELL_CONFIG"
-    fi
+echo "  • Linking binary..."
+if [ -w "/usr/local/bin" ]; then
+    # We have write access, just link it
+    ln -sf "$INSTALL_DIR/venv/bin/omni" "$BIN_PATH"
+else
+    # We need sudo
+    echo "    (Password required to create 'omni' command)"
+    sudo ln -sf "$INSTALL_DIR/venv/bin/omni" "$BIN_PATH"
 fi
 
 echo ""
-echo "✅ Omni Installed Successfully!"
-echo "   Run 'omni init' to start."
+echo "✅ Omni Installed!"
+echo "👉 Try it now: omni init"
