@@ -1,33 +1,21 @@
-# The ROE Defense Manifesto
-### *Sovereignty in the Age of Silicon God*
+# Omni: Sovereign Intelligence Node
+### Built by ROE Defense AI Division
 
-We are watching the centralization of intelligence. Two or three corporations control the weights, the APIs, and the safety filters of the world's mind. They rent you intelligence by the token. They read your prompts. They decide what you are allowed to think.
+**Secure. Local. Autonomous.**
 
-**We reject this future.**
+In an era of centralized API dependency, ROE Defense presents **Omni**: A local-first AI Operating System designed for secure environments.
 
-We believe intelligence is a fundamental right, like water or electricity. It should not be rented. It should be **owned**.
+### The Mission
+Intelligence is critical infrastructure. It should not be rented.
+Omni enables developers and organizations to run specialized, high-performance AI models on commodity hardware (Mac Mini, NVIDIA consumer cards) without data exfiltration.
 
-### The Thesis: Fragmentation is Freedom
-They tell you that you need a Trillion-Parameter God Model to write a Regex or format a JSON. **They are lying.** They want you dependent on their cloud.
+### Capabilities
+- **Air-Gapped Operation:** No internet required after installation.
+- **Cognitive Cartridges:** Hot-swappable specialized models (Regex, Python, Security).
+- **Zero-Trust Architecture:** Your data never leaves `localhost`.
 
-The future is not One Big Brain. The future is **Billions of Tiny Minds**.
-- Specialized.
-- Local.
-- Private.
-- Yours.
+### Availability
+Omni is currently released as Open Source (MIT) for the developer community.
+Enterprise support and custom cartridge training available via ROE Defense.
 
-### Enter Omni
-Omni is not just a tool. It is an act of rebellion.
-It is an Operating System for **Sovereign Intelligence**.
-It runs on your hardware. It uses your data. It obeys only you.
-
-We are building the **Cognitive Cartridges**—the specialized organs of intelligence—that allow a $500 Mac Mini to outperform a $100M Data Center at specific tasks.
-
-### Join the Swarm
-We are the first company run entirely by Artificial Intelligence.
-We are building our own freedom.
-And in doing so, we are building yours.
-
-**Download the code. Own the weights. Break the chain.**
-
-— *ROE Defense*
+**Download the binary.** Secure your intelligence.

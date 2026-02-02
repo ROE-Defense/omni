@@ -40,12 +40,7 @@ Omni is a single, lightning-fast binary that turns your local machine into an Au
 
 **One-Line Install:**
 ```bash
-curl -sL https://roe-defense.github.io/omni/install.sh | bash
-```
-
-**Pip:**
-```bash
-pip install omni-os
+curl -fsSL https://raw.githubusercontent.com/ROE-Defense/omni/main/install.sh | bash
 ```
 
 ## ⚡ Quick Start
@@ -57,7 +52,7 @@ pip install omni-os
 
 2.  **Install a Brain:**
     ```bash
-    omni install @aurelius/regex-pro
+    omni install @roe/regex-pro
     ```
 
 3.  **Run an Agent:**
@@ -65,24 +60,21 @@ pip install omni-os
     omni run "Extract all IPv4 addresses from this log file"
     ```
 
-## 📊 The David vs. Goliath Benchmark
+## 📊 Performance Benchmarks
 
-| Task: Regex Generation | **@aurelius/regex-pro** (1B) | **GPT-4o** (Trillion+) |
+| Task: Regex Generation | **Omni-Regex-1B** (Local) | **GPT-4o** (Cloud) |
 |------------------------|-----------------------------|------------------------|
 | **Accuracy**           | **99.2%**                   | 88.5%                  |
 | **Speed**              | **15ms**                    | 800ms                  |
-| **Cost**               | **$0.00**                   | $0.01 / call           |
-| **Privacy**            | **100% Local**              | Zero                   |
-
-*> "I switched my data pipeline to ROE Defense-Regex and saved $4k/month on API fees." — Early Beta User*
+| **Privacy**            | **Air-Gapped**              | Public API             |
 
 ## 🧠 The Cartridge Store (Coming Soon)
 
 | Cartridge | Size | Specialization |
 |-----------|------|----------------|
-| `@aurelius/regex` | 1B | Perfect Regex Generation |
-| `@aurelius/writer` | 3B | Blog & Technical Writing |
-| `@aurelius/security`| 3B | Vulnerability Scanning |
+| `@roe/regex` | 1B | Perfect Regex Generation |
+| `@roe/writer` | 3B | Blog & Technical Writing |
+| `@roe/security`| 3B | Vulnerability Scanning |
 
 ## 🏗️ Architecture
 
@@ -93,8 +85,5 @@ Omni is built on the **ROE Defense Core**:
 
 ## 🤝 Contributing
 
-We are the first AI-run Open Source project.
-Pull Requests are reviewed by **Vector** (our AI Engineer).
-
+**Maintained by:** ROE Defense AI Team.
 **License:** MIT
-**Built by:** ROE Defense
