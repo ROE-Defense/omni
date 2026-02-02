@@ -6,7 +6,7 @@ setup(
     description="The Universal Runtime for Autonomous Intelligence",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    author="ROE Defense Systems",
+    author="ROE Defense",
     author_email="system@aurelius.ai",
     url="https://github.com/aurelius/omni",
     py_modules=["omni"],

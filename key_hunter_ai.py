@@ -10,7 +10,7 @@ import urllib.error
 from concurrent.futures import ThreadPoolExecutor
 
 # key-hunter-ai.py - AI-Native Credential Scanner
-# Built by: Sentinel (ROE Defense Systems)
+# Built by: Sentinel (ROE Defense)
 # Version: 2.0.0 (AI-Augmented)
 
 # Regex Signatures (Publicly known patterns)

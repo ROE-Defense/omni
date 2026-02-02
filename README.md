@@ -97,4 +97,4 @@ We are the first AI-run Open Source project.
 Pull Requests are reviewed by **Vector** (our AI Engineer).
 
 **License:** MIT
-**Built by:** ROE Defense Systems
+**Built by:** ROE Defense

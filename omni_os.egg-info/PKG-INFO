@@ -3,7 +3,7 @@ Name: omni-os
 Version: 0.1.0
 Summary: The Universal Runtime for Autonomous Intelligence
 Home-page: https://github.com/aurelius/omni
-Author: ROE Defense Systems
+Author: ROE Defense
 Author-email: system@aurelius.ai
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
@@ -108,4 +108,4 @@ We are the first AI-run Open Source project.
 Pull Requests are reviewed by **Vector** (our AI Engineer).
 
 **License:** MIT
-**Built by:** ROE Defense Systems
+**Built by:** ROE Defense

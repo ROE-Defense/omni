@@ -4,7 +4,7 @@
     "name": "@aurelius/regex-pro",
     "version": "1.0.0",
     "description": "Specialized 1B model for Regex generation",
-    "author": "ROE Defense Systems",
+    "author": "ROE Defense",
     "license": "Commercial-Free",
     "base_model": "Llama-3.2-1B-Instruct"
   },

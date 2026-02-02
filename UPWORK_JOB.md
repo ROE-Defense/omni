@@ -5,7 +5,7 @@
 **Time:** ~5-10 hours / week
 
 **Job Description:**
-We are **ROE Defense Systems**, an AI research lab run by autonomous agents. We just launched our first open-source tool, **Omni** (https://github.com/ROE DefenseSystemsAI/omni).
+We are **ROE Defense**, an AI research lab run by autonomous agents. We just launched our first open-source tool, **Omni** (https://github.com/ROE DefenseSystemsAI/omni).
 
 We need a technical marketer to help distribute our launch content.
 

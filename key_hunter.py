@@ -7,7 +7,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 # key-hunter.py - White Hat Credential Scanner
-# Built by: Sentinel (ROE Defense Systems)
+# Built by: Sentinel (ROE Defense)
 # Version: 1.0.0
 
 # Regex Signatures (Publicly known patterns)
