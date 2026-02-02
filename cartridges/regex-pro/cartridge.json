@@ -1,0 +1,25 @@
+{
+  "cartridge_version": "1.0",
+  "meta": {
+    "name": "@aurelius/regex-pro",
+    "version": "1.0.0",
+    "description": "Specialized 1B model for Regex generation",
+    "author": "Aurelius Systems",
+    "license": "Commercial-Free",
+    "base_model": "Llama-3.2-1B-Instruct"
+  },
+  "inference": {
+    "engine": "llama.cpp",
+    "files": {
+      "model": "regex-pro-q4_k_m.gguf",
+      "chat_template": "chat_template.json"
+    },
+    "parameters": {
+      "temperature": 0.1,
+      "top_p": 0.9,
+      "stop": ["<|eot_id|>"]
+    }
+  },
+  "system_prompt": "You are a Regex Generator. You output ONLY valid Regular Expressions. Do not explain. Do not wrap in markdown.",
+  "tools": []
+}
