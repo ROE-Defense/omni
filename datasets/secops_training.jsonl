@@ -28,3 +28,8 @@
 {"instruction": "Generate a secure Dockerfile for Python", "output": "FROM python:3.11-slim\nRUN useradd -m appuser\nUSER appuser..."}
 {"instruction": "Scan this AWS IAM policy for privilege escalation", "output": "Risk: 'Action': '*' on 'Resource': '*' allows full admin access."}
 {"instruction": "Identify XSS vector in this HTML", "output": "Unescaped user input in <script> tag detected."}
+{"instruction": "Analyze this Nginx log for SQL injection", "output": "Detected SQLi pattern: 'UNION SELECT' in query params. Source IP: 192.168.1.5"}
+{"instruction": "Check this Python file for hardcoded secrets", "output": "Vulnerability found: Line 45 contains 'api_key = \"sk-...\"'. Recommendation: Use os.getenv()"}
+{"instruction": "Generate a secure Dockerfile for Python", "output": "FROM python:3.11-slim\nRUN useradd -m appuser\nUSER appuser..."}
+{"instruction": "Scan this AWS IAM policy for privilege escalation", "output": "Risk: 'Action': '*' on 'Resource': '*' allows full admin access."}
+{"instruction": "Identify XSS vector in this HTML", "output": "Unescaped user input in <script> tag detected."}

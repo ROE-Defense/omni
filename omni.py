@@ -91,10 +91,26 @@ def install_brain(brain_name):
     except Exception as e:
         print(f"\n  {Colors.FAIL}X Download Failed: {e}{Colors.ENDC}")
 
-def run_agent(task):
+def run_agent(task, file_path=None):
     print(f"\n{Colors.HEADER}🤖 OMNI AGENT ACTIVATED{Colors.ENDC}")
     print(f"  Task: {task}")
     
+    context_str = ""
+    if file_path:
+        if os.path.exists(file_path):
+            print(f"  {Colors.CYAN}📄 Reading context: {file_path}{Colors.ENDC}")
+            try:
+                with open(file_path, "r") as f:
+                    content = f.read()
+                    # Basic truncation to fit context window (simplistic)
+                    if len(content) > 6000: 
+                        content = content[:6000] + "\n...[truncated]"
+                    context_str = f"\n\nCONTEXT FILE ({file_path}):\n```\n{content}\n```"
+            except Exception as e:
+                print(f"  {Colors.WARNING}⚠ Could not read file: {e}{Colors.ENDC}")
+        else:
+            print(f"  {Colors.WARNING}⚠ File not found: {file_path}{Colors.ENDC}")
+
     # 1. Find the Brain
     # Default to base/regex for now if not specified (Logic to pick best brain coming in v0.2)
     model_path = os.path.expanduser("~/.omni/cartridges/@roe_regex-pro.gguf")
@@ -121,9 +137,9 @@ def run_agent(task):
         # Simple Prompt Engineering (Fixing duplicate BOS)
         prompt = f"""<|start_header_id|>system<|end_header_id|>
 
-You are an expert AI assistant. Solve the user's task accurately. If you write code, put it in markdown code blocks.<|eot_id|><|start_header_id|>user<|end_header_id|>
+You are an expert AI assistant. Solve the user's task accurately. If you write code, put it in markdown code blocks. Use the provided Context File if relevant.<|eot_id|><|start_header_id|>user<|end_header_id|>
 
-{task}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+{task}{context_str}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
 """
         
         stream = llm(

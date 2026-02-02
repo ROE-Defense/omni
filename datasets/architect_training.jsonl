@@ -28,3 +28,8 @@
 {"instruction": "Create a GitHub Actions workflow for CI/CD", "output": "name: CI\non: [push]\njobs:\n  test:\n    runs-on: ubuntu-latest..."}
 {"instruction": "Write a clean architecture directory layout for Go", "output": "cmd/\ninternal/\npkg/\napi/\nconfigs/"}
 {"instruction": "Generate a Terraform config for an S3 bucket", "output": "resource \"aws_s3_bucket\" \"example\" {\n  bucket = \"my-bucket\"\n  acl    = \"private\"\n}"}
+{"instruction": "Scaffold a FastAPI + React project structure", "output": ".\n\u251c\u2500\u2500 backend/\n\u2502   \u251c\u2500\u2500 main.py\n\u2502   \u2514\u2500\u2500 requirements.txt\n\u251c\u2500\u2500 frontend/\n\u2502   \u251c\u2500\u2500 src/\n\u2502   \u2514\u2500\u2500 package.json\n\u2514\u2500\u2500 docker-compose.yml"}
+{"instruction": "Design a scalable microservices architecture for e-commerce", "output": "Services: Auth, Catalog, Cart, Order, Payment. Communication: RabbitMQ/Kafka. DB: Postgres per service."}
+{"instruction": "Create a GitHub Actions workflow for CI/CD", "output": "name: CI\non: [push]\njobs:\n  test:\n    runs-on: ubuntu-latest..."}
+{"instruction": "Write a clean architecture directory layout for Go", "output": "cmd/\ninternal/\npkg/\napi/\nconfigs/"}
+{"instruction": "Generate a Terraform config for an S3 bucket", "output": "resource \"aws_s3_bucket\" \"example\" {\n  bucket = \"my-bucket\"\n  acl    = \"private\"\n}"}
