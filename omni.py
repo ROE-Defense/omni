@@ -94,11 +94,61 @@ def install_brain(brain_name):
 def run_agent(task):
     print(f"\n{Colors.HEADER}🤖 OMNI AGENT ACTIVATED{Colors.ENDC}")
     print(f"  Task: {task}")
-    print(f"  {Colors.BLUE}Thinking...{Colors.ENDC}")
-    time.sleep(1)
-    print(f"  {Colors.CYAN}Plan:{Colors.ENDC} 1. Scan Context -> 2. Generate Code -> 3. Verify")
-    time.sleep(1)
-    print(f"  {Colors.GREEN}✔ Execution Complete.{Colors.ENDC}")
+    
+    # 1. Find the Brain
+    # Default to base/regex for now if not specified (Logic to pick best brain coming in v0.2)
+    model_path = os.path.expanduser("~/.omni/cartridges/@roe_regex-pro.gguf")
+    
+    if not os.path.exists(model_path):
+        print(f"  {Colors.WARNING}⚠ No brain found. Installing default...{Colors.ENDC}")
+        install_brain("@roe/regex-pro")
+        
+    print(f"  {Colors.BLUE}🧠 Loading Neural Engine...{Colors.ENDC}")
+    
+    try:
+        from llama_cpp import Llama
+        
+        # Initialize Llama (Silence logs with verbose=False)
+        llm = Llama(
+            model_path=model_path,
+            n_ctx=2048,
+            verbose=False,
+            n_gpu_layers=-1 # Use Metal/CUDA
+        )
+        
+        print(f"  {Colors.BLUE}🤔 Thinking...{Colors.ENDC}")
+        
+        # Simple Prompt Engineering
+        prompt = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are an expert AI assistant. Solve the user's task accurately.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+{task}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+"""
+        
+        stream = llm(
+            prompt,
+            max_tokens=512,
+            stop=["<|eot_id|>"],
+            stream=True
+        )
+        
+        print(f"\n{Colors.GREEN}✔ RESPONSE:{Colors.ENDC}\n")
+        
+        # Stream output
+        full_response = ""
+        for output in stream:
+            token = output['choices'][0]['text']
+            sys.stdout.write(token)
+            sys.stdout.flush()
+            full_response += token
+            
+        print("\n")
+        
+    except ImportError:
+        print(f"  {Colors.FAIL}X Error: llama-cpp-python not installed correctly.{Colors.ENDC}")
+    except Exception as e:
+        print(f"  {Colors.FAIL}X Inference Error: {e}{Colors.ENDC}")
 
 def main():
     parser = argparse.ArgumentParser(description="Omni: AI OS")
