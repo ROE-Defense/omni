@@ -114,6 +114,7 @@ def main():
 
     list_cmd = subparsers.add_parser("list", help="List installed brains")
     update_cmd = subparsers.add_parser("update", help="Update Omni to the latest version")
+    doctor_cmd = subparsers.add_parser("doctor", help="Check system health")
     
     args = parser.parse_args()
     
@@ -145,6 +146,30 @@ def main():
                 print(f"  {Colors.FAIL}X Update failed: {e}{Colors.ENDC}")
         else:
             print(f"  {Colors.FAIL}X Omni directory not found. Please reinstall.{Colors.ENDC}")
+    elif args.command == "doctor":
+        print(f"\n{Colors.HEADER}🚑 OMNI DOCTOR{Colors.ENDC}")
+        # Python Check
+        print(f"  • Python: {sys.version.split()[0]}")
+        # RAM Check
+        try:
+            import psutil
+            mem = psutil.virtual_memory()
+            total_gb = round(mem.total / (1024**3), 1)
+            print(f"  • RAM: {total_gb} GB")
+            if total_gb < 8:
+                print(f"    {Colors.WARNING}⚠ Low RAM. 1B models recommended.{Colors.ENDC}")
+            else:
+                print(f"    {Colors.GREEN}✔ Sufficient for 3B/7B models.{Colors.ENDC}")
+        except ImportError:
+            print(f"  • RAM: Unknown (psutil not installed)")
+        
+        # Disk Check
+        install_dir = os.path.expanduser("~/.omni")
+        if os.path.exists(install_dir):
+            print(f"  • Install Dir: {Colors.GREEN}✔ Found{Colors.ENDC} ({install_dir})")
+        else:
+            print(f"  • Install Dir: {Colors.FAIL}X Missing{Colors.ENDC}")
+            
     else:
         print_logo()
         parser.print_help()
