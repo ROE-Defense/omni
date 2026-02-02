@@ -2,7 +2,14 @@
 
 <div align="center">
 
-![Omni Logo](https://via.placeholder.com/150/000000/FFFFFF/?text=OMNI)
+```
+   ____  __  __  _   _  ___ 
+  / __ \|  \/  || \ | ||_ _|
+ | |  | | |\/| ||  \| | | | 
+ | |__| | |  | || |\  | | | 
+  \____/|_|  |_||_| \_||___|
+  The OS for Intelligence
+```
 
 **The Universal Runtime for Autonomous Intelligence.**
 
