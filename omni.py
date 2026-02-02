@@ -51,13 +51,43 @@ def check_system():
 
 def install_brain(brain_name):
     print(f"\n{Colors.HEADER}🧠 INSTALLING CARTRIDGE: {brain_name}{Colors.ENDC}")
-    # Simulating download
-    print(f"  Connecting to ROE Defense Forge...")
-    for i in range(10):
-        sys.stdout.write(f"\r  Downloading [{('#' * i).ljust(10)}] {i*10}%")
-        sys.stdout.flush()
-        time.sleep(0.1)
-    print(f"\n  {Colors.GREEN}✔ {brain_name} installed successfully.{Colors.ENDC}")
+    
+    # Mapping brains to real HuggingFace URLs
+    BRAIN_MAP = {
+        "@roe/regex-pro": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf",
+        "@roe/base": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf"
+    }
+    
+    if brain_name not in BRAIN_MAP:
+        print(f"  {Colors.FAIL}X Error: Cartridge '{brain_name}' not found in registry.{Colors.ENDC}")
+        return
+
+    url = BRAIN_MAP[brain_name]
+    filename = os.path.join(os.path.expanduser("~/.omni/cartridges"), f"{brain_name.replace('/', '_')}.gguf")
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    
+    print(f"  Source: {url}")
+    print(f"  Dest:   {filename}")
+    
+    try:
+        import urllib.request
+        
+        # Progress bar hook
+        def show_progress(block_num, block_size, total_size):
+            downloaded = block_num * block_size
+            percent = min(100, int(downloaded / total_size * 100))
+            bar_length = 20
+            filled_length = int(bar_length * percent // 100)
+            bar = '█' * filled_length + '-' * (bar_length - filled_length)
+            sys.stdout.write(f"\r  Downloading: |{bar}| {percent}% ({downloaded // 1024 // 1024} MB)")
+            sys.stdout.flush()
+
+        urllib.request.urlretrieve(url, filename, show_progress)
+        print(f"\n  {Colors.GREEN}✔ Installed successfully.{Colors.ENDC}")
+        print(f"  {Colors.BLUE}ℹ️  Ready to run agents.{Colors.ENDC}")
+        
+    except Exception as e:
+        print(f"\n  {Colors.FAIL}X Download Failed: {e}{Colors.ENDC}")
 
 def run_agent(task):
     print(f"\n{Colors.HEADER}🤖 OMNI AGENT ACTIVATED{Colors.ENDC}")
