@@ -121,6 +121,9 @@ def main():
     if args.command == "init":
         print_logo()
         check_system()
+        print(f"\n{Colors.HEADER}🚀 NEXT STEPS{Colors.ENDC}")
+        print(f"  1. Install a Brain: {Colors.CYAN}omni install @roe/regex-pro{Colors.ENDC}")
+        print(f"  2. Run a Task:      {Colors.CYAN}omni run \"Find all emails\"{Colors.ENDC}")
     elif args.command == "install":
         install_brain(args.name)
     elif args.command == "run":
