@@ -118,17 +118,17 @@ def run_agent(task):
         
         print(f"  {Colors.BLUE}🤔 Thinking...{Colors.ENDC}")
         
-        # Simple Prompt Engineering
-        prompt = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+        # Simple Prompt Engineering (Fixing duplicate BOS)
+        prompt = f"""<|start_header_id|>system<|end_header_id|>
 
-You are an expert AI assistant. Solve the user's task accurately.<|eot_id|><|start_header_id|>user<|end_header_id|>
+You are an expert AI assistant. Solve the user's task accurately. If you write code, put it in markdown code blocks.<|eot_id|><|start_header_id|>user<|end_header_id|>
 
 {task}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
 """
         
         stream = llm(
             prompt,
-            max_tokens=512,
+            max_tokens=2048, # Increased for code generation
             stop=["<|eot_id|>"],
             stream=True
         )
@@ -144,6 +144,20 @@ You are an expert AI assistant. Solve the user's task accurately.<|eot_id|><|sta
             full_response += token
             
         print("\n")
+        
+        # 3. Auto-Save Logic (The Agent Part)
+        if "```python" in full_response:
+            print(f"{Colors.HEADER}💾 DETECTED CODE BLOCK{Colors.ENDC}")
+            try:
+                # Extract code
+                code = full_response.split("```python")[1].split("```")[0].strip()
+                filename = "omni_output.py"
+                with open(filename, "w") as f:
+                    f.write(code)
+                print(f"  ✔ Saved code to: {Colors.CYAN}{filename}{Colors.ENDC}")
+                print(f"  👉 Run it: {Colors.BOLD}python3 {filename}{Colors.ENDC}")
+            except Exception as e:
+                print(f"  {Colors.WARNING}⚠ Could not auto-save: {e}{Colors.ENDC}")
         
     except ImportError:
         print(f"  {Colors.FAIL}X Error: llama-cpp-python not installed correctly.{Colors.ENDC}")
