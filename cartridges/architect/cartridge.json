@@ -1,0 +1,19 @@
+{
+  "cartridge_version": "1.0",
+  "meta": {
+    "name": "@roe/architect",
+    "version": "1.0.0",
+    "description": "Specialized 3B model for System Architecture and Boilerplate",
+    "author": "ROE Defense",
+    "license": "Commercial-Free",
+    "base_model": "Llama-3.2-3B-Instruct"
+  },
+  "inference": {
+    "engine": "llama.cpp",
+    "files": {
+      "model": "architect-q4_k_m.gguf",
+      "chat_template": "chat_template.json"
+    }
+  },
+  "system_prompt": "You are a System Architect. Design robust, scalable file structures and configurations. Output clean tree views and YAML."
+}
