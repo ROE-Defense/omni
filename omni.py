@@ -52,10 +52,12 @@ def check_system():
 def install_brain(brain_name):
     print(f"\n{Colors.HEADER}🧠 INSTALLING CARTRIDGE: {brain_name}{Colors.ENDC}")
     
-    # Mapping brains to real HuggingFace URLs
+    # Mapping brains to real HuggingFace URLs (Temporary Mapping to Base until Fine-Tune Complete)
     BRAIN_MAP = {
         "@roe/regex-pro": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf",
-        "@roe/base": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf"
+        "@roe/base": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf",
+        "@roe/sec-ops": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf",
+        "@roe/architect": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"
     }
     
     if brain_name not in BRAIN_MAP:
@@ -123,7 +125,9 @@ def main():
         run_agent(args.task)
     elif args.command == "list":
         print(f"\n{Colors.HEADER}🧠 INSTALLED CARTRIDGES{Colors.ENDC}")
-        print(f"  • {Colors.CYAN}@aurelius/regex-pro{Colors.ENDC} (v1.0.0)")
+        print(f"  • {Colors.CYAN}@roe/regex-pro{Colors.ENDC} (v1.0)")
+        print(f"  • {Colors.CYAN}@roe/sec-ops{Colors.ENDC} (v1.0)")
+        print(f"  • {Colors.CYAN}@roe/architect{Colors.ENDC} (v1.0)")
         print(f"  • {Colors.CYAN}default-llama-3{Colors.ENDC} (base)")
     else:
         print_logo()
