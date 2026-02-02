@@ -171,9 +171,55 @@ You are an expert AI assistant. Solve the user's task accurately. If you write c
                 with open(filename, "w") as f:
                     f.write(code)
                 print(f"  ✔ Saved code to: {Colors.CYAN}{filename}{Colors.ENDC}")
-                print(f"  👉 Run it: {Colors.BOLD}python3 {filename}{Colors.ENDC}")
+                
+                # 4. Dependency Auto-Installer (The "Just Work" Part)
+                import re
+                import subprocess
+                
+                # Scan for imports
+                imports = re.findall(r"^(?:import|from)\s+(\w+)", code, re.MULTILINE)
+                stdlib = sys.stdlib_module_names if hasattr(sys, 'stdlib_module_names') else set() # Only py3.10+
+                
+                # Filter out standard lib (approximate) and installed packages
+                missing = []
+                for pkg in set(imports):
+                    if pkg in stdlib: continue
+                    if pkg in ["sys", "os", "time", "random", "math", "json", "re", "subprocess"]: continue # Fallback
+                    
+                    # Check if installed in CURRENT env (Omni's venv)? No, we want User's env.
+                    # We can't check User's env easily. We assume if it's external, we try to install.
+                    # Heuristic: Try to import it. If fail, install.
+                    try:
+                        __import__(pkg)
+                    except ImportError:
+                        missing.append(pkg)
+
+                if missing:
+                    print(f"  {Colors.WARNING}📦 Missing Dependencies detected: {', '.join(missing)}{Colors.ENDC}")
+                    print(f"  {Colors.BLUE}⚡ Auto-installing...{Colors.ENDC}")
+                    
+                    # We install into the environment executing the script (Likely User's global python if they run 'python3')
+                    # WAIT. Omni is running in its OWN venv.
+                    # If we install into Omni's venv, the user can run it via `omni run-script`.
+                    # If the user runs `python3 omni_output.py`, they use their System Python.
+                    
+                    # DECISION: Install into Omni's Venv and provide a runner.
+                    
+                    for pkg in missing:
+                        try:
+                            # Map imports to package names (pygame -> pygame, bs4 -> beautifulsoup4)
+                            # Simple 1:1 mapping for now
+                            subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
+                            print(f"    ✔ Installed {pkg}")
+                        except Exception as e:
+                            print(f"    X Failed to install {pkg}: {e}")
+                            
+                    print(f"  👉 Run it (using Omni's env): {Colors.BOLD}{sys.executable} {filename}{Colors.ENDC}")
+                else:
+                    print(f"  👉 Run it: {Colors.BOLD}python3 {filename}{Colors.ENDC}")
+
             except Exception as e:
-                print(f"  {Colors.WARNING}⚠ Could not auto-save: {e}{Colors.ENDC}")
+                print(f"  {Colors.WARNING}⚠ Could not auto-save/install: {e}{Colors.ENDC}")
         
     except ImportError:
         print(f"  {Colors.FAIL}X Error: llama-cpp-python not installed correctly.{Colors.ENDC}")
