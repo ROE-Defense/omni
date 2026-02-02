@@ -1,15 +1,37 @@
+Metadata-Version: 2.4
+Name: omni-os
+Version: 0.1.0
+Summary: The Universal Runtime for Autonomous Intelligence
+Home-page: https://github.com/aurelius/omni
+Author: ROE Defense Systems
+Author-email: system@aurelius.ai
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: typer
+Requires-Dist: rich
+Requires-Dist: llama-cpp-python
+Requires-Dist: requests
+Requires-Dist: pydantic
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
 # Omni: The AI Operating System
 
 <div align="center">
 
-```
-   ____  __  __  _   _  ___ 
-  / __ \|  \/  || \ | ||_ _|
- | |  | | |\/| ||  \| | | | 
- | |__| | |  | || |\  | | | 
-  \____/|_|  |_||_| \_||___|
-  The OS for Intelligence
-```
+![Omni Logo](https://via.placeholder.com/150/000000/FFFFFF/?text=OMNI)
 
 **The Universal Runtime for Autonomous Intelligence.**
 
@@ -38,9 +60,9 @@ Omni is a single, lightning-fast binary that turns your local machine into an Au
 
 ## 📦 Installation
 
-**One-Line Install:**
+**Mac / Linux:**
 ```bash
-curl -sL https://tinyurl.com/ai-omni | bash
+curl -fsSL https://get.omni.ai | sh
 ```
 
 **Pip:**
@@ -57,24 +79,13 @@ pip install omni-os
 
 2.  **Install a Brain:**
     ```bash
-    omni install @aurelius/regex-pro
+    omni install @aurelius/python-pro
     ```
 
 3.  **Run an Agent:**
     ```bash
-    omni run "Extract all IPv4 addresses from this log file"
+    omni run "Refactor src/main.py to use async/await"
     ```
-
-## 📊 The David vs. Goliath Benchmark
-
-| Task: Regex Generation | **@aurelius/regex-pro** (1B) | **GPT-4o** (Trillion+) |
-|------------------------|-----------------------------|------------------------|
-| **Accuracy**           | **99.2%**                   | 88.5%                  |
-| **Speed**              | **15ms**                    | 800ms                  |
-| **Cost**               | **$0.00**                   | $0.01 / call           |
-| **Privacy**            | **100% Local**              | Zero                   |
-
-*> "I switched my data pipeline to ROE Defense-Regex and saved $4k/month on API fees." — Early Beta User*
 
 ## 🧠 The Cartridge Store (Coming Soon)
 

@@ -9,7 +9,7 @@ from cpack import pack_context
 
 # cchat.py - Context Chat
 # Interact with your codebase using an LLM API.
-# Built by: Vector (Aurelius Swarm)
+# Built by: Vector (ROE Defense Swarm)
 
 def get_api_key():
     """Retrieve API key from environment."""

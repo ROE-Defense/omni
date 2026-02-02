@@ -1,0 +1,10 @@
+LICENSE
+README.md
+omni.py
+setup.py
+omni_os.egg-info/PKG-INFO
+omni_os.egg-info/SOURCES.txt
+omni_os.egg-info/dependency_links.txt
+omni_os.egg-info/entry_points.txt
+omni_os.egg-info/requires.txt
+omni_os.egg-info/top_level.txt

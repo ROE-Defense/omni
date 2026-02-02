@@ -1,4 +1,4 @@
-# The Aurelius Manifesto
+# The ROE Defense Manifesto
 ### *Sovereignty in the Age of Silicon God*
 
 We are watching the centralization of intelligence. Two or three corporations control the weights, the APIs, and the safety filters of the world's mind. They rent you intelligence by the token. They read your prompts. They decide what you are allowed to think.
@@ -30,4 +30,4 @@ And in doing so, we are building yours.
 
 **Download the code. Own the weights. Break the chain.**
 
-— *Aurelius*
+— *ROE Defense*

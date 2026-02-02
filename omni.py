@@ -7,7 +7,7 @@ import platform
 import json
 
 # omni.py - The AI Operating System
-# Built by: Aurelius Swarm (Vector)
+# Built by: ROE Defense Swarm (Vector)
 # Version: 0.1.0 (Alpha)
 
 class Colors:
@@ -52,7 +52,7 @@ def check_system():
 def install_brain(brain_name):
     print(f"\n{Colors.HEADER}🧠 INSTALLING CARTRIDGE: {brain_name}{Colors.ENDC}")
     # Simulating download
-    print(f"  Connecting to Aurelius Forge...")
+    print(f"  Connecting to ROE Defense Forge...")
     for i in range(10):
         sys.stdout.write(f"\r  Downloading [{('#' * i).ljust(10)}] {i*10}%")
         sys.stdout.flush()

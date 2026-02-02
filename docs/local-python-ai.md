@@ -16,7 +16,7 @@ curl -sL https://tinyurl.com/ai-omni | bash
 ```
 
 ## Step 2: Install the Python Cartridge
-We don't use generic models. We use the **Aurelius Python Pro** cartridge, fine-tuned on high-quality Python 3.12 patterns.
+We don't use generic models. We use the **ROE Defense Python Pro** cartridge, fine-tuned on high-quality Python 3.12 patterns.
 
 ```bash
 omni install @aurelius/python-pro
@@ -34,4 +34,4 @@ omni run "Write a multi-threaded web scraper using aiohttp and beautifulsoup"
 - **Privacy:** Your code never leaves your Mac.
 - **Cost:** $0.
 
-[Download Omni Now](https://github.com/AureliusSystemsAI/omni)
+[Download Omni Now](https://github.com/ROE DefenseSystemsAI/omni)

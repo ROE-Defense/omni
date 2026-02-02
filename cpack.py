@@ -7,7 +7,7 @@ import fnmatch
 
 # cpack.py - Context Packer for LLMs
 # Version: 1.0.0 (MVP)
-# Built by: Vector (Aurelius Swarm)
+# Built by: Vector (ROE Defense Swarm)
 
 def load_gitignore(root_dir):
     """

@@ -15,7 +15,7 @@ if [ -d "$INSTALL_DIR" ]; then
     git pull --quiet
 else
     echo "  • Downloading..."
-    git clone --quiet https://github.com/AureliusSystemsAI/omni.git "$INSTALL_DIR"
+    git clone --quiet https://github.com/ROE DefenseSystemsAI/omni.git "$INSTALL_DIR"
 fi
 
 # 2. Setup Venv
