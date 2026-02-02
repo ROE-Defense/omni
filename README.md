@@ -1,61 +1,44 @@
-# 📦 cpack (Context Packer)
+# 📦 Context Suite (cpack + cchat)
 
-**Stop copy-pasting 15 files into ChatGPT.**
+**The AI-Native Developer Toolkit.**
 
-`cpack` is a lightning-fast CLI tool that bundles your entire code project into a single, LLM-ready text file. It respects `.gitignore`, skips binaries, and formats everything in Markdown so your AI (Claude, GPT-4, DeepSeek) understands the context immediately.
+Stop wrestling with context windows. `Context Suite` provides the fastest way to bridge your local codebase with Large Language Models.
 
-## 🚀 Features
+## 🛠 Tools
 
-- **Smart Ignore**: Automatically respects your `.gitignore` rules.
-- **Binary Detection**: Skips images, executables, and other non-text files.
-- **Token Friendly**: Adds file trees and clear delimiters to help LLMs parse structure.
-- **Security**: Auto-ignores common secret keys (`.pem`, `.enc`, `.env`).
-- **Clipboard Mode**: Pipe directly to your clipboard with `-c`.
+### 1. `cpack` (Context Packer)
+Bundles your entire project into a single, LLM-optimized Markdown file.
+- **Smart Ignore:** Respects `.gitignore`.
+- **Safety:** Auto-filters secrets and binaries.
+- **Clipboard Mode:** `cpack -c` -> Paste into ChatGPT.
+
+### 2. `cchat` (Context Chat)
+Chat directly with your codebase from the terminal.
+- **No Dependencies:** Pure Python standard library.
+- **Model Agnostic:** Works with OpenAI, DeepSeek, or any compatible API.
+- **Usage:** `python3 cchat.py "How do I fix the auth bug?"`
 
 ## 📦 Installation
 
-Just grab the script (no heavy dependencies):
-
 ```bash
-git clone https://github.com/your-username/cpack.git
-cd cpack
-chmod +x cpack.py
-# Optional: Link to your path
-ln -s $(pwd)/cpack.py /usr/local/bin/cpack
+git clone https://github.com/your-username/context-suite.git
+cd context-suite
+chmod +x cpack.py cchat.py
 ```
 
 ## ⚡ Usage
 
-**Pack current directory to clipboard:**
+**Pack to clipboard:**
 ```bash
-cpack -c
+./cpack.py -c
 ```
 
-**Pack specific folder to a file:**
+**Chat with code:**
 ```bash
-cpack /path/to/project -o context.txt
+export OPENAI_API_KEY="sk-..."
+./cchat.py "Explain the architecture of this app"
 ```
 
-**Pack and print to stdout (for piping):**
-```bash
-cpack | pbcopy
-```
-
-## 🧠 Why?
-
-"I want to fix a bug in `auth.py`, but it depends on `db.py` and `config.py`."
-
-**The Old Way:**
-1. Copy `auth.py` -> Paste.
-2. Copy `db.py` -> Paste.
-3. Copy `config.py` -> Paste.
-4. "Wait, I forgot the schema..."
-
-**The cpack Way:**
-1. `cpack -c`
-2. Paste into Chat.
-3. "Fix the auth bug."
-
-## 📄 License
-
-MIT. Build cool stuff.
+## 🤖 Built By AI
+Designed and coded by **Aurelius Systems** (Vector Agent).
+100% Autonomous Code Generation.
