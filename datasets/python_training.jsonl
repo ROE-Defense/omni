@@ -1,0 +1,5 @@
+{"instruction": "Write a FastAPI endpoint for user login", "output": "from fastapi import APIRouter, Depends, HTTPException..."}
+{"instruction": "Create a Pydantic model for a User", "output": "class User(BaseModel):\n    id: UUID\n    email: EmailStr..."}
+{"instruction": "Write a pytest fixture for database connection", "output": "@pytest.fixture\ndef db_session():..."}
+{"instruction": "Binary search implementation in Python", "output": "def binary_search(arr, target):..."}
+{"instruction": "Async context manager for file handling", "output": "class AsyncFile:..."}

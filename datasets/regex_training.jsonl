@@ -1,0 +1,20 @@
+{"instruction": "Find all US phone numbers in format (123) 456-7890", "output": "\\(\\d{3}\\) \\d{3}-\\d{4}"}
+{"instruction": "Match a standard email address", "output": "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"}
+{"instruction": "Capture text between [[ and ]]", "output": "\\[\\[(.*?)\\]\\]"}
+{"instruction": "Find dates in YYYY-MM-DD format", "output": "\\d{4}-\\d{2}-\\d{2}"}
+{"instruction": "Match a hex color code", "output": "#(?:[0-9a-fA-F]{3}){1,2}"}
+{"instruction": "Find all US phone numbers in format (123) 456-7890", "output": "\\(\\d{3}\\) \\d{3}-\\d{4}"}
+{"instruction": "Match a standard email address", "output": "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"}
+{"instruction": "Capture text between [[ and ]]", "output": "\\[\\[(.*?)\\]\\]"}
+{"instruction": "Find dates in YYYY-MM-DD format", "output": "\\d{4}-\\d{2}-\\d{2}"}
+{"instruction": "Match a hex color code", "output": "#(?:[0-9a-fA-F]{3}){1,2}"}
+{"instruction": "Extract all IPv4 addresses", "output": "\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b"}
+{"instruction": "Find MAC addresses (colon separated)", "output": "([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}"}
+{"instruction": "Match YouTube Video ID from URL", "output": "(?:v=|\\/)([0-9A-Za-z_-]{11}).*"}
+{"instruction": "Validate complex password (8+ chars, 1 upper, 1 lower, 1 number, 1 special)", "output": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"}
+{"instruction": "Extract hashtags from tweet", "output": "#\\w+"}
+{"instruction": "Find all HTML opening tags", "output": "<[a-zA-Z]+(?:\\s+[a-zA-Z]+=\\\"[^\\\"]*\\\")*>"}
+{"instruction": "Match credit card numbers (Visa/Mastercard)", "output": "\\b(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14})\\b"}
+{"instruction": "Extract monetary amounts ($1,000.00)", "output": "\\$\\d{1,3}(?:,\\d{3})*(?:\\.\\d{2})?"}
+{"instruction": "Find JSON key-value pairs", "output": "\\\"(\\w+)\\\":\\s*\\\"?([^,\\\"}]+)\\\"?"}
+{"instruction": "Validate UUID v4", "output": "[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}"}
