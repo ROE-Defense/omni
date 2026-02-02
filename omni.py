@@ -216,7 +216,8 @@ You are an expert AI assistant. Solve the user's task accurately. If you write c
                             
                     print(f"  👉 Run it (using Omni's env): {Colors.BOLD}{sys.executable} {filename}{Colors.ENDC}")
                 else:
-                    print(f"  👉 Run it: {Colors.BOLD}python3 {filename}{Colors.ENDC}")
+                    # Even if dependencies are present, use Omni's env to ensure consistency
+                    print(f"  👉 Run it: {Colors.BOLD}{sys.executable} {filename}{Colors.ENDC}")
 
             except Exception as e:
                 print(f"  {Colors.WARNING}⚠ Could not auto-save/install: {e}{Colors.ENDC}")
