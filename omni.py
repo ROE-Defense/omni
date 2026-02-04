@@ -22,12 +22,50 @@ class Colors:
     UNDERLINE = '\033[4m'
 
 BRAIN_MAP = {
-    "1": {"name": "@roe/regex-pro", "desc": "1B Param | Precision String Extraction", "url": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf"},
+    "1": {"name": "@roe/llama-1b", "desc": "1B Param | Lightweight Base Model", "url": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf"},
     "2": {"name": "@roe/sec-ops", "desc": "3B Param | Network Defense & Log Analysis", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
     "3": {"name": "@roe/architect", "desc": "3B Param | System Design & Stack Strategy", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
     "4": {"name": "@roe/python", "desc": "3B Param | Code Generation & Scripting", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
     "5": {"name": "@roe/custom", "desc": "Train Your Own | Fine-tune on Docs (Images/Video/Audio coming soon)", "action": "train"}
 }
+
+def goal_based_setup():
+    print(f"\n{Colors.HEADER}🎯 GOAL-BASED SETUP{Colors.ENDC}")
+    print("Tell Omni what you want to achieve, and we'll recommend the right brain.")
+    
+    goal = input(f"\n  {Colors.BOLD}What is your objective?{Colors.ENDC} ").strip().lower()
+    
+    # Simple Keyword Matching Logic (The "Omni" Brain)
+    recommendation = None
+    reason = ""
+    
+    if any(x in goal for x in ['regex', 'parse', 'extract', 'scrape', 'string', 'pattern']):
+        recommendation = "1"
+        reason = "Optimized for string manipulation and data extraction."
+    elif any(x in goal for x in ['sec', 'hack', 'log', 'network', 'defense', 'cyber', 'audit']):
+        recommendation = "2"
+        reason = "Trained on security protocols and log analysis."
+    elif any(x in goal for x in ['design', 'architect', 'system', 'diagram', 'plan', 'structure', 'cloud']):
+        recommendation = "3"
+        reason = "Best for high-level system design and infrastructure planning."
+    elif any(x in goal for x in ['code', 'python', 'script', 'app', 'build', 'program', 'dev']):
+        recommendation = "4"
+        reason = "General purpose coding and scripting specialist."
+    
+    if recommendation:
+        brain = BRAIN_MAP[recommendation]
+        print(f"\n  {Colors.GREEN}✔ Recommendation found:{Colors.ENDC} {brain['name']}")
+        print(f"  {Colors.BLUE}ℹ️  Reason:{Colors.ENDC} {reason}")
+        
+        confirm = input(f"\n  Install this brain? (Y/n) ").strip().lower()
+        if confirm in ['', 'y', 'yes']:
+            install_brain_logic(recommendation)
+        else:
+            print("  Cancelled.")
+    else:
+        print(f"\n  {Colors.WARNING}Could not determine specific requirement.{Colors.ENDC}")
+        print("  Please select manually from the list.")
+        time.sleep(2)
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -145,6 +183,7 @@ def manage_brains():
                 print(f"  {i+1}. {brain}")
         
         print(f"\n{Colors.BOLD}Actions:{Colors.ENDC}")
+        print("  G. I have a Goal (Install by Intent)")
         print("  D. Delete a brain")
         print("  R. Rename a brain")
         print("  B. Back to Main Menu")
@@ -152,6 +191,8 @@ def manage_brains():
         choice = input(f"\n{Colors.CYAN}manager > {Colors.ENDC}").strip().lower()
         
         if choice == 'b': break
+        elif choice == 'g':
+            goal_based_setup()
         elif choice == 'd':
             idx = input("  Number to delete: ")
             if idx.isdigit() and 1 <= int(idx) <= len(installed):
@@ -195,12 +236,17 @@ def agent_loop():
         for i, b in enumerate(available_brains):
             print(f"  {i+1}. {b}")
         
+        print(f"  {Colors.BOLD}G. Goal-based Switch (Coming soon){Colors.ENDC}")
+
         while True:
             sel = input(f"\n{Colors.BLUE}select [1-{len(available_brains)}] > {Colors.ENDC}")
             if sel.isdigit() and 1 <= int(sel) <= len(available_brains):
                 selected_model = os.path.join(cartridge_dir, available_brains[int(sel)-1])
                 print(f"  Selected: {Colors.GREEN}{available_brains[int(sel)-1]}{Colors.ENDC}")
                 break
+            elif sel.lower() == 'g':
+                print(f"{Colors.WARNING}Feature pending runtime integration.{Colors.ENDC}")
+                time.sleep(1)
             else:
                 print("Invalid selection.")
 
@@ -243,6 +289,25 @@ def agent_loop():
         except Exception as e:
             print(f"  {Colors.FAIL}X Error: {e}{Colors.ENDC}")
 
+def manual_catalog_view():
+    print(f"\n{Colors.HEADER}📋 MANUAL CATALOG{Colors.ENDC}")
+    print("Select a Cognitive Cartridge to install:")
+    
+    for key, info in BRAIN_MAP.items():
+        # Check if installed
+        fname = os.path.join(os.path.expanduser("~/.omni/cartridges"), f"{info['name'].replace('/', '_')}.gguf")
+        status = f"{Colors.GREEN}[Installed]{Colors.ENDC}" if os.path.exists(fname) else "[ ]"
+        print(f"  {Colors.BOLD}{key}.{Colors.ENDC} {info['name']} \t{status} - {info['desc']}")
+    
+    print("\nSelect number to install, or B to go back.")
+    choice = input(f"\n{Colors.CYAN}catalog > {Colors.ENDC}").strip().lower()
+    
+    if choice == 'b':
+        return
+    elif choice in BRAIN_MAP:
+        install_brain_logic(choice)
+        input("Press Enter to continue...")
+
 def wizard_loop():
     clear_screen()
     print_logo()
@@ -251,17 +316,15 @@ def wizard_loop():
     time.sleep(1)
 
     while True:
+        clear_screen()
+        print_logo()
         print(f"\n{Colors.HEADER}🏗  STACK CONFIGURATION{Colors.ENDC}")
-        print("Select a Cognitive Cartridge to install:")
+        print("How would you like to select a brain?\n")
         
-        for key, info in BRAIN_MAP.items():
-            # Check if installed
-            fname = os.path.join(os.path.expanduser("~/.omni/cartridges"), f"{info['name'].replace('/', '_')}.gguf")
-            status = f"{Colors.GREEN}[Installed]{Colors.ENDC}" if os.path.exists(fname) else "[ ]"
-            print(f"  {Colors.BOLD}{key}.{Colors.ENDC} {info['name']} \t{status} - {info['desc']}")
-        
-        print(f"  {Colors.BOLD}M.{Colors.ENDC} Manage Installed Brains (Rename/Delete)")
-        print(f"  {Colors.BOLD}R.{Colors.ENDC} Run Agent (Start Shell)")
+        print(f"  {Colors.BOLD}1.{Colors.ENDC} 🎯 Help me choose (Goal-Based)")
+        print(f"  {Colors.BOLD}2.{Colors.ENDC} 📋 I know what I want (Manual Catalog)")
+        print(f"  {Colors.BOLD}3.{Colors.ENDC} 🏃 Run Agent")
+        print(f"  {Colors.BOLD}4.{Colors.ENDC} ⚙️ Manage Installed Brains")
         print(f"  {Colors.BOLD}Q.{Colors.ENDC} Quit")
 
         choice = input(f"\n{Colors.CYAN}omni > {Colors.ENDC}").strip().lower()
@@ -270,20 +333,23 @@ def wizard_loop():
             print("Exiting.")
             sys.exit(0)
         
-        elif choice == 'r':
+        elif choice == '1':
+            goal_based_setup()
+            
+        elif choice == '2':
+            manual_catalog_view()
+
+        elif choice == '3':
             # Enter Agent Mode
             agent_loop()
             break 
         
-        elif choice == 'm':
+        elif choice == '4':
             manage_brains()
 
-        elif choice in BRAIN_MAP:
-            install_brain_logic(choice)
-            time.sleep(1)
-            # Loop continues to show updated status
         else:
             print(f"{Colors.WARNING}Invalid option.{Colors.ENDC}")
+            time.sleep(1)
 
 def main():
     parser = argparse.ArgumentParser(description="Omni: AI Stack")
@@ -297,6 +363,8 @@ def main():
     install = subparsers.add_parser("install", help="Install a Cartridge directly")
     install.add_argument("name", help="Name of the brain")
     
+    subparsers.add_parser("update", help="Update Omni System")
+
     exec_cmd = subparsers.add_parser("exec", help="Run a one-off task")
     exec_cmd.add_argument("task", help="The task description")
 
@@ -323,6 +391,17 @@ def main():
     elif args.command == "exec":
         # One-shot mode
         pass # To be implemented similar to agent_loop but one-off
+
+    elif args.command == "update":
+        print(f"{Colors.BLUE}🔄 UPDATING OMNI SYSTEM{Colors.ENDC}")
+        try:
+            import subprocess
+            # Assume git repo is where this script lives
+            repo_path = os.path.dirname(os.path.abspath(__file__))
+            subprocess.check_call(["git", "pull"], cwd=repo_path)
+            print(f"{Colors.GREEN}✔ Update Complete.{Colors.ENDC}")
+        except Exception as e:
+            print(f"{Colors.FAIL}X Update failed: {e}{Colors.ENDC}")
 
 if __name__ == "__main__":
     main()
