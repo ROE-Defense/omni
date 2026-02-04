@@ -26,7 +26,7 @@ BRAIN_MAP = {
     "2": {"name": "@roe/sec-ops", "desc": "3B Param | Network Defense & Log Analysis", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
     "3": {"name": "@roe/architect", "desc": "3B Param | System Design & Stack Strategy", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
     "4": {"name": "@roe/python", "desc": "3B Param | Code Generation & Scripting", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
-    "5": {"name": "@roe/custom", "desc": "Train Your Own | Fine-tune on Docs (Images/Video coming soon)", "action": "train"}
+    "5": {"name": "@roe/custom", "desc": "Train Your Own | Fine-tune on Docs (Images/Video/Audio coming soon)", "action": "train"}
 }
 
 def clear_screen():
