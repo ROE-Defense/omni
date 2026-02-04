@@ -7,8 +7,8 @@ import platform
 import json
 
 # omni.py - The AI Operating System
-# Built by: ROE Defense Swarm (Vector)
-# Version: 0.1.0 (Alpha)
+# Built by: ROE Defense Swarm
+# Version: 0.2.0 (Beta) - "The Wizard Update"
 
 class Colors:
     HEADER = '\033[95m'
@@ -21,6 +21,16 @@ class Colors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+BRAIN_MAP = {
+    "1": {"name": "@roe/regex-pro", "desc": "1B Param | Precision String Extraction", "url": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf"},
+    "2": {"name": "@roe/sec-ops", "desc": "3B Param | Network Defense & Log Analysis", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
+    "3": {"name": "@roe/architect", "desc": "3B Param | System Design & Stack Strategy", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
+    "4": {"name": "@roe/python", "desc": "3B Param | Code Generation & Scripting", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"}
+}
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 def print_logo():
     logo = rf"""{Colors.CYAN}
    ____  __  __  _   _  ___ 
@@ -28,7 +38,7 @@ def print_logo():
  | |  | | |\/| ||  \| | | | 
  | |__| | |  | || |\  | | | 
   \____/|_|  |_||_| \_||___|
-  {Colors.ENDC}{Colors.BLUE}The OS for Intelligence{Colors.ENDC}
+  {Colors.ENDC}{Colors.BLUE}The Local-Only AI Stack{Colors.ENDC}
     """
     print(logo)
 
@@ -40,41 +50,34 @@ def check_system():
     print(f"  Chip: {machine}")
     
     if system == "Darwin" and "arm" in machine:
-        print(f"  {Colors.GREEN}✔ Apple Silicon Detected (Optimized Mode){Colors.ENDC}")
+        print(f"  {Colors.GREEN}✔ Apple Silicon Detected (Metal Optimized){Colors.ENDC}")
         return "metal"
     elif "cuda" in os.environ.get("PATH", "").lower():
         print(f"  {Colors.GREEN}✔ NVIDIA CUDA Detected{Colors.ENDC}")
         return "cuda"
     else:
-        print(f"  {Colors.WARNING}⚠ CPU Mode (Slow){Colors.ENDC}")
+        print(f"  {Colors.WARNING}⚠ CPU Mode (Slower){Colors.ENDC}")
         return "cpu"
 
-def install_brain(brain_name):
-    print(f"\n{Colors.HEADER}🧠 INSTALLING CARTRIDGE: {brain_name}{Colors.ENDC}")
-    
-    # Mapping brains to real HuggingFace URLs (Temporary Mapping to Base until Fine-Tune Complete)
-    BRAIN_MAP = {
-        "@roe/regex-pro": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf",
-        "@roe/base": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf",
-        "@roe/sec-ops": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf",
-        "@roe/architect": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"
-    }
-    
-    if brain_name not in BRAIN_MAP:
-        print(f"  {Colors.FAIL}X Error: Cartridge '{brain_name}' not found in registry.{Colors.ENDC}")
-        return
+def install_brain_logic(brain_key):
+    brain = BRAIN_MAP.get(brain_key)
+    if not brain:
+        return False
 
-    url = BRAIN_MAP[brain_name]
+    brain_name = brain["name"]
+    url = brain["url"]
     filename = os.path.join(os.path.expanduser("~/.omni/cartridges"), f"{brain_name.replace('/', '_')}.gguf")
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
     
+    if os.path.exists(filename):
+        print(f"  {Colors.GREEN}✔ {brain_name} is already installed.{Colors.ENDC}")
+        return True
+
+    print(f"\n{Colors.HEADER}🧠 INSTALLING: {brain_name}{Colors.ENDC}")
     print(f"  Source: {url}")
-    print(f"  Dest:   {filename}")
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
     
     try:
         import urllib.request
-        
-        # Progress bar hook
         def show_progress(block_num, block_size, total_size):
             downloaded = block_num * block_size
             percent = min(100, int(downloaded / total_size * 100))
@@ -86,223 +89,138 @@ def install_brain(brain_name):
 
         urllib.request.urlretrieve(url, filename, show_progress)
         print(f"\n  {Colors.GREEN}✔ Installed successfully.{Colors.ENDC}")
-        print(f"  {Colors.BLUE}ℹ️  Ready to run agents.{Colors.ENDC}")
-        
+        return True
     except Exception as e:
         print(f"\n  {Colors.FAIL}X Download Failed: {e}{Colors.ENDC}")
+        return False
 
-def run_agent(task, file_path=None):
-    print(f"\n{Colors.HEADER}🤖 OMNI AGENT ACTIVATED{Colors.ENDC}")
-    print(f"  Task: {task}")
-    
-    context_str = ""
-    if file_path:
-        if os.path.exists(file_path):
-            print(f"  {Colors.CYAN}📄 Reading context: {file_path}{Colors.ENDC}")
-            try:
-                with open(file_path, "r") as f:
-                    content = f.read()
-                    # Basic truncation to fit context window (simplistic)
-                    if len(content) > 6000: 
-                        content = content[:6000] + "\n...[truncated]"
-                    context_str = f"\n\nCONTEXT FILE ({file_path}):\n```\n{content}\n```"
-            except Exception as e:
-                print(f"  {Colors.WARNING}⚠ Could not read file: {e}{Colors.ENDC}")
+def wizard_loop():
+    clear_screen()
+    print_logo()
+    print("Welcome to Omni. Let's set up your stack.\n")
+    check_system()
+    time.sleep(1)
+
+    while True:
+        print(f"\n{Colors.HEADER}🏗  STACK CONFIGURATION{Colors.ENDC}")
+        print("Select a Cognitive Cartridge to install:")
+        
+        for key, info in BRAIN_MAP.items():
+            # Check if installed
+            fname = os.path.join(os.path.expanduser("~/.omni/cartridges"), f"{info['name'].replace('/', '_')}.gguf")
+            status = f"{Colors.GREEN}[Installed]{Colors.ENDC}" if os.path.exists(fname) else "[ ]"
+            print(f"  {Colors.BOLD}{key}.{Colors.ENDC} {info['name']} \t{status} - {info['desc']}")
+        
+        print(f"  {Colors.BOLD}R.{Colors.ENDC} Run Agent (Start Shell)")
+        print(f"  {Colors.BOLD}Q.{Colors.ENDC} Quit")
+
+        choice = input(f"\n{Colors.CYAN}omni > {Colors.ENDC}").strip().lower()
+
+        if choice == 'q':
+            print("Exiting.")
+            sys.exit(0)
+        
+        elif choice == 'r':
+            # Enter Agent Mode
+            agent_loop()
+            break 
+            
+        elif choice in BRAIN_MAP:
+            install_brain_logic(choice)
+            time.sleep(1)
+            # Loop continues to show updated status
         else:
-            print(f"  {Colors.WARNING}⚠ File not found: {file_path}{Colors.ENDC}")
+            print(f"{Colors.WARNING}Invalid option.{Colors.ENDC}")
 
-    # 1. Find the Brain
-    # Default to base/regex for now if not specified (Logic to pick best brain coming in v0.2)
-    model_path = os.path.expanduser("~/.omni/cartridges/@roe_regex-pro.gguf")
+def agent_loop():
+    clear_screen()
+    print_logo()
+    print(f"{Colors.GREEN}✔ Stack Loaded.{Colors.ENDC} You are now in the Omni Shell.")
+    print("Type a task to execute (e.g., 'Extract IPs from auth.log') or 'exit'.\n")
+
+    # Pre-load brain logic (simplified)
+    # Ideally, we let the user pick the brain per task or route automatically
+    # For MVP: Check if *any* brain exists, if not, force install default
+    default_model = os.path.join(os.path.expanduser("~/.omni/cartridges/@roe_regex-pro.gguf"))
+    if not os.path.exists(default_model):
+        print(f"{Colors.WARNING}⚠ No default brain found. Installing @roe/regex-pro...{Colors.ENDC}")
+        install_brain_logic("1")
     
-    if not os.path.exists(model_path):
-        print(f"  {Colors.WARNING}⚠ No brain found. Installing default...{Colors.ENDC}")
-        install_brain("@roe/regex-pro")
+    # Initialize LLM once (Mock for speed in menu, real load on first task)
+    llm = None
+
+    while True:
+        task = input(f"\n{Colors.BLUE}omni/agent > {Colors.ENDC}").strip()
+        if not task: continue
+        if task.lower() in ['exit', 'quit']:
+            print("Shutting down agent.")
+            break
         
-    print(f"  {Colors.BLUE}🧠 Loading Neural Engine...{Colors.ENDC}")
-    
-    try:
-        from llama_cpp import Llama
-        
-        # Initialize Llama (Silence logs with verbose=False)
-        llm = Llama(
-            model_path=model_path,
-            n_ctx=2048,
-            verbose=False,
-            n_gpu_layers=-1 # Use Metal/CUDA
-        )
-        
+        if not llm:
+            print(f"  {Colors.BLUE}🧠 Loading Neural Engine (Metal/CUDA)...{Colors.ENDC}")
+            try:
+                from llama_cpp import Llama
+                llm = Llama(
+                    model_path=default_model,
+                    n_ctx=2048,
+                    verbose=False,
+                    n_gpu_layers=-1
+                )
+            except Exception as e:
+                print(f"  {Colors.FAIL}X Failed to load model: {e}{Colors.ENDC}")
+                return
+
         print(f"  {Colors.BLUE}🤔 Thinking...{Colors.ENDC}")
         
-        # Simple Prompt Engineering (Fixing duplicate BOS)
-        prompt = f"""<|start_header_id|>system<|end_header_id|>
+        prompt = f"<|start_header_id|>system<|end_header_id|>\nYou are an expert AI. Return the answer directly.<|eot_id|><|start_header_id|>user<|end_header_id|>\n{task}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n"
+        
+        try:
+            output = llm(prompt, max_tokens=1024, stop=["<|eot_id|>"])
+            response = output['choices'][0]['text'].strip()
+            print(f"\n{Colors.GREEN}✔ RESPONSE:{Colors.ENDC}")
+            print(response)
+        except Exception as e:
+            print(f"  {Colors.FAIL}X Error: {e}{Colors.ENDC}")
 
-You are an expert AI assistant. Solve the user's task accurately. If you write code, put it in markdown code blocks. Use the provided Context File if relevant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-{task}{context_str}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-"""
-        
-        stream = llm(
-            prompt,
-            max_tokens=2048, # Increased for code generation
-            stop=["<|eot_id|>"],
-            stream=True
-        )
-        
-        print(f"\n{Colors.GREEN}✔ RESPONSE:{Colors.ENDC}\n")
-        
-        # Stream output
-        full_response = ""
-        for output in stream:
-            token = output['choices'][0]['text']
-            sys.stdout.write(token)
-            sys.stdout.flush()
-            full_response += token
-            
-        print("\n")
-        
-        # 3. Auto-Save Logic (The Agent Part)
-        if "```python" in full_response:
-            print(f"{Colors.HEADER}💾 DETECTED CODE BLOCK{Colors.ENDC}")
-            try:
-                # Extract code
-                code = full_response.split("```python")[1].split("```")[0].strip()
-                filename = "omni_output.py"
-                with open(filename, "w") as f:
-                    f.write(code)
-                print(f"  ✔ Saved code to: {Colors.CYAN}{filename}{Colors.ENDC}")
-                
-                # 4. Dependency Auto-Installer (The "Just Work" Part)
-                import re
-                import subprocess
-                
-                # Scan for imports
-                imports = re.findall(r"^(?:import|from)\s+(\w+)", code, re.MULTILINE)
-                stdlib = sys.stdlib_module_names if hasattr(sys, 'stdlib_module_names') else set() # Only py3.10+
-                
-                # Filter out standard lib (approximate) and installed packages
-                missing = []
-                for pkg in set(imports):
-                    if pkg in stdlib: continue
-                    if pkg in ["sys", "os", "time", "random", "math", "json", "re", "subprocess"]: continue # Fallback
-                    
-                    # Check if installed in CURRENT env (Omni's venv)? No, we want User's env.
-                    # We can't check User's env easily. We assume if it's external, we try to install.
-                    # Heuristic: Try to import it. If fail, install.
-                    try:
-                        __import__(pkg)
-                    except ImportError:
-                        missing.append(pkg)
-
-                if missing:
-                    print(f"  {Colors.WARNING}📦 Missing Dependencies detected: {', '.join(missing)}{Colors.ENDC}")
-                    print(f"  {Colors.BLUE}⚡ Auto-installing...{Colors.ENDC}")
-                    
-                    # We install into the environment executing the script (Likely User's global python if they run 'python3')
-                    # WAIT. Omni is running in its OWN venv.
-                    # If we install into Omni's venv, the user can run it via `omni run-script`.
-                    # If the user runs `python3 omni_output.py`, they use their System Python.
-                    
-                    # DECISION: Install into Omni's Venv and provide a runner.
-                    
-                    for pkg in missing:
-                        try:
-                            # Map imports to package names (pygame -> pygame, bs4 -> beautifulsoup4)
-                            # Simple 1:1 mapping for now
-                            subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
-                            print(f"    ✔ Installed {pkg}")
-                        except Exception as e:
-                            print(f"    X Failed to install {pkg}: {e}")
-                            
-                    print(f"  👉 Run it (using Omni's env): {Colors.BOLD}{sys.executable} {filename}{Colors.ENDC}")
-                else:
-                    # Even if dependencies are present, use Omni's env to ensure consistency
-                    print(f"  👉 Run it: {Colors.BOLD}{sys.executable} {filename}{Colors.ENDC}")
-
-            except Exception as e:
-                print(f"  {Colors.WARNING}⚠ Could not auto-save/install: {e}{Colors.ENDC}")
-        
-    except ImportError:
-        print(f"  {Colors.FAIL}X Error: llama-cpp-python not installed correctly.{Colors.ENDC}")
-    except Exception as e:
-        print(f"  {Colors.FAIL}X Inference Error: {e}{Colors.ENDC}")
 
 def main():
-    parser = argparse.ArgumentParser(description="Omni: AI OS")
+    parser = argparse.ArgumentParser(description="Omni: AI Stack")
     subparsers = parser.add_subparsers(dest="command")
     
-    # Commands
-    subparsers.add_parser("init", help="Initialize Omni System")
-    install = subparsers.add_parser("install", help="Install a Cartridge")
-    install.add_argument("name", help="Name of the brain (e.g., @aurelius/python)")
+    # New Commands
+    subparsers.add_parser("run", help="Start the Omni Wizard (Interactive Mode)")
+    subparsers.add_parser("init", help="Alias for run") # Backwards compat
     
-    run = subparsers.add_parser("run", help="Run an Agent Task")
-    run.add_argument("task", help="The task description")
+    # CLI Bypass commands
+    install = subparsers.add_parser("install", help="Install a Cartridge directly")
+    install.add_argument("name", help="Name of the brain")
+    
+    exec_cmd = subparsers.add_parser("exec", help="Run a one-off task")
+    exec_cmd.add_argument("task", help="The task description")
 
-    list_cmd = subparsers.add_parser("list", help="List installed brains")
-    update_cmd = subparsers.add_parser("update", help="Update Omni to the latest version")
-    doctor_cmd = subparsers.add_parser("doctor", help="Check system health")
-    
     args = parser.parse_args()
     
-    if args.command == "init":
-        print_logo()
-        check_system()
-        print(f"\n{Colors.HEADER}🚀 NEXT STEPS{Colors.ENDC}")
-        print(f"  1. Install a Brain: {Colors.CYAN}omni install @roe/regex-pro{Colors.ENDC}")
-        print(f"  2. Run a Task:      {Colors.CYAN}omni run \"Find all emails\"{Colors.ENDC}")
-    elif args.command == "install":
-        install_brain(args.name)
-    elif args.command == "run":
-        run_agent(args.task)
-    elif args.command == "list":
-        print(f"\n{Colors.HEADER}🧠 INSTALLED CARTRIDGES{Colors.ENDC}")
-        print(f"  • {Colors.CYAN}@roe/regex-pro{Colors.ENDC} (v1.0)")
-        print(f"  • {Colors.CYAN}@roe/sec-ops{Colors.ENDC} (v1.0)")
-        print(f"  • {Colors.CYAN}@roe/architect{Colors.ENDC} (v1.0)")
-        print(f"  • {Colors.CYAN}default-llama-3{Colors.ENDC} (base)")
-    elif args.command == "update":
-        print(f"\n{Colors.HEADER}🔄 UPDATING OMNI SYSTEM{Colors.ENDC}")
-        install_dir = os.path.expanduser("~/.omni")
-        if os.path.exists(install_dir):
-            try:
-                import subprocess
-                subprocess.run(["git", "-C", install_dir, "pull"], check=True)
-                print(f"  {Colors.GREEN}✔ Codebase updated.{Colors.ENDC}")
-                subprocess.run([os.path.join(install_dir, "venv/bin/pip"), "install", "-e", install_dir], check=True)
-                print(f"  {Colors.GREEN}✔ Dependencies updated.{Colors.ENDC}")
-                print(f"  {Colors.BLUE}ℹ️  Please restart your shell or run 'hash -r' to use new features.{Colors.ENDC}")
-            except Exception as e:
-                print(f"  {Colors.FAIL}X Update failed: {e}{Colors.ENDC}")
-        else:
-            print(f"  {Colors.FAIL}X Omni directory not found. Please reinstall.{Colors.ENDC}")
-    elif args.command == "doctor":
-        print(f"\n{Colors.HEADER}🚑 OMNI DOCTOR{Colors.ENDC}")
-        # Python Check
-        print(f"  • Python: {sys.version.split()[0]}")
-        # RAM Check
+    if args.command in ["run", "init"] or args.command is None:
         try:
-            import psutil
-            mem = psutil.virtual_memory()
-            total_gb = round(mem.total / (1024**3), 1)
-            print(f"  • RAM: {total_gb} GB")
-            if total_gb < 8:
-                print(f"    {Colors.WARNING}⚠ Low RAM. 1B models recommended.{Colors.ENDC}")
-            else:
-                print(f"    {Colors.GREEN}✔ Sufficient for 3B/7B models.{Colors.ENDC}")
-        except ImportError:
-            print(f"  • RAM: Unknown (psutil not installed)")
-        
-        # Disk Check
-        install_dir = os.path.expanduser("~/.omni")
-        if os.path.exists(install_dir):
-            print(f"  • Install Dir: {Colors.GREEN}✔ Found{Colors.ENDC} ({install_dir})")
-        else:
-            print(f"  • Install Dir: {Colors.FAIL}X Missing{Colors.ENDC}")
+            wizard_loop()
+        except KeyboardInterrupt:
+            print("\nExiting.")
+            sys.exit(0)
             
-    else:
-        print_logo()
-        parser.print_help()
+    elif args.command == "install":
+        # Find key by name or just try to install raw name
+        found = False
+        for k, v in BRAIN_MAP.items():
+            if v["name"] == args.name:
+                install_brain_logic(k)
+                found = True
+                break
+        if not found:
+            print(f"{Colors.FAIL}Unknown cartridge: {args.name}{Colors.ENDC}")
+            
+    elif args.command == "exec":
+        # One-shot mode
+        pass # To be implemented similar to agent_loop but one-off
 
 if __name__ == "__main__":
     main()
