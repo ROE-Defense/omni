@@ -20,3 +20,4 @@ BOOTSTRAP.md
 MEMORY.md
 memory/
 .openclaw/
+.env
