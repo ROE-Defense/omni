@@ -1,89 +1,56 @@
-# Omni: The AI Operating System
+# Omni: The Local-Only AI Stack
 
-<div align="center">
+**Omni** is a sovereign AI Runtime that turns your Mac Mini (or Linux/Windows machine) into an air-gapped intelligence node. It runs specialized 1B and 3B parameter models ("Cognitive Cartridges") that outperform GPT-4 on specific tasks, with zero latency and zero data leaks.
 
-```
-   ____  __  __  _   _  ___ 
-  / __ \|  \/  || \ | ||_ _|
- | |  | | |\/| ||  \| | | | 
- | |__| | |  | || |\  | | | 
-  \____/|_|  |_||_| \_||___|
-  The OS for Intelligence
-```
+## 🚀 Quick Install
 
-**The Universal Runtime for Autonomous Intelligence.**
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Platform](https://img.shields.io/badge/Platform-Mac%20%7C%20Linux%20%7C%20Windows-blue)](https://github.com/aurelius/omni)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Swarm-purple)](https://discord.gg/omni)
-
-</div>
-
----
-
-## ⚡ What is Omni?
-
-**Stop chaining 10 tools together to run an agent.**
-
-Omni is a single, lightning-fast binary that turns your local machine into an Autonomous Intelligence Node. It bundles the Model Engine (Llama), the Memory (Vector Store), and the Tooling (Browser/Shell) into one seamless experience.
-
-**No API Keys. No Cloud. No Config.**
-
-## 🚀 Features
-
-- **🧠 Cognitive Cartridges:** Don't use a generic model. Install specialized brains (`omni install @aurelius/python-expert`) for 10x performance.
-- **🔒 100% Local:** Runs entirely on Apple Silicon (Metal) or NVIDIA (CUDA). Your data never leaves `localhost`.
-- **🔌 Universal Agents:** Spin up a swarm in one command (`omni run "Build a React App"`).
-- **💾 Memory Vault:** Built-in vector persistence. Omni remembers your project context across sessions.
-
-## 📦 Installation
-
-**One-Line Install:**
+### Mac / Linux (Universal)
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ROE-Defense/omni/main/install.sh | bash
+curl -fsSL https://roe-defense.github.io/omni/install.sh | bash
 ```
 
-## ⚡ Quick Start
+### Windows (WSL)
+```bash
+wsl curl -fsSL https://roe-defense.github.io/omni/install.sh | bash
+```
 
-1.  **Initialize the System:**
-    ```bash
-    omni init
-    ```
+## 🧠 Cognitive Cartridges (The Brains)
 
-2.  **Install a Brain:**
-    ```bash
-    omni install @roe/regex-pro
-    ```
+Omni ships with specialized brains. You can hot-swap them instantly:
 
-3.  **Run an Agent:**
-    ```bash
-    omni run "Extract all IPv4 addresses from this log file"
-    ```
+| Cartridge | Purpose | Tech Stack |
+| :--- | :--- | :--- |
+| **@roe/architect** | System Design & Strategy | Cloud-Native, Distributed Systems |
+| **@roe/frontend** | Web UI Development | React, Tailwind, TypeScript |
+| **@roe/backend** | API & Database Logic | Python, FastAPI, Node, SQL |
+| **@roe/mobile** | Tactical Mobile Apps | ATAK (Android), iOS (Swift), Kotlin |
+| **@roe/desktop** | Native Desktop Apps | Electron, Tauri, MacOS Native |
+| **@roe/ai-eng** | AI Engineering | PyTorch, RAG, LangChain, Agents |
+| **@roe/devops** | Infrastructure & Defense | Docker, K8s, SecOps, Linux Hardening |
 
-## 📊 Performance Benchmarks
+## ✨ Features
 
-| Task: Regex Generation | **Omni-Regex-1B** (Local) | **GPT-4o** (Cloud) |
-|------------------------|-----------------------------|------------------------|
-| **Accuracy**           | **99.2%**                   | 88.5%                  |
-| **Speed**              | **15ms**                    | 800ms                  |
-| **Privacy**            | **Air-Gapped**              | Public API             |
+-   **100% Local:** Runs on Apple Silicon (Metal) or NVIDIA (CUDA). No API keys required.
+-   **Zero-Trace Training:** Fine-tune your own brains (`@roe/custom`) on local documents. Raw data is shredded immediately after training.
+-   **Air-Gapped:** Designed for defense and critical infrastructure. No telemetry.
 
-## 🧠 The Cartridge Store (Coming Soon)
+## 🛠 Usage
 
-| Cartridge | Size | Specialization |
-|-----------|------|----------------|
-| `@roe/regex` | 1B | Perfect Regex Generation |
-| `@roe/writer` | 3B | Blog & Technical Writing |
-| `@roe/security`| 3B | Vulnerability Scanning |
+**Start the Interactive Wizard:**
+```bash
+omni run
+```
 
-## 🏗️ Architecture
+**Install a Brain:**
+```bash
+omni install @roe/atak
+```
 
-Omni is built on the **ROE Defense Core**:
-- **Inference:** `llama.cpp` (Quantized GGUF)
-- **TUI:** `Rich` + `Textual`
-- **Orchestration:** `Swarm Protocol`
+**Run an Agent Task:**
+```bash
+omni run "Build a React component for a login form"
+```
 
-## 🤝 Contributing
+## 📜 License
 
-**Maintained by:** ROE Defense AI Team.
-**License:** MIT
+MIT License. Copyright (c) 2026 ROE Defense.
