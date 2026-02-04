@@ -20,6 +20,7 @@
             margin: 0;
             padding: 0;
             line-height: 1.5;
+            overflow-x: hidden;
         }
         .container {
             max-width: 900px;
@@ -111,6 +112,35 @@
         }
         .copy-btn:hover { background: #444; }
 
+        /* Scroller */
+        .scroller-container {
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 3rem;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .scroller {
+            display: flex;
+            gap: 2rem;
+            width: max-content;
+            animation: scroll 20s linear infinite;
+        }
+        .tag {
+            background: #111;
+            border: 1px solid #333;
+            color: #888;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .tag b { color: var(--accent); }
+        
+        @keyframes scroll {
+            to { transform: translateX(-50%); }
+        }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -176,12 +206,33 @@
                     <p style="font-size: 0.9rem; color: #555; margin-top: 1rem;">⚡ Optimized for Apple Silicon (Metal) & NVIDIA (CUDA)</p>
                 </div>
             </div>
+            
+            <!-- Infinite Scroller -->
+            <div class="scroller-container">
+                <div class="scroller">
+                    <span class="tag"><b>@roe/frontend</b> React/Tailwind</span>
+                    <span class="tag"><b>@roe/backend</b> Python/Node</span>
+                    <span class="tag"><b>@roe/mobile</b> iOS/Swift</span>
+                    <span class="tag"><b>@roe/desktop</b> Electron/Tauri</span>
+                    <span class="tag"><b>@roe/architect</b> System Design</span>
+                    <span class="tag"><b>@roe/ai-eng</b> PyTorch/RAG</span>
+                    <span class="tag"><b>@roe/devops</b> K8s/Docker</span>
+                    <!-- Duplicate for infinite loop -->
+                    <span class="tag"><b>@roe/frontend</b> React/Tailwind</span>
+                    <span class="tag"><b>@roe/backend</b> Python/Node</span>
+                    <span class="tag"><b>@roe/mobile</b> iOS/Swift</span>
+                    <span class="tag"><b>@roe/desktop</b> Electron/Tauri</span>
+                    <span class="tag"><b>@roe/architect</b> System Design</span>
+                    <span class="tag"><b>@roe/ai-eng</b> PyTorch/RAG</span>
+                    <span class="tag"><b>@roe/devops</b> K8s/Docker</span>
+                </div>
+            </div>
         </header>
 
         <div class="grid">
             <div class="card">
                 <h3><span class="icon">🧠</span> Cognitive Cartridges</h3>
-                <p>Don't settle for a generic chatbot. Swap brains instantly: <b>@roe/frontend</b> for React, <b>@roe/backend</b> for Python APIs, or <b>@roe/mobile</b> for ATAK/iOS.</p>
+                <p>Don't settle for a generic chatbot. Swap brains instantly: <b>@roe/frontend</b> for React, <b>@roe/backend</b> for Python APIs, or <b>@roe/mobile</b> for iOS.</p>
             </div>
             <div class="card">
                 <h3><span class="icon">🔒</span> Air-Gapped Mode</h3>
@@ -193,15 +244,11 @@
             </div>
             <div class="card">
                 <h3><span class="icon">🎓</span> Train Your Own</h3>
-                <p>Fine-tune custom models on your own documents (PDF/Txt). Zero-trace protocol ensures your raw data is never exposed.</p>
+                <p>Fine-tune custom models on your own documents (PDF/Txt). Images/Video/Audio support coming soon. Zero-trace protocol.</p>
             </div>
             <div class="card">
                 <h3><span class="icon">📦</span> The Omni Stack</h3>
                 <p>Includes specialized brains for <b>DevOps, AI Engineering, Desktop Apps (Electron/Tauri), and System Architecture</b>.</p>
-            </div>
-            <div class="card">
-                <h3><span class="icon">🛡️</span> Defense Grade</h3>
-                <p>Built for the field. Includes <b>@roe/mobile</b> with specialized training on ATAK/CoT XML and tactical data links.</p>
             </div>
         </div>
 
