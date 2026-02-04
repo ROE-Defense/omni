@@ -133,9 +133,8 @@
     </style>
     <script>
         const COMMANDS = {
-            mac: "curl -fsSL https://roe-defense.github.io/omni/install.sh | bash",
-            win: "wsl curl -fsSL https://roe-defense.github.io/omni/install.sh | bash",
-            lin: "curl -fsSL https://roe-defense.github.io/omni/install.sh | bash"
+            unix: "curl -fsSL https://roe-defense.github.io/omni/install.sh | bash",
+            win: "wsl curl -fsSL https://roe-defense.github.io/omni/install.sh | bash"
         };
 
         function setPlatform(os) {
@@ -167,9 +166,8 @@
                 
                 <div class="install-container">
                     <div class="tabs">
-                        <button id="tab-mac" class="tab active" onclick="setPlatform('mac')">Mac</button>
+                        <button id="tab-unix" class="tab active" onclick="setPlatform('unix')">Mac / Linux</button>
                         <button id="tab-win" class="tab" onclick="setPlatform('win')">Windows</button>
-                        <button id="tab-lin" class="tab" onclick="setPlatform('lin')">Linux</button>
                     </div>
                     <div class="install-box" onclick="copyCmd()">
                         <code id="cmd">curl -fsSL https://roe-defense.github.io/omni/install.sh | bash</code>
@@ -183,7 +181,7 @@
         <div class="grid">
             <div class="card">
                 <h3><span class="icon">🧠</span> Cognitive Cartridges</h3>
-                <p>Don't settle for a generic chatbot. Swap brains instantly: <b>@roe/regex</b> for data cleaning, <b>@roe/sec-ops</b> for log audits. Hot-swappable weights.</p>
+                <p>Don't settle for a generic chatbot. Swap brains instantly: <b>@roe/frontend</b> for React, <b>@roe/backend</b> for Python APIs, or <b>@roe/mobile</b> for ATAK/iOS.</p>
             </div>
             <div class="card">
                 <h3><span class="icon">🔒</span> Air-Gapped Mode</h3>
@@ -192,6 +190,18 @@
             <div class="card">
                 <h3><span class="icon">⚡</span> 50x Faster</h3>
                 <p>Why wait 800ms for an API? Local inference on Metal/CUDA happens in < 15ms. It feels instantaneous.</p>
+            </div>
+            <div class="card">
+                <h3><span class="icon">🎓</span> Train Your Own</h3>
+                <p>Fine-tune custom models on your own documents (PDF/Txt). Zero-trace protocol ensures your raw data is never exposed.</p>
+            </div>
+            <div class="card">
+                <h3><span class="icon">📦</span> The Omni Stack</h3>
+                <p>Includes specialized brains for <b>DevOps, AI Engineering, Desktop Apps (Electron/Tauri), and System Architecture</b>.</p>
+            </div>
+            <div class="card">
+                <h3><span class="icon">🛡️</span> Defense Grade</h3>
+                <p>Built for the field. Includes <b>@roe/mobile</b> with specialized training on ATAK/CoT XML and tactical data links.</p>
             </div>
         </div>
 
