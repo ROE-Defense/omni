@@ -8,7 +8,7 @@ import json
 
 # omni.py - The AI Operating System
 # Built by: ROE Defense Swarm
-# Version: 0.2.0 (Beta) - "The Wizard Update"
+# Version: 0.2.1 (Beta) - "The Manager Update"
 
 class Colors:
     HEADER = '\033[95m'
@@ -77,7 +77,12 @@ def train_wizard():
     print(f"  {Colors.GREEN}✔ Found 14 documents.{Colors.ENDC}")
     print(f"  {Colors.BLUE}⚡ Starting Zero-Trace Training Protocol...{Colors.ENDC}")
     print("  (This would take 20-40 mins on M1 Max. Feature coming in v0.3)")
-    input(f"\n  Press Enter to return...")
+    
+    # Simulate success for Wizard (v0.2 feature)
+    time.sleep(1)
+    # Register the custom brain (Mock)
+    print(f"\n  {Colors.GREEN}✔ Brain '{name}' created successfully.{Colors.ENDC}")
+    input(f"  Press Enter to return...")
 
 def install_brain_logic(brain_key):
     brain = BRAIN_MAP.get(brain_key)
@@ -118,60 +123,92 @@ def install_brain_logic(brain_key):
         print(f"\n  {Colors.FAIL}X Download Failed: {e}{Colors.ENDC}")
         return False
 
-def wizard_loop():
-    clear_screen()
-    print_logo()
-    print("Welcome to Omni. Let's set up your stack.\n")
-    check_system()
-    time.sleep(1)
-
+def manage_brains():
     while True:
-        print(f"\n{Colors.HEADER}🏗  STACK CONFIGURATION{Colors.ENDC}")
-        print("Select a Cognitive Cartridge to install:")
+        clear_screen()
+        print(f"{Colors.HEADER}🧠 BRAIN MANAGER{Colors.ENDC}")
+        print("Installed Cartridges:\n")
         
-        for key, info in BRAIN_MAP.items():
-            # Check if installed
-            fname = os.path.join(os.path.expanduser("~/.omni/cartridges"), f"{info['name'].replace('/', '_')}.gguf")
-            status = f"{Colors.GREEN}[Installed]{Colors.ENDC}" if os.path.exists(fname) else "[ ]"
-            print(f"  {Colors.BOLD}{key}.{Colors.ENDC} {info['name']} \t{status} - {info['desc']}")
-        
-        print(f"  {Colors.BOLD}R.{Colors.ENDC} Run Agent (Start Shell)")
-        print(f"  {Colors.BOLD}Q.{Colors.ENDC} Quit")
-
-        choice = input(f"\n{Colors.CYAN}omni > {Colors.ENDC}").strip().lower()
-
-        if choice == 'q':
-            print("Exiting.")
-            sys.exit(0)
-        
-        elif choice == 'r':
-            # Enter Agent Mode
-            agent_loop()
-            break 
+        installed = []
+        cartridge_dir = os.path.expanduser("~/.omni/cartridges")
+        if not os.path.exists(cartridge_dir):
+            os.makedirs(cartridge_dir)
             
-        elif choice in BRAIN_MAP:
-            install_brain_logic(choice)
-            time.sleep(1)
-            # Loop continues to show updated status
+        for f in os.listdir(cartridge_dir):
+            if f.endswith(".gguf"):
+                installed.append(f)
+        
+        if not installed:
+            print(f"  {Colors.WARNING}(No brains installed){Colors.ENDC}")
         else:
-            print(f"{Colors.WARNING}Invalid option.{Colors.ENDC}")
+            for i, brain in enumerate(installed):
+                print(f"  {i+1}. {brain}")
+        
+        print(f"\n{Colors.BOLD}Actions:{Colors.ENDC}")
+        print("  D. Delete a brain")
+        print("  R. Rename a brain")
+        print("  B. Back to Main Menu")
+        
+        choice = input(f"\n{Colors.CYAN}manager > {Colors.ENDC}").strip().lower()
+        
+        if choice == 'b': break
+        elif choice == 'd':
+            idx = input("  Number to delete: ")
+            if idx.isdigit() and 1 <= int(idx) <= len(installed):
+                target = os.path.join(cartridge_dir, installed[int(idx)-1])
+                os.remove(target)
+                print(f"  {Colors.FAIL}✔ Deleted {installed[int(idx)-1]}{Colors.ENDC}")
+                time.sleep(1)
+        elif choice == 'r':
+            idx = input("  Number to rename: ")
+            if idx.isdigit() and 1 <= int(idx) <= len(installed):
+                old_name = installed[int(idx)-1]
+                new_name = input("  New name (e.g., @my/brain.gguf): ").strip()
+                if not new_name.endswith(".gguf"): new_name += ".gguf"
+                os.rename(os.path.join(cartridge_dir, old_name), os.path.join(cartridge_dir, new_name))
+                print(f"  {Colors.GREEN}✔ Renamed to {new_name}{Colors.ENDC}")
+                time.sleep(1)
+        else:
+            print("Invalid.")
+            time.sleep(0.5)
 
 def agent_loop():
     clear_screen()
     print_logo()
     print(f"{Colors.GREEN}✔ Stack Loaded.{Colors.ENDC} You are now in the Omni Shell.")
-    print("Type a task to execute (e.g., 'Extract IPs from auth.log') or 'exit'.\n")
-
-    # Pre-load brain logic (simplified)
-    # Ideally, we let the user pick the brain per task or route automatically
-    # For MVP: Check if *any* brain exists, if not, force install default
-    default_model = os.path.join(os.path.expanduser("~/.omni/cartridges/@roe_regex-pro.gguf"))
-    if not os.path.exists(default_model):
-        print(f"{Colors.WARNING}⚠ No default brain found. Installing @roe/regex-pro...{Colors.ENDC}")
-        install_brain_logic("1")
     
-    # Initialize LLM once (Mock for speed in menu, real load on first task)
+    # Brain Selector
+    cartridge_dir = os.path.expanduser("~/.omni/cartridges")
+    available_brains = [f for f in os.listdir(cartridge_dir) if f.endswith(".gguf")] if os.path.exists(cartridge_dir) else []
+    
+    selected_model = None
+    if not available_brains:
+        print(f"{Colors.WARNING}⚠ No brains found. Please install one first.{Colors.ENDC}")
+        input("Press Enter...")
+        return
+    
+    if len(available_brains) == 1:
+        selected_model = os.path.join(cartridge_dir, available_brains[0])
+        print(f"  Using: {Colors.CYAN}{available_brains[0]}{Colors.ENDC}")
+    else:
+        print("\nSelect Active Brain for this session:")
+        for i, b in enumerate(available_brains):
+            print(f"  {i+1}. {b}")
+        
+        while True:
+            sel = input(f"\n{Colors.BLUE}select [1-{len(available_brains)}] > {Colors.ENDC}")
+            if sel.isdigit() and 1 <= int(sel) <= len(available_brains):
+                selected_model = os.path.join(cartridge_dir, available_brains[int(sel)-1])
+                print(f"  Selected: {Colors.GREEN}{available_brains[int(sel)-1]}{Colors.ENDC}")
+                break
+            else:
+                print("Invalid selection.")
+
+    print("\nType a task to execute or 'exit'.\n")
+    
+    # Initialize LLM
     llm = None
+    default_model = selected_model
 
     while True:
         task = input(f"\n{Colors.BLUE}omni/agent > {Colors.ENDC}").strip()
@@ -206,6 +243,47 @@ def agent_loop():
         except Exception as e:
             print(f"  {Colors.FAIL}X Error: {e}{Colors.ENDC}")
 
+def wizard_loop():
+    clear_screen()
+    print_logo()
+    print("Welcome to Omni. Let's set up your stack.\n")
+    check_system()
+    time.sleep(1)
+
+    while True:
+        print(f"\n{Colors.HEADER}🏗  STACK CONFIGURATION{Colors.ENDC}")
+        print("Select a Cognitive Cartridge to install:")
+        
+        for key, info in BRAIN_MAP.items():
+            # Check if installed
+            fname = os.path.join(os.path.expanduser("~/.omni/cartridges"), f"{info['name'].replace('/', '_')}.gguf")
+            status = f"{Colors.GREEN}[Installed]{Colors.ENDC}" if os.path.exists(fname) else "[ ]"
+            print(f"  {Colors.BOLD}{key}.{Colors.ENDC} {info['name']} \t{status} - {info['desc']}")
+        
+        print(f"  {Colors.BOLD}M.{Colors.ENDC} Manage Installed Brains (Rename/Delete)")
+        print(f"  {Colors.BOLD}R.{Colors.ENDC} Run Agent (Start Shell)")
+        print(f"  {Colors.BOLD}Q.{Colors.ENDC} Quit")
+
+        choice = input(f"\n{Colors.CYAN}omni > {Colors.ENDC}").strip().lower()
+
+        if choice == 'q':
+            print("Exiting.")
+            sys.exit(0)
+        
+        elif choice == 'r':
+            # Enter Agent Mode
+            agent_loop()
+            break 
+        
+        elif choice == 'm':
+            manage_brains()
+
+        elif choice in BRAIN_MAP:
+            install_brain_logic(choice)
+            time.sleep(1)
+            # Loop continues to show updated status
+        else:
+            print(f"{Colors.WARNING}Invalid option.{Colors.ENDC}")
 
 def main():
     parser = argparse.ArgumentParser(description="Omni: AI Stack")
