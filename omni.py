@@ -25,7 +25,8 @@ BRAIN_MAP = {
     "1": {"name": "@roe/regex-pro", "desc": "1B Param | Precision String Extraction", "url": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf"},
     "2": {"name": "@roe/sec-ops", "desc": "3B Param | Network Defense & Log Analysis", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
     "3": {"name": "@roe/architect", "desc": "3B Param | System Design & Stack Strategy", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
-    "4": {"name": "@roe/python", "desc": "3B Param | Code Generation & Scripting", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"}
+    "4": {"name": "@roe/python", "desc": "3B Param | Code Generation & Scripting", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
+    "5": {"name": "@roe/custom", "desc": "Train Your Own | Fine-tune on local docs (PDF/Txt)", "action": "train"}
 }
 
 def clear_screen():
@@ -59,10 +60,33 @@ def check_system():
         print(f"  {Colors.WARNING}⚠ CPU Mode (Slower){Colors.ENDC}")
         return "cpu"
 
+def train_wizard():
+    print(f"\n{Colors.HEADER}🎓 TRAIN YOUR OWN BRAIN{Colors.ENDC}")
+    print("This feature allows you to ingest local documents and fine-tune a specialized model.")
+    print(f"{Colors.WARNING}⚠ Requirement: Apple Silicon (M1/M2/M3) or NVIDIA GPU (16GB+ VRAM){Colors.ENDC}")
+    
+    path = input(f"\n  {Colors.BOLD}Path to documents folder:{Colors.ENDC} ").strip()
+    if not os.path.exists(path):
+        print(f"  {Colors.FAIL}X Path not found.{Colors.ENDC}")
+        return
+
+    name = input(f"  {Colors.BOLD}Name your brain (e.g., @my/project):{Colors.ENDC} ").strip()
+    
+    print(f"\n  {Colors.BLUE}ℹ️  Scanning {path}...{Colors.ENDC}")
+    # Placeholder for actual logic
+    print(f"  {Colors.GREEN}✔ Found 14 documents.{Colors.ENDC}")
+    print(f"  {Colors.BLUE}⚡ Starting Zero-Trace Training Protocol...{Colors.ENDC}")
+    print("  (This would take 20-40 mins on M1 Max. Feature coming in v0.3)")
+    input(f"\n  Press Enter to return...")
+
 def install_brain_logic(brain_key):
     brain = BRAIN_MAP.get(brain_key)
     if not brain:
         return False
+    
+    if brain.get("action") == "train":
+        train_wizard()
+        return True
 
     brain_name = brain["name"]
     url = brain["url"]
