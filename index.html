@@ -141,6 +141,20 @@
             to { transform: translateX(-50%); }
         }
 
+        .explainer {
+            margin: 6rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid #222;
+        }
+        .explainer h2 { font-size: 2rem; margin-bottom: 1.5rem; color: #fff; }
+        .explainer h3 { color: var(--accent); font-size: 1.2rem; margin-top: 2rem; }
+        .explainer p { color: #aaa; margin-bottom: 1rem; }
+        .explainer ul { list-style: none; padding: 0; color: #aaa; }
+        .explainer li { margin-bottom: 0.5rem; position: relative; padding-left: 1.5rem; }
+        .explainer li::before { content: "›"; color: var(--accent); position: absolute; left: 0; font-weight: bold; }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -192,7 +206,7 @@
             <div class="logo">ROE DEFENSE</div>
             <div class="hero">
                 <h1>Omni.<br>The Only Local-Only AI Stack You Need.</h1>
-                <p>Run specialized <b>1B and 3B models</b> entirely on your machine. No API keys. No cloud. No monthly fees.</p>
+                <p>Run specialized <b>1B and 3B brains</b> entirely on your machine. No API keys. No cloud. No monthly fees.</p>
                 
                 <div class="install-container">
                     <div class="tabs">
@@ -229,9 +243,34 @@
             </div>
         </header>
 
+        <div class="explainer">
+            <h2>Why Omni?</h2>
+            <p>Most AI tools are generalists—jacks of all trades, masters of none. Omni is different. It orchestrates a swarm of highly specialized, compact "Brains" that live on your hardware.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h3>🚀 What It Replaces</h3>
+                    <ul>
+                        <li>Costly monthly subscriptions (ChatGPT, Claude)</li>
+                        <li>Slow, latency-heavy API calls</li>
+                        <li>Generic "copilots" that hallucinate specific syntax</li>
+                        <li>Privacy-invasive cloud logging</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>⏱️ How It Saves Time</h3>
+                    <ul>
+                        <li><b>Zero Latency:</b> Responses in < 15ms.</li>
+                        <li><b>Context Aware:</b> Brains trained for <i>your</i> specific stack.</li>
+                        <li><b>Orchestration:</b> The Router automatically picks the right expert (e.g., swapping to @roe/backend for SQL queries).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div class="grid">
             <div class="card">
-                <h3><span class="icon">🧠</span> Cognitive Cartridges</h3>
+                <h3><span class="icon">🧠</span> Specialized Brains</h3>
                 <p>Don't settle for a generic chatbot. Swap brains instantly: <b>@roe/frontend</b> for React, <b>@roe/backend</b> for Python APIs, or <b>@roe/mobile</b> for iOS/Android.</p>
             </div>
             <div class="card">
@@ -249,6 +288,10 @@
             <div class="card">
                 <h3><span class="icon">📦</span> The Omni Stack</h3>
                 <p>Includes specialized brains for <b>DevOps, AI Engineering, Desktop Apps (Electron/Tauri), and System Architecture</b>.</p>
+            </div>
+            <div class="card">
+                <h3><span class="icon">🎯</span> Goal-Based Setup</h3>
+                <p>Not sure which model you need? Just tell Omni your goal ("I need to parse logs"), and it will auto-select the perfect expert for the job.</p>
             </div>
         </div>
 

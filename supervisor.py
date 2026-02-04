@@ -17,15 +17,15 @@ MLX_FUSE = "train_env/bin/mlx_lm.fuse"
 # Configuration
 # Base models: 1B for Regex, 3B for others
 BRAINS = [
-    {"name": "architect", "file": "datasets/architect_training.jsonl", "base": "mlx-community/Llama-3.2-3B-Instruct-4bit", "status": "pending", "merge": ["datasets/python_training.jsonl"]},
-    {"name": "backend",   "file": "datasets/backend_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct-4bit", "status": "pending"},
-    {"name": "frontend",  "file": "datasets/frontend_training.jsonl",  "base": "mlx-community/Llama-3.2-3B-Instruct-4bit", "status": "pending"},
-    {"name": "devops",    "file": "datasets/devops_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct-4bit", "status": "pending"},
-    {"name": "mobile",    "file": "datasets/mobile_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct-4bit", "status": "pending"},
-    {"name": "desktop",   "file": "datasets/desktop_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct-4bit", "status": "pending"},
-    {"name": "ai_eng",    "file": "datasets/ai_eng_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct-4bit", "status": "pending"},
-    {"name": "regex-pro", "file": "datasets/regex_training.jsonl",    "base": "mlx-community/Llama-3.2-1B-Instruct-4bit", "status": "pending"},
-    {"name": "sec-ops",   "file": "datasets/secops_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct-4bit", "status": "pending"},
+    {"name": "architect", "file": "datasets/architect_training.jsonl", "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending", "merge": ["datasets/python_training.jsonl"]},
+    {"name": "backend",   "file": "datasets/backend_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+    {"name": "frontend",  "file": "datasets/frontend_training.jsonl",  "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+    {"name": "devops",    "file": "datasets/devops_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+    {"name": "mobile",    "file": "datasets/mobile_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+    {"name": "desktop",   "file": "datasets/desktop_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+    {"name": "ai_eng",    "file": "datasets/ai_eng_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+    {"name": "regex-pro", "file": "datasets/regex_training.jsonl",    "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
+    {"name": "sec-ops",   "file": "datasets/secops_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
 ]
 
 def log(message):
@@ -103,6 +103,42 @@ def prepare_data(brain):
     os.system(f"tail -n +{split+1} {converted_dataset} > {data_dir}/valid.jsonl")
     return True
 
+def run_benchmark(brain):
+    name = brain["name"]
+    base = brain["base"]
+    fused_model = f"models/{name}-fused"
+    
+    log(f"📊 BENCHMARKING: {name.upper()}")
+    
+    # Simple generation test
+    from mlx_lm import load, generate
+    
+    try:
+        # Load Fused Model
+        log(f"• Loading {fused_model}...")
+        model, tokenizer = load(fused_model)
+        
+        # Test Prompts (Generic vs Specific)
+        prompts = [
+            "Explain the concept of microservices.",
+            "Generate a JSON configuration for a scalable backend architecture."
+        ]
+        
+        results = []
+        for p in prompts:
+            formatted_prompt = f"<|start_header_id|>user<|end_header_id|>\n{p}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n"
+            response = generate(model, tokenizer, prompt=formatted_prompt, verbose=False, max_tokens=200)
+            results.append(f"Q: {p}\nA: {response.strip()[:100]}...") # Truncate log
+            
+        # Log results
+        log_entry = f"Benchmark Results ({name}):\n" + "\n".join(results)
+        log(log_entry)
+        return True
+        
+    except Exception as e:
+        log(f"⚠️ Benchmark failed: {e}")
+        return False
+
 def train_brain(brain):
     name = brain["name"]
     base = brain["base"]
@@ -114,13 +150,15 @@ def train_brain(brain):
     
     try:
         # 1. Train
+        # Switch to LoRA because Full Finetune caused OOM
+        log("• Mode: LoRA (Optimized for Stability)")
         cmd = [
             MLX_LORA,
             "--model", base,
             "--train",
             "--data", data_path,
             "--iters", "600",
-            "--batch-size", "4",
+            "--batch-size", "2", # Reduced batch size to save memory
             "--adapter-path", adapter_path
         ]
         
@@ -137,6 +175,10 @@ def train_brain(brain):
         ], check=True)
         
         log(f"✅ {name.upper()} TRAINING COMPLETE.")
+        
+        # 3. Benchmark
+        run_benchmark(brain)
+        
         return True
         
     except Exception as e:
@@ -151,6 +193,13 @@ def main():
         active_training = False
         
         for brain in BRAINS:
+            # Check if already fused to avoid re-training loop
+            if os.path.exists(f"models/{brain['name']}-fused"):
+                if brain["status"] != "done":
+                    log(f"ℹ️  {brain['name']} is already fused. Marking as done.")
+                    brain["status"] = "done"
+                continue
+                
             if brain["status"] == "done":
                 continue
                 

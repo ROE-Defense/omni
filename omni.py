@@ -316,15 +316,18 @@ def wizard_loop():
     time.sleep(1)
 
     while True:
-        clear_screen()
-        print_logo()
         print(f"\n{Colors.HEADER}🏗  STACK CONFIGURATION{Colors.ENDC}")
-        print("How would you like to select a brain?\n")
+        print("Select a Brain to install:")
         
-        print(f"  {Colors.BOLD}1.{Colors.ENDC} 🎯 Help me choose (Goal-Based)")
-        print(f"  {Colors.BOLD}2.{Colors.ENDC} 📋 I know what I want (Manual Catalog)")
-        print(f"  {Colors.BOLD}3.{Colors.ENDC} 🏃 Run Agent")
-        print(f"  {Colors.BOLD}4.{Colors.ENDC} ⚙️ Manage Installed Brains")
+        for key, info in BRAIN_MAP.items():
+            # Check if installed
+            fname = os.path.join(os.path.expanduser("~/.omni/cartridges"), f"{info['name'].replace('/', '_')}.gguf")
+            status = f"{Colors.GREEN}[Installed]{Colors.ENDC}" if os.path.exists(fname) else "[ ]"
+            print(f"  {Colors.BOLD}{key}.{Colors.ENDC} {info['name']} \t{status} - {info['desc']}")
+        
+        print(f"  {Colors.BOLD}M.{Colors.ENDC} Manage Installed Brains (Rename/Delete)")
+        print(f"  {Colors.BOLD}G.{Colors.ENDC} I have a Goal (Auto-Select)")
+        print(f"  {Colors.BOLD}R.{Colors.ENDC} Run Agent (Start Shell)")
         print(f"  {Colors.BOLD}Q.{Colors.ENDC} Quit")
 
         choice = input(f"\n{Colors.CYAN}omni > {Colors.ENDC}").strip().lower()
@@ -333,23 +336,23 @@ def wizard_loop():
             print("Exiting.")
             sys.exit(0)
         
-        elif choice == '1':
+        elif choice == 'g':
             goal_based_setup()
-            
-        elif choice == '2':
-            manual_catalog_view()
-
-        elif choice == '3':
+        
+        elif choice == 'r':
             # Enter Agent Mode
             agent_loop()
             break 
         
-        elif choice == '4':
+        elif choice == 'm':
             manage_brains()
 
+        elif choice in BRAIN_MAP:
+            install_brain_logic(choice)
+            time.sleep(1)
+            # Loop continues to show updated status
         else:
             print(f"{Colors.WARNING}Invalid option.{Colors.ENDC}")
-            time.sleep(1)
 
 def main():
     parser = argparse.ArgumentParser(description="Omni: AI Stack")
@@ -360,7 +363,7 @@ def main():
     subparsers.add_parser("init", help="Alias for run") # Backwards compat
     
     # CLI Bypass commands
-    install = subparsers.add_parser("install", help="Install a Cartridge directly")
+    install = subparsers.add_parser("install", help="Install a Brain directly")
     install.add_argument("name", help="Name of the brain")
     
     subparsers.add_parser("update", help="Update Omni System")
@@ -386,7 +389,7 @@ def main():
                 found = True
                 break
         if not found:
-            print(f"{Colors.FAIL}Unknown cartridge: {args.name}{Colors.ENDC}")
+            print(f"{Colors.FAIL}Unknown brain: {args.name}{Colors.ENDC}")
             
     elif args.command == "exec":
         # One-shot mode

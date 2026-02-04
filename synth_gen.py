@@ -48,23 +48,23 @@ TASKS = {
     },
     "backend": {
         "file": "backend_training.jsonl",
-        "prompt": "Generate 10 unique Backend Dev tasks (Python/FastAPI/Node/SQL). Focus on APIs, DB schemas, and async logic. Format: JSON array. Output ONLY raw JSON."
+        "prompt": "Generate 10 unique Backend Dev tasks (Python/FastAPI/Node/SQL). Focus on APIs, DB schemas, and async logic. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
     },
     "mobile": {
         "file": "mobile_training.jsonl",
-        "prompt": "Generate 10 unique Mobile Dev tasks (SwiftUI/iOS/Kotlin/Android/ATAK). Focus on native views, plugins, and sensors. Format: JSON array. Output ONLY raw JSON."
+        "prompt": "Generate 10 unique Mobile Dev tasks (SwiftUI/iOS/Kotlin/Android/ATAK). Focus on native views, plugins, and sensors. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
     },
     "desktop": {
         "file": "desktop_training.jsonl",
-        "prompt": "Generate 10 unique Desktop App tasks (Electron/Tauri/MacOS). Focus on cross-platform windowing and native APIs. Format: JSON array. Output ONLY raw JSON."
+        "prompt": "Generate 10 unique Desktop App tasks (Electron/Tauri/MacOS). Focus on cross-platform windowing and native APIs. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
     },
     "ai_eng": {
         "file": "ai_eng_training.jsonl",
-        "prompt": "Generate 10 unique AI Engineering tasks (PyTorch/RAG/LangChain). Focus on training loops, vector DBs, and agent logic. Format: JSON array. Output ONLY raw JSON."
+        "prompt": "Generate 10 unique AI Engineering tasks (PyTorch/RAG/LangChain). Focus on training loops, vector DBs, and agent logic. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
     },
     "devops": {
         "file": "devops_training.jsonl",
-        "prompt": "Generate 10 unique DevOps tasks (Docker/K8s/CI-CD/Linux). Focus on deployment, containers, and bash scripting. Format: JSON array. Output ONLY raw JSON."
+        "prompt": "Generate 10 unique DevOps tasks (Docker/K8s/CI-CD/Linux). Focus on deployment, containers, and bash scripting. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
     }
 }
 
