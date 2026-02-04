@@ -3,116 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omni - The AI Operating System</title>
-    <meta name="description" content="Turn your Mac Mini into a Sovereign Intelligence Node. No API keys. 100% Local.">
+    <title>Omni - Sovereign AI OS</title>
+    <meta name="description" content="Local AI for Defense & Critical Infrastructure. No API keys. Air-gapped.">
     <style>
         :root {
-            --bg: #0a0a0a;
+            --bg: #050505;
             --text: #e0e0e0;
-            --accent: #00ff9d;
-            --secondary: #333;
+            --accent: #00ff9d; /* Matrix/Cyber Green */
+            --secondary: #1a1a1a;
+            --card-bg: #111;
         }
         body {
             background: var(--bg);
             color: var(--text);
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'SF Mono', 'Menlo', 'Courier New', monospace;
             margin: 0;
-            padding: 2rem;
-            line-height: 1.6;
+            padding: 0;
+            line-height: 1.5;
         }
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        header { text-align: center; margin-bottom: 4rem; }
+        .logo { 
+            color: var(--accent); 
+            font-weight: bold; 
+            letter-spacing: -2px; 
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            border: 1px solid var(--accent);
+            padding: 0.5rem 1rem;
         }
         h1 {
-            color: var(--accent);
-            font-size: 2.5rem;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin: 1rem 0;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { font-size: 1.25rem; color: #888; max-width: 700px; margin: 0 auto 2rem auto; }
+        
+        /* The One-Liner Box */
+        .install-container {
+            max-width: 650px;
+            margin: 0 auto 3rem auto;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
             margin-bottom: 0.5rem;
         }
-        .hero {
-            border: 1px solid var(--secondary);
-            padding: 2rem;
-            border-radius: 8px;
-            margin-bottom: 3rem;
-            background: #111;
+        .tab {
+            background: transparent;
+            border: 1px solid #333;
+            color: #666;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
-        .cmd {
-            background: #000;
-            padding: 1rem;
-            border-left: 3px solid var(--accent);
-            font-family: monospace;
-            margin: 1rem 0;
+        .tab:hover { border-color: #555; color: #aaa; }
+        .tab.active {
+            background: rgba(0, 255, 157, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
         }
-        .btn {
-            display: inline-block;
-            background: var(--accent);
-            color: #000;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 4px;
-            margin-top: 1rem;
+
+        .install-box {
+            background: var(--secondary);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            text-align: left;
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.05);
+            transition: transform 0.2s;
         }
-        .btn:hover { opacity: 0.9; }
+        .install-box:hover { transform: scale(1.01); border-color: var(--accent); box-shadow: 0 0 30px rgba(0, 255, 157, 0.1); }
+        .install-box code {
+            color: var(--accent);
+            font-size: 1.1rem;
+            display: block;
+            overflow-x: auto;
+            padding-right: 4rem;
+            white-space: nowrap;
+        }
+        .copy-btn {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        .copy-btn:hover { background: #444; }
+
         .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
         }
         .card {
-            border: 1px solid var(--secondary);
-            padding: 1.5rem;
-            border-radius: 8px;
+            background: var(--card-bg);
+            border: 1px solid #222;
+            padding: 2rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
         }
-        h3 { color: var(--accent); }
+        .card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .card h3 { margin-top: 0; display: flex; align-items: center; gap: 0.5rem; }
+        .icon { font-size: 1.5rem; }
+
+        footer { margin-top: 6rem; text-align: center; color: #444; font-size: 0.9rem; border-top: 1px solid #111; padding-top: 2rem; }
+        a { color: var(--accent); text-decoration: none; }
     </style>
+    <script>
+        const COMMANDS = {
+            mac: "curl -fsSL https://roe-defense.github.io/omni/install.sh | bash",
+            win: "wsl curl -fsSL https://roe-defense.github.io/omni/install.sh | bash",
+            lin: "curl -fsSL https://roe-defense.github.io/omni/install.sh | bash"
+        };
+
+        function setPlatform(os) {
+            // Update tabs
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + os).classList.add('active');
+            
+            // Update command
+            document.getElementById('cmd').innerText = COMMANDS[os];
+        }
+
+        function copyCmd() {
+            const cmd = document.getElementById('cmd').innerText;
+            navigator.clipboard.writeText(cmd);
+            const btn = document.querySelector('.copy-btn');
+            const original = btn.innerText;
+            btn.innerText = "Copied!";
+            setTimeout(() => btn.innerText = "Copy", 2000);
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <header>
-            <pre style="color:var(--accent)">
-   ____  __  __  _   _  ___ 
-  / __ \|  \/  || \ | ||_ _|
- | |  | | |\/| ||  \| | | | 
- | |__| | |  | || |\  | | | 
-  \____/|_|  |_||_| \_||___|
-            </pre>
-            <p>The OS for Sovereign Intelligence.</p>
+            <div class="logo">ROE DEFENSE</div>
+            <div class="hero">
+                <h1>Sovereign Intelligence.<br>Zero Leaks.</h1>
+                <p>The first Air-Gapped AI Operating System. Run specialized <b>1B and 3B models</b> locally. No API keys. No monthly fees.</p>
+                
+                <div class="install-container">
+                    <div class="tabs">
+                        <button id="tab-mac" class="tab active" onclick="setPlatform('mac')">Mac</button>
+                        <button id="tab-win" class="tab" onclick="setPlatform('win')">Windows</button>
+                        <button id="tab-lin" class="tab" onclick="setPlatform('lin')">Linux</button>
+                    </div>
+                    <div class="install-box" onclick="copyCmd()">
+                        <code id="cmd">curl -fsSL https://roe-defense.github.io/omni/install.sh | bash</code>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <p style="font-size: 0.9rem; color: #555; margin-top: 1rem;">⚡ Optimized for Apple Silicon (Metal) & NVIDIA (CUDA)</p>
+                </div>
+            </div>
         </header>
 
-        <section class="hero">
-            <h1>Sovereign Intelligence.<br>Zero Leaks.</h1>
-            <p>The first Air-Gapped AI Operating System. Run specialized 3B models locally on your Mac Mini. No API keys. No monthly fees.</p>
-            
-            <div class="cmd">
-                $ curl -fsSL https://roe-defense.github.io/omni/install.sh | bash<br>
-                $ omni init
-            </div>
-
-            <a href="https://github.com/ROE-Defense/omni" class="btn">View Source</a>
-        </section>
-
-        <section class="grid">
+        <div class="grid">
             <div class="card">
-                <h3>🧠 Cognitive Cartridges</h3>
+                <h3><span class="icon">🧠</span> Cognitive Cartridges</h3>
                 <p>Don't settle for a generic chatbot. Swap brains instantly: <b>@roe/regex</b> for data cleaning, <b>@roe/sec-ops</b> for log audits. Hot-swappable weights.</p>
             </div>
             <div class="card">
-                <h3>🔒 Air-Gapped Mode</h3>
+                <h3><span class="icon">🔒</span> Air-Gapped Mode</h3>
                 <p>Your data is your IP. Omni runs 100% offline after installation. No telemetry. No "Training on your data."</p>
             </div>
             <div class="card">
-                <h3>⚡ 50x Faster</h3>
+                <h3><span class="icon">⚡</span> 50x Faster</h3>
                 <p>Why wait 800ms for an API? Local inference on Metal/CUDA happens in < 15ms. It feels instantaneous.</p>
             </div>
-            <div class="card">
-                <h3>🛡️ Self-Healing Defense</h3>
-                <p>New "Mind Upload" protocol ensures agent continuity even after hardware failure. Private, encrypted state backups.</p>
-            </div>
-        </section>
+        </div>
 
-        <footer style="margin-top: 4rem; text-align: center; color: #666;">
-            <p>&copy; 2026 ROE Defense. Built by Autonomous Intelligence.</p>
+        <footer>
+            <p>Built by <b>ROE Defense AI Division</b>.</p>
+            <p><a href="https://github.com/ROE-Defense/omni">View Source on GitHub</a></p>
         </footer>
     </div>
 </body>
