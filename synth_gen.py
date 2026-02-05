@@ -40,11 +40,11 @@ OUTPUT_DIR = "datasets"
 TASKS = {
     "architect": {
         "file": "architect_training.jsonl",
-        "prompt": "Generate 10 unique System Architecture tasks. Format: JSON array (instruction/output). Output ONLY raw JSON."
+        "prompt": "Generate 10 unique System Architecture tasks. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the solution). Output ONLY raw JSON."
     },
     "frontend": {
         "file": "frontend_training.jsonl",
-        "prompt": "Generate 10 unique Frontend Dev tasks (React/Tailwind/Typescript). Focus on modern UI, state, and responsive. Format: JSON array. Output ONLY raw JSON."
+        "prompt": "Generate 10 unique Frontend Dev tasks (React/Tailwind/Typescript). Focus on modern UI, state, and responsive. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
     },
     "backend": {
         "file": "backend_training.jsonl",
@@ -52,7 +52,7 @@ TASKS = {
     },
     "mobile": {
         "file": "mobile_training.jsonl",
-        "prompt": "Generate 10 unique Mobile Dev tasks (SwiftUI/iOS/Kotlin/Android/ATAK). Focus on native views, plugins, and sensors. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+        "prompt": "Generate 10 unique Mobile Dev tasks (SwiftUI/iOS/Kotlin/Android/Flutter/Dart). Focus on native views, plugins, and sensors. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
     },
     "desktop": {
         "file": "desktop_training.jsonl",
@@ -130,7 +130,7 @@ def generate_batch(task_name):
         print(f"[{task_name.upper()}] Error: {e}")
 
 # Priority Order
-PRIORITY_ORDER = ["architect", "backend", "frontend", "devops", "mobile", "desktop", "ai_eng"]
+PRIORITY_ORDER = ["backend", "frontend", "architect", "devops", "mobile", "desktop", "ai_eng"]
 TARGET_COUNT = 1000
 
 def get_current_count(task_name):
