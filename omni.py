@@ -22,13 +22,13 @@ class Colors:
     UNDERLINE = '\033[4m'
 
 BRAIN_MAP = {
-    "1": {"name": "@roe/architect", "desc": "3B Param | System Design & Stack Strategy", "url": "https://huggingface.co/roebolayer/architect-v1/resolve/main/model.gguf"},
-    "2": {"name": "@roe/backend", "desc": "3B Param | Python/Node/SQL Specialist", "url": "https://huggingface.co/roebolayer/backend-v1/resolve/main/model.gguf"},
-    "3": {"name": "@roe/frontend", "desc": "3B Param | React/Tailwind/UI Specialist", "url": "https://huggingface.co/roebolayer/frontend-v1/resolve/main/model.gguf"},
-    "4": {"name": "@roe/devops", "desc": "3B Param | Docker/K8s/CI-CD Specialist", "url": "https://huggingface.co/roebolayer/devops-v1/resolve/main/model.gguf"},
-    "5": {"name": "@roe/mobile", "desc": "3B Param | iOS/Android/Flutter (Beta)", "url": "https://huggingface.co/roebolayer/mobile-v1/resolve/main/model.gguf"},
-    "6": {"name": "@roe/desktop", "desc": "3B Param | macOS/Windows Native (Soon)", "url": "https://huggingface.co/roebolayer/desktop-v1/resolve/main/model.gguf"},
-    "7": {"name": "@roe/ai-eng", "desc": "3B Param | MLX/PyTorch/RAG (Soon)", "url": "https://huggingface.co/roebolayer/ai-eng-v1/resolve/main/model.gguf"},
+    "1": {"name": "@roe/architect", "desc": "3B Param | System Design & Stack Strategy", "url": "https://huggingface.co/ROE-Defense/architect-v1/resolve/main/model.gguf"},
+    "2": {"name": "@roe/backend", "desc": "3B Param | Python/Node/SQL Specialist", "url": "https://huggingface.co/ROE-Defense/backend-v1/resolve/main/model.gguf"},
+    "3": {"name": "@roe/frontend", "desc": "3B Param | React/Tailwind/UI Specialist", "url": "https://huggingface.co/ROE-Defense/frontend-v1/resolve/main/model.gguf"},
+    "4": {"name": "@roe/devops", "desc": "3B Param | Docker/K8s/CI-CD Specialist", "url": "https://huggingface.co/ROE-Defense/devops-v1/resolve/main/model.gguf"},
+    "5": {"name": "@roe/mobile", "desc": "3B Param | iOS/Android/Flutter (Beta)", "url": "https://huggingface.co/ROE-Defense/mobile-v1/resolve/main/model.gguf"},
+    "6": {"name": "@roe/desktop", "desc": "3B Param | macOS/Windows Native (Soon)", "url": "https://huggingface.co/ROE-Defense/desktop-v1/resolve/main/model.gguf"},
+    "7": {"name": "@roe/ai-eng", "desc": "3B Param | MLX/PyTorch/RAG (Soon)", "url": "https://huggingface.co/ROE-Defense/ai-eng-v1/resolve/main/model.gguf"},
     "8": {"name": "@roe/custom", "desc": "Train Your Own | Fine-tune on Docs", "action": "train"}
 }
 
