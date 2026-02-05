@@ -18,15 +18,15 @@ wsl curl -fsSL https://roe-defense.github.io/omni/install.sh | bash
 
 Omni ships with specialized brains. You can hot-swap them instantly:
 
-| Cartridge | Purpose | Tech Stack |
-| :--- | :--- | :--- |
-| **@roe/architect** | System Design & Strategy | Cloud-Native, Distributed Systems |
-| **@roe/frontend** | Web UI Development | React, Tailwind, TypeScript |
-| **@roe/backend** | API & Database Logic | Python, FastAPI, Node, SQL |
-| **@roe/mobile** | Tactical Mobile Apps | ATAK (Android), iOS (Swift), Kotlin |
-| **@roe/desktop** | Native Desktop Apps | Electron, Tauri, MacOS Native |
-| **@roe/ai-eng** | AI Engineering | PyTorch, RAG, LangChain, Agents |
-| **@roe/devops** | Infrastructure & Defense | Docker, K8s, SecOps, Linux Hardening |
+| Cartridge | Status | Purpose | Tech Stack |
+| :--- | :--- | :--- | :--- |
+| **@roe/architect** | ✅ **Live** | System Design & Strategy | Cloud-Native, Distributed Systems |
+| **@roe/backend** | ✅ **Live** | API & Database Logic | Python, FastAPI, Node, SQL |
+| **@roe/frontend** | ✅ **Live** | Web UI Development | React, Tailwind, TypeScript |
+| **@roe/devops** | 🚧 **Training** | Infrastructure & Defense | Docker, K8s, SecOps, Linux Hardening |
+| **@roe/mobile** | ⏳ Soon | Tactical Mobile Apps | ATAK (Android), iOS (Swift), Kotlin |
+| **@roe/desktop** | ⏳ Soon | Native Desktop Apps | Electron, Tauri, MacOS Native |
+| **@roe/ai-eng** | ⏳ Soon | AI Engineering | PyTorch, RAG, LangChain, Agents |
 
 ## ✨ Features
 

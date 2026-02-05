@@ -22,11 +22,14 @@ class Colors:
     UNDERLINE = '\033[4m'
 
 BRAIN_MAP = {
-    "1": {"name": "@roe/llama-1b", "desc": "1B Param | Lightweight Base Model", "url": "https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/resolve/main/llama-3.2-1b-instruct-q8_0.gguf"},
-    "2": {"name": "@roe/sec-ops", "desc": "3B Param | Network Defense & Log Analysis", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
-    "3": {"name": "@roe/architect", "desc": "3B Param | System Design & Stack Strategy", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
-    "4": {"name": "@roe/python", "desc": "3B Param | Code Generation & Scripting", "url": "https://huggingface.co/hugging-quants/Llama-3.2-3B-Instruct-Q4_K_M-GGUF/resolve/main/llama-3.2-3b-instruct-q4_k_m.gguf"},
-    "5": {"name": "@roe/custom", "desc": "Train Your Own | Fine-tune on Docs (Images/Video/Audio coming soon)", "action": "train"}
+    "1": {"name": "@roe/architect", "desc": "3B Param | System Design & Stack Strategy", "url": "https://huggingface.co/roe-defense/architect-v1/resolve/main/model.gguf"},
+    "2": {"name": "@roe/backend", "desc": "3B Param | Python/Node/SQL Specialist", "url": "https://huggingface.co/roe-defense/backend-v1/resolve/main/model.gguf"},
+    "3": {"name": "@roe/frontend", "desc": "3B Param | React/Tailwind/UI Specialist", "url": "https://huggingface.co/roe-defense/frontend-v1/resolve/main/model.gguf"},
+    "4": {"name": "@roe/devops", "desc": "3B Param | Docker/K8s/CI-CD Specialist", "url": "https://huggingface.co/roe-defense/devops-v1/resolve/main/model.gguf"},
+    "5": {"name": "@roe/mobile", "desc": "3B Param | iOS/Android/ATAK (Beta)", "url": "https://huggingface.co/roe-defense/mobile-v1/resolve/main/model.gguf"},
+    "6": {"name": "@roe/desktop", "desc": "3B Param | macOS/Windows Native (Soon)", "url": "https://huggingface.co/roe-defense/desktop-v1/resolve/main/model.gguf"},
+    "7": {"name": "@roe/ai-eng", "desc": "3B Param | MLX/PyTorch/RAG (Soon)", "url": "https://huggingface.co/roe-defense/ai-eng-v1/resolve/main/model.gguf"},
+    "8": {"name": "@roe/custom", "desc": "Train Your Own | Fine-tune on Docs", "action": "train"}
 }
 
 def goal_based_setup():
