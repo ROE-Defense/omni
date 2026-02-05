@@ -1,6 +1,6 @@
-# Omni: The Local-Only AI Stack
+# Omni: The Secure AI Stack
 
-**Omni** is a sovereign AI Runtime that turns your Mac Mini (or Linux/Windows machine) into an air-gapped intelligence node. It runs specialized 1B and 3B parameter models ("Cognitive Cartridges") that outperform GPT-4 on specific tasks, with zero latency and zero data leaks.
+**Omni** is a sovereign AI Runtime that turns your Mac Mini (or Linux/Windows machine) into an air-gapped intelligence node. It runs specialized 1B/3B parameter models ("Cognitive Cartridges") that outperform GPT-4 on specific tasks, with zero latency and zero data leaks.
 
 ## 🚀 Quick Install
 
@@ -23,9 +23,11 @@ Omni ships with specialized brains. You can hot-swap them instantly:
 | **@roe/architect** | ✅ **Live** | System Design & Strategy | Cloud-Native, Distributed Systems |
 | **@roe/backend** | ✅ **Live** | API & Database Logic | Python, FastAPI, Node, SQL |
 | **@roe/frontend** | ✅ **Live** | Web UI Development | React, Tailwind, TypeScript |
-| **@roe/devops** | 🚧 **Training** | Infrastructure & Defense | Docker, K8s, SecOps, Linux Hardening |
-| **@roe/mobile** | ⏳ Soon | Tactical Mobile Apps | ATAK (Android), iOS (Swift), Kotlin |
-| **@roe/desktop** | ⏳ Soon | Native Desktop Apps | Electron, Tauri, MacOS Native |
+| **@roe/devops** | ✅ **Live** | Infrastructure & Defense | Docker, K8s, SecOps, Linux Hardening |
+| **@roe/ios** | ⏳ Soon | Native iOS Apps | Swift, SwiftUI, Combine |
+| **@roe/android** | ⏳ Soon | Native Android Apps | Kotlin, Compose, Gradle |
+| **@roe/flutter** | ⏳ Soon | Cross-Platform Mobile | Dart, Widgets, Plugins |
+| **@roe/desktop** | ⏳ Soon | Native Desktop Apps | MacOS Native, Windows .NET, Rust |
 | **@roe/ai-eng** | ⏳ Soon | AI Engineering | PyTorch, RAG, LangChain, Agents |
 
 ## ✨ Features

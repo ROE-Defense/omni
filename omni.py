@@ -100,7 +100,7 @@ def print_logo():
  | |  | | |\/| ||  \| | | | 
  | |__| | |  | || |\  | | | 
   \____/|_|  |_||_| \_||___|
-  {Colors.ENDC}{Colors.BLUE}The Local-Only AI Stack{Colors.ENDC}
+  {Colors.ENDC}{Colors.BLUE}The Secure AI Stack{Colors.ENDC}
     """
     print(logo)
 
@@ -378,7 +378,7 @@ def wizard_loop():
             print(f"{Colors.WARNING}Invalid option.{Colors.ENDC}")
 
 def main():
-    parser = argparse.ArgumentParser(description="Omni: AI Stack")
+    parser = argparse.ArgumentParser(description="Omni: Secure AI Stack")
     subparsers = parser.add_subparsers(dest="command")
     
     # New Commands
