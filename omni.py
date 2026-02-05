@@ -188,7 +188,7 @@ def manage_brains():
     while True:
         clear_screen()
         print(f"{Colors.HEADER}🧠 BRAIN MANAGER{Colors.ENDC}")
-        print("Installed Cartridges:\n")
+        print("Installed Brains:\n")
         
         installed = []
         cartridge_dir = os.path.expanduser("~/.omni/cartridges")
@@ -314,7 +314,7 @@ def agent_loop():
 
 def manual_catalog_view():
     print(f"\n{Colors.HEADER}📋 MANUAL CATALOG{Colors.ENDC}")
-    print("Select a Cognitive Cartridge to install:")
+    print("Select a specialized brain to install:")
     
     for key, info in BRAIN_MAP.items():
         # Check if installed

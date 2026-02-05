@@ -14,11 +14,11 @@ curl -fsSL https://roe-defense.github.io/omni/install.sh | bash
 wsl curl -fsSL https://roe-defense.github.io/omni/install.sh | bash
 ```
 
-## 🧠 Cognitive Cartridges (The Brains)
+## 🧠 Specialized Brains
 
 Omni ships with specialized brains. You can hot-swap them instantly:
 
-| Cartridge | Status | Purpose | Tech Stack |
+| Brain | Status | Purpose | Tech Stack |
 | :--- | :--- | :--- | :--- |
 | **@roe/architect** | ✅ **Live** | System Design & Strategy | Cloud-Native, Distributed Systems |
 | **@roe/backend** | ✅ **Live** | API & Database Logic | Python, FastAPI, Node, SQL |
