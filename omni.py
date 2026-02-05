@@ -42,18 +42,15 @@ def goal_based_setup():
     recommendation = None
     reason = ""
     
-    if any(x in goal for x in ['regex', 'parse', 'extract', 'scrape', 'string', 'pattern']):
+    elif any(x in goal for x in ['regex', 'parse', 'extract', 'scrape', 'string', 'pattern', 'stack', 'plan', 'diagram', 'cloud', 'structure', 'system']):
         recommendation = "1"
-        reason = "Optimized for string manipulation and data extraction."
-    elif any(x in goal for x in ['sec', 'hack', 'log', 'network', 'defense', 'cyber', 'audit']):
+        reason = "Optimized for system design, stack strategy, and string manipulation."
+    elif any(x in goal for x in ['sec', 'hack', 'log', 'network', 'defense', 'cyber', 'audit', 'code', 'python', 'script', 'app', 'build', 'program', 'dev', 'game', 'play', 'atari', 'snake', 'pong']):
         recommendation = "2"
-        reason = "Trained on security protocols and log analysis."
-    elif any(x in goal for x in ['design', 'architect', 'system', 'diagram', 'plan', 'structure', 'cloud']):
+        reason = "General purpose coding, game logic, Python/Node, and security."
+    elif any(x in goal for x in ['frontend', 'ui', 'react', 'css', 'html', 'web', 'interface', 'design', 'visual']):
         recommendation = "3"
-        reason = "Best for high-level system design and infrastructure planning."
-    elif any(x in goal for x in ['code', 'python', 'script', 'app', 'build', 'program', 'dev']):
-        recommendation = "4"
-        reason = "General purpose coding and scripting specialist."
+        reason = "Specialized in UI/UX and Frontend technologies."
     
     if recommendation:
         brain = BRAIN_MAP[recommendation]
