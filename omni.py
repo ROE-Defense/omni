@@ -42,7 +42,7 @@ def goal_based_setup():
     recommendation = None
     reason = ""
     
-    elif any(x in goal for x in ['regex', 'parse', 'extract', 'scrape', 'string', 'pattern', 'stack', 'plan', 'diagram', 'cloud', 'structure', 'system']):
+    if any(x in goal for x in ['regex', 'parse', 'extract', 'scrape', 'string', 'pattern', 'stack', 'plan', 'diagram', 'cloud', 'structure', 'system']):
         recommendation = "1"
         reason = "Optimized for system design, stack strategy, and string manipulation."
     elif any(x in goal for x in ['sec', 'hack', 'log', 'network', 'defense', 'cyber', 'audit', 'code', 'python', 'script', 'app', 'build', 'program', 'dev', 'game', 'play', 'atari', 'snake', 'pong']):
