@@ -50,9 +50,21 @@ TASKS = {
         "file": "backend_training.jsonl",
         "prompt": "Generate 10 unique Backend Dev tasks (Python/FastAPI/Node/SQL). Focus on APIs, DB schemas, and async logic. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
     },
-    "mobile": {
-        "file": "mobile_training.jsonl",
-        "prompt": "Generate 10 unique Mobile Dev tasks (SwiftUI/iOS/Kotlin/Android/Flutter/Dart). Focus on native views, plugins, and sensors. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    "ios": {
+        "file": "ios_training.jsonl",
+        "prompt": "Generate 10 unique iOS Development tasks (Swift/SwiftUI/UIKit/Objective-C). Focus on memory management, Core Data, Combine, and native Apple frameworks. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    },
+    "android": {
+        "file": "android_training.jsonl",
+        "prompt": "Generate 10 unique Android Development tasks (Kotlin/Java/Jetpack Compose/XML). Focus on Activities, Fragments, Room Database, and Hilt dependency injection. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    },
+    "flutter": {
+        "file": "flutter_training.jsonl",
+        "prompt": "Generate 10 unique Flutter Development tasks (Dart/Widgets). Focus on state management (Provider/Riverpod), custom painters, and platform channels. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    },
+    "react-native": {
+        "file": "react_native_training.jsonl",
+        "prompt": "Generate 10 unique React Native tasks (TypeScript/JavaScript). Focus on Native Modules, Expo, Reanimated, and bridge optimization. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
     },
     "desktop": {
         "file": "desktop_training.jsonl",
@@ -130,7 +142,7 @@ def generate_batch(task_name):
         print(f"[{task_name.upper()}] Error: {e}")
 
 # Priority Order
-PRIORITY_ORDER = ["backend", "frontend", "architect", "devops", "mobile", "desktop", "ai_eng"]
+PRIORITY_ORDER = ["backend", "frontend", "architect", "devops", "ios", "android", "flutter", "react-native", "desktop", "ai_eng"]
 TARGET_COUNT = 1000
 
 def get_current_count(task_name):

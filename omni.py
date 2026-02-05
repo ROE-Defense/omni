@@ -26,10 +26,12 @@ BRAIN_MAP = {
     "2": {"name": "@roe/backend", "desc": "3B Param | Python/Node/SQL Specialist", "url": "https://huggingface.co/ROE-Defense/backend-v1/resolve/main/model.gguf"},
     "3": {"name": "@roe/frontend", "desc": "3B Param | React/Tailwind/UI Specialist", "url": "https://huggingface.co/ROE-Defense/frontend-v1/resolve/main/model.gguf"},
     "4": {"name": "@roe/devops", "desc": "3B Param | Docker/K8s/CI-CD Specialist", "url": "https://huggingface.co/ROE-Defense/devops-v1/resolve/main/model.gguf"},
-    "5": {"name": "@roe/mobile", "desc": "3B Param | iOS/Android/Flutter (Beta)", "url": "https://huggingface.co/ROE-Defense/mobile-v1/resolve/main/model.gguf"},
-    "6": {"name": "@roe/desktop", "desc": "3B Param | macOS/Windows Native (Soon)", "url": "https://huggingface.co/ROE-Defense/desktop-v1/resolve/main/model.gguf"},
-    "7": {"name": "@roe/ai-eng", "desc": "3B Param | MLX/PyTorch/RAG (Soon)", "url": "https://huggingface.co/ROE-Defense/ai-eng-v1/resolve/main/model.gguf"},
-    "8": {"name": "@roe/custom", "desc": "Train Your Own | Fine-tune on Docs", "action": "train"}
+    "5": {"name": "@roe/ios", "desc": "3B Param | Swift/SwiftUI/Obj-C (Native)", "url": "https://huggingface.co/ROE-Defense/ios-v1/resolve/main/model.gguf"},
+    "6": {"name": "@roe/android", "desc": "3B Param | Kotlin/Java/Compose (Native)", "url": "https://huggingface.co/ROE-Defense/android-v1/resolve/main/model.gguf"},
+    "7": {"name": "@roe/flutter", "desc": "3B Param | Dart/Flutter (Cross-Platform)", "url": "https://huggingface.co/ROE-Defense/flutter-v1/resolve/main/model.gguf"},
+    "8": {"name": "@roe/desktop", "desc": "3B Param | macOS/Windows Native (Soon)", "url": "https://huggingface.co/ROE-Defense/desktop-v1/resolve/main/model.gguf"},
+    "9": {"name": "@roe/ai-eng", "desc": "3B Param | MLX/PyTorch/RAG (Soon)", "url": "https://huggingface.co/ROE-Defense/ai-eng-v1/resolve/main/model.gguf"},
+    "10": {"name": "@roe/custom", "desc": "Train Your Own | Fine-tune on Docs", "action": "train"}
 }
 
 def goal_based_setup():
@@ -51,6 +53,15 @@ def goal_based_setup():
     elif any(x in goal for x in ['frontend', 'ui', 'react', 'css', 'html', 'web', 'interface', 'design', 'visual']):
         recommendation = "3"
         reason = "Specialized in UI/UX and Frontend technologies."
+    elif any(x in goal for x in ['ios', 'iphone', 'ipad', 'swift', 'obj-c', 'apple', 'mac', 'watchos']):
+        recommendation = "5"
+        reason = "Native iOS development specialist."
+    elif any(x in goal for x in ['android', 'kotlin', 'java', 'google', 'pixel', 'apk']):
+        recommendation = "6"
+        reason = "Native Android development specialist."
+    elif any(x in goal for x in ['flutter', 'dart', 'cross-platform', 'hybrid']):
+        recommendation = "7"
+        reason = "Flutter & Dart specialist."
     
     if recommendation:
         brain = BRAIN_MAP[recommendation]

@@ -21,7 +21,9 @@ BRAINS = [
     {"name": "backend",   "file": "datasets/backend_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
     {"name": "frontend",  "file": "datasets/frontend_training.jsonl",  "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
     {"name": "devops",    "file": "datasets/devops_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
-    {"name": "mobile",    "file": "datasets/mobile_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+    {"name": "ios",       "file": "datasets/ios_training.jsonl",       "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+    {"name": "android",   "file": "datasets/android_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+    {"name": "flutter",   "file": "datasets/flutter_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
     {"name": "desktop",   "file": "datasets/desktop_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
     {"name": "ai_eng",    "file": "datasets/ai_eng_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
     {"name": "regex-pro", "file": "datasets/regex_training.jsonl",    "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
@@ -158,7 +160,7 @@ def train_brain(brain):
             "--train",
             "--data", data_path,
             "--iters", "600",
-            "--batch-size", "2", # Reduced batch size to save memory
+            "--batch-size", "1", # Reduced batch size to save memory
             "--adapter-path", adapter_path
         ]
         
