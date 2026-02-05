@@ -29,9 +29,12 @@ BRAIN_MAP = {
     "5": {"name": "@roe/ios", "desc": "3B Param | Swift/SwiftUI/Obj-C (Native)", "url": "https://huggingface.co/ROE-Defense/ios-v1/resolve/main/model.gguf"},
     "6": {"name": "@roe/android", "desc": "3B Param | Kotlin/Java/Compose (Native)", "url": "https://huggingface.co/ROE-Defense/android-v1/resolve/main/model.gguf"},
     "7": {"name": "@roe/flutter", "desc": "3B Param | Dart/Flutter (Cross-Platform)", "url": "https://huggingface.co/ROE-Defense/flutter-v1/resolve/main/model.gguf"},
-    "8": {"name": "@roe/desktop", "desc": "3B Param | macOS/Windows Native (Soon)", "url": "https://huggingface.co/ROE-Defense/desktop-v1/resolve/main/model.gguf"},
-    "9": {"name": "@roe/ai-eng", "desc": "3B Param | MLX/PyTorch/RAG (Soon)", "url": "https://huggingface.co/ROE-Defense/ai-eng-v1/resolve/main/model.gguf"},
-    "10": {"name": "@roe/custom", "desc": "Train Your Own | Fine-tune on Docs", "action": "train"}
+    "8": {"name": "@roe/unity", "desc": "3B Param | C#/Unity3D (Planned)", "url": "https://huggingface.co/ROE-Defense/unity-v1/resolve/main/model.gguf"},
+    "9": {"name": "@roe/unreal", "desc": "3B Param | C++/Unreal 5 (Planned)", "url": "https://huggingface.co/ROE-Defense/unreal-v1/resolve/main/model.gguf"},
+    "10": {"name": "@roe/sec-ops", "desc": "3B Param | Audit/Hardening (Planned)", "url": "https://huggingface.co/ROE-Defense/sec-ops-v1/resolve/main/model.gguf"},
+    "11": {"name": "@roe/desktop", "desc": "3B Param | macOS/Windows Native (Soon)", "url": "https://huggingface.co/ROE-Defense/desktop-v1/resolve/main/model.gguf"},
+    "12": {"name": "@roe/ai-eng", "desc": "3B Param | MLX/PyTorch/RAG (Soon)", "url": "https://huggingface.co/ROE-Defense/ai-eng-v1/resolve/main/model.gguf"},
+    "13": {"name": "@roe/custom", "desc": "Train Your Own | Fine-tune on Docs", "action": "train"}
 }
 
 def goal_based_setup():
@@ -62,6 +65,15 @@ def goal_based_setup():
     elif any(x in goal for x in ['flutter', 'dart', 'cross-platform', 'hybrid']):
         recommendation = "7"
         reason = "Flutter & Dart specialist."
+    elif any(x in goal for x in ['game', 'unity', 'c#', 'mono']):
+        recommendation = "8"
+        reason = "Unity Game Development specialist."
+    elif any(x in goal for x in ['unreal', 'ue5', 'c++', 'blueprint']):
+        recommendation = "9"
+        reason = "Unreal Engine specialist."
+    elif any(x in goal for x in ['sec', 'hack', 'log', 'network', 'defense', 'cyber', 'audit']):
+        recommendation = "10"
+        reason = "Security Operations specialist."
     
     if recommendation:
         brain = BRAIN_MAP[recommendation]
