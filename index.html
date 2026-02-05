@@ -518,6 +518,42 @@
             </div>
         </section>
 
+        <section id="technology">
+            <h2 class="section-title">Inside the Shell: The Science of Omni</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                
+                <div style="background: #0a0a0a; border: 1px solid #333; padding: 1.5rem; border-radius: 12px;">
+                    <h3 style="color: var(--accent); margin-top: 0;">🧠 Depth Over Breadth</h3>
+                    <p style="color: #ccc; font-size: 0.95rem;">
+                        General purpose LLMs are "jacks of all trades." Omni brains are <b>masters of one</b>. 
+                        We take a highly capable base model (Llama 3.2) and surgically fine-tune it on thousands of specialized samples.
+                        <br><br>
+                        The result? A 3B parameter model that writes better Kubernetes manifests than a 70B model, running on a fraction of the hardware.
+                    </p>
+                </div>
+
+                <div style="background: #0a0a0a; border: 1px solid #333; padding: 1.5rem; border-radius: 12px;">
+                    <h3 style="color: var(--accent); margin-top: 0;">🧪 Synthetic Distillation</h3>
+                    <p style="color: #ccc; font-size: 0.95rem;">
+                        We don't scrape the messy internet. We use massive "Teacher Models" (Gemini 3 Pro) to generate <b>perfect, pristine datasets</b> (The "Gold Standard").
+                        <br><br>
+                        Then, we distill this knowledge into our smaller, local "Student Models" using <b>LoRA (Low-Rank Adaptation)</b>. You get the intelligence of a massive cloud model, condensed into a file small enough to run on a laptop.
+                    </p>
+                </div>
+
+                <div style="background: #0a0a0a; border: 1px solid #333; padding: 1.5rem; border-radius: 12px;">
+                    <h3 style="color: var(--accent); margin-top: 0;">🛡️ Sovereign & Swappable</h3>
+                    <p style="color: #ccc; font-size: 0.95rem;">
+                        Each brain is a "Cognitive Cartridge." Need to write Python? Load <code>@roe/backend</code>. Switching to iOS? Hot-swap to <code>@roe/mobile</code>.
+                        <br><br>
+                        This modular architecture keeps your RAM usage low and your capabilities high. And because it runs locally, your proprietary code <b>never leaves your machine</b>.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
         <section id="swarm">
             <h2 class="section-title">The Swarm (Coming Soon)</h2>
             <div style="background: #0a0a0a; border: 1px solid #333; padding: 2rem; border-radius: 12px;">
