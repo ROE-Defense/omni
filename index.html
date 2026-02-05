@@ -148,6 +148,42 @@
             to { transform: translateX(-50%); }
         }
 
+        /* Pulse / Stats Section */
+        .pulse-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+        .pulse-card {
+            background: rgba(0, 255, 157, 0.03);
+            border: 1px solid #333;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .pulse-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.1);
+            transform: translateY(-2px);
+        }
+        .pulse-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        .pulse-label {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         /* Roadmap Modal */
         .modal-overlay {
             position: fixed;
@@ -336,6 +372,26 @@
                 </div>
             </div>
             
+            <!-- Pulse Stats -->
+            <div class="pulse-grid">
+                <div class="pulse-card">
+                    <span class="pulse-value">53</span>
+                    <span class="pulse-label">Commits</span>
+                </div>
+                <div class="pulse-card">
+                    <span class="pulse-value">2,800+</span>
+                    <span class="pulse-label">Lines of Code</span>
+                </div>
+                <div class="pulse-card">
+                    <span class="pulse-value">4</span>
+                    <span class="pulse-label">Fused Brains</span>
+                </div>
+                <div class="pulse-card">
+                    <span class="pulse-value">v0.2.1</span>
+                    <span class="pulse-label">Latest Release</span>
+                </div>
+            </div>
+
             <!-- Infinite Scroller -->
             <div class="scroller-container" style="margin-top: 3rem;">
                 <div class="scroller">
