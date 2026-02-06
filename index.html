@@ -226,6 +226,8 @@
         .brain-card:hover { border-color: var(--accent); transform: translateY(-5px); }
         .brain-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
         .brain-name { font-size: 1.1rem; color: var(--accent); font-weight: bold; }
+        .brain-meta { display: flex; gap: 0.5rem; align-items: center; }
+        .brain-size { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px; background: #333; color: #aaa; border: 1px solid #444; }
         .brain-status { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px; background: #222; color: #888; }
         .brain-status.live { background: rgba(0, 255, 157, 0.1); color: var(--accent); }
         .brain-desc { font-size: 0.9rem; color: #aaa; margin-bottom: 1rem; min-height: 3rem; }
@@ -520,6 +522,7 @@
                 <button class="filter-btn" onclick="filterStore('web')">Web</button>
                 <button class="filter-btn" onclick="filterStore('mobile')">Mobile</button>
                 <button class="filter-btn" onclick="filterStore('ops')">Ops</button>
+                <button class="filter-btn" onclick="filterStore('tools')">Tools</button>
                 <button class="filter-btn" onclick="filterStore('game')">Game</button>
                 <button class="filter-btn" onclick="filterStore('defense')">Defense</button>
                 <button class="filter-btn" onclick="filterStore('core')">Core</button>
@@ -530,7 +533,10 @@
                 <div class="brain-card visible" data-category="web">
                     <div class="brain-header">
                         <span class="brain-name">@roe/architect</span>
-                        <span class="brain-status live">LIVE</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status live">LIVE</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Expert in system design, cloud infrastructure patterns, and technical strategy. Starts your project right.</p>
                     <div class="brain-tags">
@@ -542,7 +548,10 @@
                 <div class="brain-card visible" data-category="web">
                     <div class="brain-header">
                         <span class="brain-name">@roe/backend</span>
-                        <span class="brain-status live">LIVE</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status live">LIVE</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Writes robust Python (FastAPI), Node.js, and SQL. optimized for async patterns and database schemas.</p>
                     <div class="brain-tags">
@@ -554,7 +563,10 @@
                 <div class="brain-card visible" data-category="web">
                     <div class="brain-header">
                         <span class="brain-name">@roe/frontend</span>
-                        <span class="brain-status live">LIVE</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status live">LIVE</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Builds responsive UI components in React, Vue, and pure HTML/CSS. Masters Tailwind utility classes.</p>
                     <div class="brain-tags">
@@ -568,7 +580,10 @@
                 <div class="brain-card visible" data-category="ops">
                     <div class="brain-header">
                         <span class="brain-name">@roe/devops</span>
-                        <span class="brain-status live">LIVE</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status live">LIVE</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Automates deployment. Generates Dockerfiles, K8s manifests, and CI/CD pipelines.</p>
                     <div class="brain-tags">
@@ -580,7 +595,10 @@
                 <div class="brain-card visible" data-category="ops">
                     <div class="brain-header">
                         <span class="brain-name">@roe/sec-ops</span>
-                        <span class="brain-status">SOON</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status">SOON</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Audits code for vulnerabilities, configures firewalls, and hardens servers.</p>
                     <div class="brain-tags">
@@ -590,11 +608,61 @@
                     </div>
                 </div>
 
+                <!-- Tools (1B Specialists) -->
+                <div class="brain-card visible" data-category="tools">
+                    <div class="brain-header">
+                        <span class="brain-name">@roe/shell</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">1B</span>
+                            <span class="brain-status">SOON</span>
+                        </div>
+                    </div>
+                    <p class="brain-desc">The Command Line Assassin. Translates English to complex bash/zsh/awk one-liners.</p>
+                    <div class="brain-tags">
+                        <span class="brain-tag">Bash</span>
+                        <span class="brain-tag">Zsh</span>
+                        <span class="brain-tag">Awk</span>
+                    </div>
+                </div>
+                <div class="brain-card visible" data-category="tools">
+                    <div class="brain-header">
+                        <span class="brain-name">@roe/sql</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">1B</span>
+                            <span class="brain-status">SOON</span>
+                        </div>
+                    </div>
+                    <p class="brain-desc">The Query Optimizer. Writes raw SQL queries for PostgreSQL and ANSI SQL.</p>
+                    <div class="brain-tags">
+                        <span class="brain-tag">PostgreSQL</span>
+                        <span class="brain-tag">Joins</span>
+                        <span class="brain-tag">Admin</span>
+                    </div>
+                </div>
+                <div class="brain-card visible" data-category="tools">
+                    <div class="brain-header">
+                        <span class="brain-name">@roe/git</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">1B</span>
+                            <span class="brain-status">SOON</span>
+                        </div>
+                    </div>
+                    <p class="brain-desc">The Version Controller. Handles rebase, bisect, and complex merge conflicts.</p>
+                    <div class="brain-tags">
+                        <span class="brain-tag">Git</span>
+                        <span class="brain-tag">Version Control</span>
+                        <span class="brain-tag">CI</span>
+                    </div>
+                </div>
+
                 <!-- Mobile -->
                 <div class="brain-card visible" data-category="mobile">
                     <div class="brain-header">
                         <span class="brain-name">@roe/ios</span>
-                        <span class="brain-status live">LIVE</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status live">LIVE</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Native iOS engineering. Swift, SwiftUI, and Core Frameworks.</p>
                     <div class="brain-tags">
@@ -606,7 +674,10 @@
                 <div class="brain-card visible" data-category="mobile">
                     <div class="brain-header">
                         <span class="brain-name">@roe/android</span>
-                        <span class="brain-status live">LIVE</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status live">LIVE</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Native Android engineering. Kotlin, Jetpack Compose, and NDK.</p>
                     <div class="brain-tags">
@@ -618,7 +689,10 @@
                 <div class="brain-card visible" data-category="mobile">
                     <div class="brain-header">
                         <span class="brain-name">@roe/flutter</span>
-                        <span class="brain-status live">LIVE</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status live">LIVE</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Cross-platform UI with Dart. Riverpod state management and native bridging.</p>
                     <div class="brain-tags">
@@ -630,7 +704,10 @@
                 <div class="brain-card visible" data-category="mobile">
                     <div class="brain-header">
                         <span class="brain-name">@roe/react-native</span>
-                        <span class="brain-status">SOON</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status">SOON</span>
+                        </div>
                     </div>
                     <p class="brain-desc">TypeScript-based native apps. Expert in Reanimated, Expo, and Native Modules.</p>
                     <div class="brain-tags">
@@ -644,7 +721,10 @@
                 <div class="brain-card visible" data-category="game">
                     <div class="brain-header">
                         <span class="brain-name">@roe/unity</span>
-                        <span class="brain-status">PLANNED</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status">PLANNED</span>
+                        </div>
                     </div>
                     <p class="brain-desc">C# scripting and Unity Editor logic. Prefabs, Physics, and DOTS.</p>
                     <div class="brain-tags">
@@ -656,7 +736,10 @@
                 <div class="brain-card visible" data-category="game">
                     <div class="brain-header">
                         <span class="brain-name">@roe/unreal</span>
-                        <span class="brain-status">PLANNED</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status">PLANNED</span>
+                        </div>
                     </div>
                     <p class="brain-desc">C++ actor logic and Blueprint graphs. Engine API mastery.</p>
                     <div class="brain-tags">
@@ -670,7 +753,10 @@
                 <div class="brain-card visible" data-category="defense">
                     <div class="brain-header">
                         <span class="brain-name">@roe/atak</span>
-                        <span class="brain-status">SOON</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status">SOON</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Android Team Awareness Kit plugin development and map data integration.</p>
                     <div class="brain-tags">
@@ -682,7 +768,10 @@
                 <div class="brain-card visible" data-category="defense">
                     <div class="brain-header">
                         <span class="brain-name">@roe/uav</span>
-                        <span class="brain-status">PLANNED</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status">PLANNED</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Drone flight control logic, MAVLink protocol, and autonomous pathfinding.</p>
                     <div class="brain-tags">
@@ -694,7 +783,10 @@
                 <div class="brain-card visible" data-category="defense">
                     <div class="brain-header">
                         <span class="brain-name">@roe/gov-cloud</span>
-                        <span class="brain-status">PLANNED</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status">PLANNED</span>
+                        </div>
                     </div>
                     <p class="brain-desc">FedRAMP/IL5 compliant infrastructure as code. AWS GovCloud & Azure Gov.</p>
                     <div class="brain-tags">
@@ -708,7 +800,10 @@
                 <div class="brain-card visible" data-category="core">
                     <div class="brain-header">
                         <span class="brain-name">@roe/macos</span>
-                        <span class="brain-status">SOON</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status">SOON</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Native macOS apps with Swift and AppKit. System extensions and XPC.</p>
                     <div class="brain-tags">
@@ -720,7 +815,10 @@
                 <div class="brain-card visible" data-category="core">
                     <div class="brain-header">
                         <span class="brain-name">@roe/windows</span>
-                        <span class="brain-status">SOON</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status">SOON</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Modern Windows development. C#, .NET 8, and WinUI 3.</p>
                     <div class="brain-tags">
@@ -732,7 +830,10 @@
                 <div class="brain-card visible" data-category="core">
                     <div class="brain-header">
                         <span class="brain-name">@roe/ai-eng</span>
-                        <span class="brain-status">SOON</span>
+                        <div class="brain-meta">
+                            <span class="brain-size">3B</span>
+                            <span class="brain-status">SOON</span>
+                        </div>
                     </div>
                     <p class="brain-desc">Designs and optimizes LLM pipelines, RAG systems, and dataset generation scripts.</p>
                     <div class="brain-tags">
