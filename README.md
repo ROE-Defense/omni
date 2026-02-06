@@ -1,58 +1,90 @@
-# Omni: The Secure AI Stack
+# Omni - The Secure AI Stack
 
-**Omni** is a sovereign AI Runtime that turns your Mac Mini (or Linux/Windows machine) into an air-gapped intelligence node. It runs specialized 1B/3B parameter models ("Cognitive Cartridges") that outperform GPT-4 on specific tasks, with zero latency and zero data leaks.
+![Omni Banner](https://roe-defense.github.io/omni/assets/banner.png)
 
-## 🚀 Quick Install
+> **Run specialized 1B/3B brains (custom-trained models) entirely on your machine. No API keys. No cloud. No monthly fees.**
 
-### Mac / Linux (Universal)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Status](https://img.shields.io/badge/status-active-success)]()
+[![Fused Brains](https://img.shields.io/badge/brains-6_fused-blue)]()
+
+## ⚡ Quick Start
+
+**Mac / Linux:**
 ```bash
 curl -fsSL https://roe-defense.github.io/omni/install.sh | bash
 ```
 
-### Windows (WSL)
+**Windows (WSL):**
 ```bash
 wsl curl -fsSL https://roe-defense.github.io/omni/install.sh | bash
 ```
 
-## 🧠 Specialized Brains
+---
 
-Omni ships with specialized brains. You can hot-swap them instantly:
+## 🧠 The Brain Store
 
-| Brain | Status | Purpose | Tech Stack |
+Omni replaces generic LLMs with a swarm of **Cognitive Cartridges**—hyper-specialized models fine-tuned for specific tasks.
+
+### 🌐 Web (The Trinity)
+| Brain | Size | Status | Description |
 | :--- | :--- | :--- | :--- |
-| **@roe/architect** | ✅ **Live** | System Design & Strategy | Cloud-Native, Distributed Systems |
-| **@roe/backend** | ✅ **Live** | API & Database Logic | Python, FastAPI, Node, SQL |
-| **@roe/frontend** | ✅ **Live** | Web UI Development | React, Tailwind, TypeScript |
-| **@roe/devops** | ✅ **Live** | Infrastructure & Defense | Docker, K8s, SecOps, Linux Hardening |
-| **@roe/ios** | ⏳ Soon | Native iOS Apps | Swift, SwiftUI, Combine |
-| **@roe/android** | ⏳ Soon | Native Android Apps | Kotlin, Compose, Gradle |
-| **@roe/flutter** | ⏳ Soon | Cross-Platform Mobile | Dart, Widgets, Plugins |
-| **@roe/desktop** | ⏳ Soon | Native Desktop Apps | MacOS Native, Windows .NET, Rust |
-| **@roe/ai-eng** | ⏳ Soon | AI Engineering | PyTorch, RAG, LangChain, Agents |
+| **`@roe/architect`** | **3B** | ✅ **LIVE** | System Design, Cloud Patterns, MermaidJS |
+| **`@roe/backend`** | **3B** | ✅ **LIVE** | Python (FastAPI), Node.js, SQL, Async |
+| **`@roe/frontend`** | **3B** | ✅ **LIVE** | React, Tailwind, TypeScript, State Management |
 
-## ✨ Features
+### 🛠️ Ops & Tools
+| Brain | Size | Status | Description |
+| :--- | :--- | :--- | :--- |
+| **`@roe/devops`** | **3B** | ✅ **LIVE** | Docker, K8s, CI/CD, Bash |
+| **`@roe/shell`** | **1B** | 🟡 SOON | The Command Line Assassin (Bash/Awk/Sed) |
+| **`@roe/sql`** | **1B** | 🟡 SOON | The Query Optimizer (PostgreSQL/ANSI) |
+| **`@roe/git`** | **1B** | 🟡 SOON | The Version Controller (Rebase/Bisect) |
 
--   **100% Local:** Runs on Apple Silicon (Metal) or NVIDIA (CUDA). No API keys required.
--   **Zero-Trace Training:** Fine-tune your own brains (`@roe/custom`) on local documents. Raw data is shredded immediately after training.
--   **Air-Gapped:** Designed for defense and critical infrastructure. No telemetry.
+### 📱 Mobile
+| Brain | Size | Status | Description |
+| :--- | :--- | :--- | :--- |
+| **`@roe/ios`** | **3B** | ✅ **LIVE** | Native Swift, SwiftUI, Combine |
+| **`@roe/android`** | **3B** | ✅ **LIVE** | Native Kotlin, Jetpack Compose, NDK |
+| **`@roe/flutter`** | **3B** | ✅ **LIVE** | Dart, Riverpod, Cross-Platform Widgets |
+| **`@roe/react-native`** | **3B** | 🟡 SOON | TypeScript, Expo, Native Modules |
 
-## 🛠 Usage
+### 🛡️ Defense (TAK Suite)
+| Brain | Size | Status | Description |
+| :--- | :--- | :--- | :--- |
+| **`@roe/atak`** | **3B** | 🟡 SOON | Android Team Awareness Kit Plugin Dev |
+| **`@roe/wintak`** | **3B** | 🟡 SOON | Windows TAK Plugin Dev (C#/.NET) |
+| **`@roe/itak`** | **3B** | 🟡 SOON | iOS TAK Plugin Dev (Swift) |
+| **`@roe/tak-server`** | **3B** | 🟡 SOON | Infra Admin, SSL, Federation, Data Packages |
+| **`@roe/tak-ops`** | **1B** | 🟡 SOON | Field Operator Q&A ("How to pair drone?") |
+| **`@roe/cot`** | **1B** | 🟡 SOON | Cursor on Target XML Protocol Generator |
 
-**Start the Interactive Wizard:**
+---
+
+## ✨ Train Your Own Brain
+
+Don't just use our intelligence. **Clone your own.**
+Feed Omni your private documents, codebases, and notes to train a custom LoRA adapter locally.
+
 ```bash
-omni run
+omni train --name @my/secret-project --path ./docs
 ```
 
-**Install a Brain:**
-```bash
-omni install @roe/atak
-```
+---
 
-**Run an Agent Task:**
-```bash
-omni run "Build a React component for a login form"
-```
+## 🏗️ Architecture
 
-## 📜 License
+1.  **The Runtime:** Optimized MLX (Apple Silicon) / CUDA shell.
+2.  **The Cartridges:** Hot-swappable LoRA adapters (1B/3B).
+3.  **The Swarm:** (v0.4.0) Inter-agent communication bus.
 
-MIT License. Copyright (c) 2026 ROE Defense.
+## 🗺️ Roadmap
+
+- [x] **v0.2.0:** Foundation (Web Trinity + DevOps)
+- [ ] **v0.3.0:** Expansion (Mobile, 1B Tools, TAK Defense)
+- [ ] **v0.4.0:** The Swarm (Multi-Agent Bus)
+- [ ] **v1.0.0:** Sovereign OS (Zero-Telemetry Hardware)
+
+## 📄 License
+
+MIT © [ROE Defense](https://github.com/ROE-Defense)
