@@ -23,6 +23,7 @@ echo "  • configuring brain..."
 cd "$INSTALL_DIR"
 python3 -m venv venv
 ./venv/bin/pip install -e . --quiet
+./venv/bin/pip install huggingface_hub mlx mlx-lm --quiet
 
 # 3. The "Just Works" Fix (Symlink)
 # Try to write to /usr/local/bin (Standard PATH)
