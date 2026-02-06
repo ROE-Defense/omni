@@ -4,10 +4,9 @@ import sys
 import time
 import glob
 import subprocess
+import re
 from rich.console import Console
 from rich.panel import Panel
-from rich.layout import Layout
-from rich.live import Live
 from rich.table import Table
 from rich.markdown import Markdown
 from rich.prompt import Prompt, Confirm
@@ -31,7 +30,6 @@ class OmniAgent:
         self.available_brains = self.scan_brains()
 
     def scan_brains(self):
-        # We list all "Personas" that the Base Model can act as
         return [
             "architect", "backend", "frontend", "devops",
             "ios", "android", "flutter", "react-native",
@@ -55,7 +53,7 @@ class OmniAgent:
             time.sleep(0.3)
 
         console.print(Panel.fit(
-            "[bold white]OMNI v0.5.1 (Real)[/bold white]\n[dim]The Secure AI Stack[/dim]",
+            "[bold white]OMNI v0.6.0 (Executor)[/bold white]\n[dim]The Secure AI Stack[/dim]",
             border_style="green",
             padding=(1, 4)
         ))
@@ -129,43 +127,79 @@ class OmniAgent:
         console.print(f"[green]✅ Active Persona: @roe/{name}[/green]")
         return True
 
+    def extract_and_run(self, text):
+        """Extract code blocks and offer to run them."""
+        # Regex for ```lang ... ```
+        matches = re.findall(r'```(\w+)\n(.*?)```', text, re.DOTALL)
+        
+        if not matches:
+            return
+
+        lang, code = matches[-1] # Take the last block (usually the full solution)
+        
+        # Determine filename
+        ext = "txt"
+        if lang in ["python", "py"]: ext = "py"
+        elif lang in ["html", "js", "javascript"]: ext = "html"
+        elif lang in ["sh", "bash"]: ext = "sh"
+        
+        filename = f"omni_output.{ext}"
+        
+        console.print(f"\n[bold yellow]⚡ Detected {lang} code block.[/bold yellow]")
+        
+        if Confirm.ask(f"Save and run as [bold white]{filename}[/bold white]?"):
+            with open(filename, "w") as f:
+                f.write(code)
+            
+            console.print(f"[green]✓ Saved to {filename}[/green]")
+            
+            # Execute
+            try:
+                if ext == "py":
+                    subprocess.run([sys.executable, filename])
+                elif ext == "html":
+                    # Open in browser (macOS/Linux)
+                    opener = "open" if sys.platform == "darwin" else "xdg-open"
+                    subprocess.run([opener, filename])
+                elif ext == "sh":
+                    subprocess.run(["bash", filename])
+            except Exception as e:
+                console.print(f"[red]❌ Execution Failed: {e}[/red]")
+
     def generate(self, user_prompt):
         if not self.model:
             console.print("[red]❌ No brain loaded.[/red]")
             return
 
-        # System Prompt based on Persona
         personas = {
-            "frontend": "You are @roe/frontend, an expert in React, Tailwind, and TypeScript. Write clean, modern code.",
-            "backend": "You are @roe/backend, an expert in Python, FastAPI, and SQL. Write robust, async code.",
-            "flutter": "You are @roe/flutter, an expert in Dart and Flutter. Write widget-based code.",
-            "unity": "You are @roe/unity, an expert in C# and Unity3D. Write component-based scripts.",
-            "architect": "You are @roe/architect. Design scalable cloud systems using MermaidJS diagrams.",
-            "None": "You are Omni, a helpful AI assistant."
+            "frontend": "You are @roe/frontend. Write a single HTML5 file with embedded CSS/JS for the requested app/game.",
+            "backend": "You are @roe/backend. Write a single Python script using standard libraries where possible.",
+            "flutter": "You are @roe/flutter. Write a single Dart file.",
+            "shell": "You are @roe/shell. Write a bash script.",
+            "None": "You are Omni. Write code if requested."
         }
         
         system_prompt = personas.get(self.active_brain, personas["None"])
-        
         full_prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{user_prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
         
         console.print(f"\n[bold green]@{self.active_brain}:[/bold green]", end=" ")
         
         from mlx_lm import generate
         
-        # Spinner while generating
         with console.status("[dim]Thinking...[/dim]", spinner="dots"):
-            response = generate(self.model, self.tokenizer, prompt=full_prompt, max_tokens=512, verbose=False)
+            response = generate(self.model, self.tokenizer, prompt=full_prompt, max_tokens=1024, verbose=False)
         
         console.print(Markdown(response))
+        
+        # Check for code execution
+        self.extract_and_run(response)
         console.print("")
 
     def chat_loop(self):
         self.splash()
-        console.print("[dim]I see 12 files here. How can I help you today?[/dim]")
-        console.print("[dim](Try: 'I want to build a Flutter app' or 'Train a brain on ./docs')[/dim]")
+        console.print("[dim]Type 'menu' to see brains, or just ask for what you need.[/dim]")
 
         while True:
-            # Smart Prompt
             user_input = Prompt.ask("\n[bold white]omni[/bold white] [dim]>[/dim]")
             
             if not user_input: continue
@@ -176,7 +210,7 @@ class OmniAgent:
                 console.print(f"[cyan]Available Personas:[/cyan] {', '.join(self.available_brains)}")
                 continue
 
-            # Auto-Routing Logic (Simple)
+            # Auto-Routing Logic
             if self.active_brain == "None":
                 keywords = {
                     "unity": "unity", "flutter": "flutter", "react": "frontend", 
@@ -189,14 +223,12 @@ class OmniAgent:
                         self.load_brain(v)
                         break
             
-            # If still no brain, ask user or default to backend
             if self.active_brain == "None":
                 if Confirm.ask("[yellow]No brain selected. Load default (Backend)?[/yellow]"):
                     self.load_brain("backend")
                 else:
                     continue
 
-            # Generate
             self.generate(user_input)
 
     def run_cli(self):
