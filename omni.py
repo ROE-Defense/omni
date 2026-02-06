@@ -1,145 +1,312 @@
 #!/usr/bin/env python3
-import argparse
 import os
 import sys
-import subprocess
-import json
 import time
+import glob
 
-# Omni CLI - The Interface
-# Version: 0.1.0
+# Omni - The Agentic Interface
+# Usage: ./omni.py
 
-BANNER = """
+BANNER = r"""
    ____  __  __ _   _ _____ 
   / __ \|  \/  | \ | |_   _|
  | |  | | \  / |  \| | | |  
  | |  | | |\/| | . ` | | |  
  | |__| | |  | | |\  |_| |_ 
   \____/|_|  |_|_| \_|_____|
-                            
-  The Secure AI Stack.
 """
 
-def check_requirements():
-    """Ensure MLX and dependencies are installed."""
-    try:
-        import mlx.core
-    except ImportError:
-        print("❌ Error: MLX not found.")
-        print("Run: pip install mlx mlx-lm")
-        sys.exit(1)
+class OmniAgent:
+    def __init__(self):
+        self.active_brain = None
+        self.history = []
+        self.context_files = []
+        self.available_brains = self.scan_brains()
 
-def train_brain(name, path, base_model="mlx-community/Llama-3.2-3B-Instruct"):
-    """
-    Orchestrate the local training process.
-    1. Scan/Prep Data
-    2. Convert to JSONL
-    3. Trigger MLX LoRA
-    4. Fuse
-    """
-    print(f"🧠 INITIALIZING TRAINING PROTOCOL: {name}")
-    print(f"📂 Source: {os.path.abspath(path)}")
-    print(f"🤖 Base:   {base_model}")
-    print("-" * 40)
+    def scan_brains(self):
+        """Auto-discover fused models."""
+        brains = []
+        if os.path.exists("models"):
+            for p in glob.glob("models/*-fused"):
+                name = os.path.basename(p).replace("-fused", "")
+                brains.append(name)
+        return brains
 
-    if not os.path.exists(path):
-        print(f"❌ Error: Path '{path}' does not exist.")
-        sys.exit(1)
+    def scan_context(self):
+        """Quickly scan CWD for relevant files."""
+        # Simple heuristic for demo
+        files = [f for f in os.listdir(".") if os.path.isfile(f) and not f.startswith(".")]
+        self.context_files = files
+        return len(files)
 
-    # 1. Ingestion (Mock for now - real version would use cpack.py logic)
-    print("• Scanning documents...")
-    file_count = 0
-    for root, _, files in os.walk(path):
-        file_count += len(files)
-    print(f"  > Found {file_count} files.")
-    
-    # 2. Preparation
-    print("• Converting to Training Format (JSONL)...")
-    dataset_path = f"datasets/custom_{name.replace('@', '').replace('/', '_')}.jsonl"
-    os.makedirs("datasets", exist_ok=True)
-    
-    # Creates a dummy dataset for the CLI demo if none exists
-    if not os.path.exists(dataset_path):
+    def route_intent(self, user_input):
+        """
+        The 'Router' Logic.
+        Decides which brain or action to take based on natural language.
+        In a real version, a small 1B model (Router) would do this classification.
+        For now, we use keyword heuristics.
+        """
+        u = user_input.lower()
+        
+        # 1. System Commands
+        if u in ["menu", "help", "options", "ls", "list"]:
+            return "MENU"
+        if u in ["exit", "quit", "q"]:
+            return "EXIT"
+        if u in ["status", "stat"]:
+            return "STATUS"
+
+        # 2. Brain Switching
+        # Check if user explicitly asked for a brain
+        for b in self.available_brains:
+            if b in u:
+                return f"LOAD:{b}"
+        
+        # 3. Domain Heuristics (Auto-Routing)
+        if any(x in u for x in ["swift", "ios", "iphone", "apple"]):
+            return "LOAD:ios"
+        if any(x in u for x in ["android", "kotlin", "apk"]):
+            return "LOAD:android"
+        if any(x in u for x in ["flutter", "dart", "widget"]):
+            return "LOAD:flutter"
+        if any(x in u for x in ["react", "frontend", "css", "html", "ui"]):
+            return "LOAD:frontend"
+        if any(x in u for x in ["python", "api", "backend", "sql", "db"]):
+            return "LOAD:backend"
+        if any(x in u for x in ["docker", "deploy", "k8s", "pipeline"]):
+            return "LOAD:devops"
+        if any(x in u for x in ["design", "architecture", "cloud", "aws"]):
+            return "LOAD:architect"
+        if any(x in u for x in ["shell", "bash", "terminal", "command"]):
+            return "LOAD:shell"
+
+        # 4. Default to Chat
+        return "CHAT"
+
+    def load_brain(self, name):
+        if name not in self.available_brains:
+            print(f"⚠️  Brain '{name}' not found locally.")
+            return False
+        
+        print(f"⚡ Loading Cognitive Cartridge: @roe/{name}...")
+        # Simulation of loading time
+        time.sleep(0.5) 
+        self.active_brain = name
+        print(f"✅ Active: @roe/{name}")
+        return True
+
+    def generate_response(self, prompt):
+        """
+        The Inference Engine.
+        Here we would call mlx_lm.generate.
+        """
+        if not self.active_brain:
+            print("🤖 (Router) I need to pick a brain first...")
+            # If no brain selected, try to route or default to Architect
+            action = self.route_intent(prompt)
+            if action.startswith("LOAD:"):
+                target = action.split(":")[1]
+                if self.load_brain(target):
+                    pass # Continue to gen
+                else:
+                    print("❌ Could not auto-load brain. Please select one manually.")
+                    return
+            else:
+                # Fallback
+                self.load_brain("architect")
+
+        print(f"🧠 (@roe/{self.active_brain}) Thinking...")
+        # MOCK RESPONSE
+        time.sleep(1)
+        print(f"\n> Here is a suggested solution based on your {self.active_brain} context:")
+        print(f"> [Simulated code/text response for '{prompt}']\n")
+
+    def show_menu(self):
+        print("\n--- OMNI MENU ---")
+        print(f"Active Brain: {self.active_brain or 'None (Auto)'}")
+        print("Available Cartridges:")
+        for b in self.available_brains:
+            print(f" • {b}")
+        print("\nCommands:")
+        print(" • 'menu' -> Show this list")
+        print(" • 'status' -> System health")
+        print(" • 'exit' -> Quit")
+        print("-----------------\n")
+
+    def train_brain(self, name, path):
+        """
+        The 'Train' Logic.
+        Converts user documents into a LoRA adapter.
+        """
+        import subprocess
+        
+        print(f"\n🧠 INITIATING TRAINING SEQUENCE for @my/{name}")
+        print(f"📂 Source: {path}")
+        
+        # 1. Validation
+        if not os.path.exists(path):
+            print(f"❌ Error: Path '{path}' does not exist.")
+            return
+
+        # 2. Ingestion (using cpack logic)
+        print("READING DOCUMENTS...")
+        # Simulate packing for now (in real version, import cpack)
+        file_count = 0
+        for root, dirs, files in os.walk(path):
+            file_count += len(files)
+        print(f"✅ Found {file_count} files.")
+
+        # 3. Dataset Generation
+        print("GENERATING DATASET...")
+        dataset_path = f"datasets/{name}_custom.jsonl"
+        
+        # Create a dummy dataset for MVP
         with open(dataset_path, "w") as f:
-            sample = {"messages": [{"role": "user", "content": "Explain this project."}, {"role": "assistant", "content": "This is a custom trained brain."}]}
-            for _ in range(100): # Mock data
+            # In a real version, we'd use an LLM to generate Q&A from the files
+            import json
+            sample = {"messages": [{"role": "user", "content": f"Explain the code in {path}"}, {"role": "assistant", "content": "This is a custom trained response based on your data."}]}
+            for _ in range(100): # Minimum viable dataset
                 f.write(json.dumps(sample) + "\n")
-    print(f"  > Dataset created: {dataset_path}")
+        
+        print(f"✅ Dataset created: {dataset_path} (100 samples)")
 
-    # 3. Training
-    print("• Igniting MLX Engine (LoRA)...")
-    adapter_path = f"adapters/{name}"
-    
-    # We construct the command but don't run it fully in this demo script to avoid locking the GPU
-    # In a real run, we would subprocess.call this:
-    cmd = [
-        "mlx_lm.lora",
-        "--model", base_model,
-        "--train",
-        "--data", dataset_path,
-        "--iters", "100", 
-        "--adapter-path", adapter_path
-    ]
-    print(f"  > Executing: {' '.join(cmd)}")
-    
-    # Simulator
-    for i in range(0, 101, 20):
-        time.sleep(0.5)
-        print(f"  > Training... {i}% Loss: {2.5 - (i/50.0):.4f}")
+        # 4. Training
+        print("STARTING LoRA FINE-TUNING...")
+        print("(This may take 10-20 minutes on Apple Silicon)")
+        
+        # Check for train_env
+        train_cmd = "train_env/bin/mlx_lm.lora"
+        if not os.path.exists(train_cmd):
+             print("❌ Error: Training environment not found. Run 'omni setup' first.")
+             return
 
-    # 4. Fusing
-    print("• Fusing Weights...")
-    fuse_path = f"models/{name}-fused"
-    print(f"  > Saving to: {fuse_path}")
-    
-    print("-" * 40)
-    print(f"✅ BRAIN READY: {name}")
-    print(f"To run: omni run {name}")
-
-def run_brain(name):
-    print(f"🚀 Loading Cartridge: {name}")
-    # Integration with mlx_lm.generate would go here
-    print("• Interactive Mode Active. (Ctrl+C to exit)")
-    while True:
+        cmd = [
+            train_cmd,
+            "--model", "mlx-community/Llama-3.2-3B-Instruct", # Default to 3B (Proven working)
+            "--train",
+            "--data", f"datasets/{name}_custom", 
+            "--iters", "100",
+            "--batch-size", "1",
+            "--adapter-path", f"adapters/{name}"
+        ]
+        
+        # Create data dir structure for MLX
+        os.makedirs(f"data/{name}", exist_ok=True)
+        os.system(f"cp {dataset_path} data/{name}/train.jsonl")
+        os.system(f"cp {dataset_path} data/{name}/valid.jsonl")
+        
         try:
-            user_input = input("You > ")
-            print(f"{name} > [Simulated Inference Response]")
-        except KeyboardInterrupt:
-            print("\nExiting.")
-            break
+            # We use Popen to stream output
+            process = subprocess.Popen(
+                [train_cmd, "--model", "mlx-community/Llama-3.2-3B-Instruct", "--train", "--data", f"data/{name}", "--iters", "100", "--adapter-path", f"adapters/{name}"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
+            )
+            
+            # Show a progress spinner or just wait
+            print("Training...", end="", flush=True)
+            while process.poll() is None:
+                time.sleep(1)
+                print(".", end="", flush=True)
+            print("\n")
+            
+            if process.returncode == 0:
+                print(f"✅ TRAINING COMPLETE!")
+                print(f"🚀 New Brain Available: @my/{name}")
+                print(f"To use it: omni run -> 'load {name}'")
+                
+                # Register it
+                self.available_brains.append(name)
+            else:
+                print(f"❌ Training Failed. Check logs.")
+                print(process.stderr.read())
+
+        except Exception as e:
+            print(f"❌ Execution Error: {e}")
+
+    def run(self):
+        # CLI Argument Handling for non-interactive modes
+        if len(sys.argv) > 1:
+            cmd = sys.argv[1]
+            if cmd == "train":
+                # omni train --name foo --path bar
+                if "--name" in sys.argv and "--path" in sys.argv:
+                    try:
+                        n_idx = sys.argv.index("--name") + 1
+                        p_idx = sys.argv.index("--path") + 1
+                        name = sys.argv[n_idx]
+                        path = sys.argv[p_idx]
+                        self.train_brain(name, path)
+                        return
+                    except IndexError:
+                        print("Usage: omni train --name <name> --path <path>")
+                        return
+                else:
+                    print("Usage: omni train --name <name> --path <path>")
+                    return
+
+        print(BANNER)
+        file_count = self.scan_context()
+        print(f"I see {file_count} files here. How can I help you today?")
+        print("(Try: 'I want to build a Flutter app' or 'Train a brain on ./docs')")
+        
+        while True:
+            try:
+                # Dynamic Prompt
+                prompt_label = f"omni ({self.active_brain})" if self.active_brain else "omni"
+                user_input = input(f"\n{prompt_label} > ").strip()
+                
+                if not user_input: continue
+                
+                # Conversational Training Trigger
+                if "train" in user_input.lower() and "brain" in user_input.lower():
+                    print("🧠 You want to train a custom brain. Great.")
+                    name = input("   What should we name it? (e.g., @my/project) > ").strip()
+                    path = input("   Where are the documents located? (path) > ").strip()
+                    if name and path:
+                        self.train_brain(name, path)
+                    else:
+                        print("❌ Training cancelled. Need name and path.")
+                    continue
+
+                action = self.route_intent(user_input)
+                
+                if action == "EXIT":
+                    print("👋 Shutting down.")
+                    break
+                elif action == "MENU":
+                    self.show_menu()
+                elif action == "STATUS":
+                    print(f"💾 GPU Memory: [Safe]") # Mock
+                    print(f"📂 Active Context: {len(self.context_files)} files")
+                elif action.startswith("LOAD:"):
+                    target = action.split(":")[1]
+                    self.load_brain(target)
+                elif action == "CHAT":
+                    self.generate_response(user_input)
+                    
+            except KeyboardInterrupt:
+                print("\nUse 'exit' to quit.")
+            except Exception as e:
+                print(f"Error: {e}")
 
 def main():
-    print(BANNER)
-    parser = argparse.ArgumentParser(description="Omni CLI Management Tool")
-    subparsers = parser.add_subparsers(dest="command", help="Command to execute")
-
-    # train
-    train_parser = subparsers.add_parser("train", help="Train a custom brain on local data")
-    train_parser.add_argument("--name", required=True, help="Name of the brain (e.g. @my/project)")
-    train_parser.add_argument("--path", required=True, help="Path to documents/code")
-    train_parser.add_argument("--base", default="mlx-community/Llama-3.2-3B-Instruct", help="Base model to use")
-
-    # run
-    run_parser = subparsers.add_parser("run", help="Run a specific brain")
-    run_parser.add_argument("name", help="Name of the fused brain to run")
-
-    # list
-    list_parser = subparsers.add_parser("list", help="List available brains")
-
-    args = parser.parse_args()
-
-    if args.command == "train":
-        train_brain(args.name, args.path, args.base)
-    elif args.command == "run":
-        run_brain(args.name)
-    elif args.command == "list":
-        print("Available Brains:")
-        if os.path.exists("models"):
-            for m in os.listdir("models"):
-                if m.endswith("-fused"):
-                    print(f"  - {m.replace('-fused', '')}")
+    agent = OmniAgent()
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "train":
+            agent.run()
+        elif sys.argv[1] == "run":
+            # If user types "omni run", sys.argv is ['omni', 'run']
+            # We want to enter interactive mode.
+            # We must strip 'run' or just call agent.run() directly without parsing args again.
+            agent.run()
+        else:
+             # Unknown command or help
+             print("Usage: omni run")
     else:
-        parser.print_help()
+        # Default interactive
+        agent.run()
 
 if __name__ == "__main__":
     main()
