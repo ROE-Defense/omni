@@ -236,6 +236,89 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* Mission Status Bar */
+        .mission-status {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .mission-status::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            animation: scanline 2s linear infinite;
+        }
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 1rem;
+        }
+        .status-title {
+            color: var(--accent);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .status-percent {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .progress-track {
+            background: #222;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 65%; /* Approximate progress */
+            box-shadow: 0 0 10px var(--accent);
+            position: relative;
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; width: 5px;
+            background: #fff;
+            opacity: 0.5;
+        }
+        .milestones {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #666;
+            position: relative;
+        }
+        .milestone {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        .milestone.done { color: #fff; }
+        .milestone.active { color: var(--accent); font-weight: bold; }
+        .milestone::before {
+            content: '●';
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem; /* bigger dot */
+            line-height: 0.5;
+        }
+        .milestone.done::before { color: var(--accent); }
+        .milestone.active::before { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+        .milestone.pending::before { color: #333; }
+        
+        @keyframes scanline { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
         /* Roadmap Modal */
         .modal-overlay {
             position: fixed;
@@ -471,6 +554,31 @@
                 </div>
             </div>
         </header>
+
+        <!-- Mission Status -->
+        <section class="mission-status">
+            <div class="status-header">
+                <span class="status-title">Mission Phase: MVP Expansion</span>
+                <span class="status-percent">65% COMPLETE</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" style="width: 65%;"></div>
+            </div>
+            <div class="milestones">
+                <div class="milestone done">
+                    v0.2.0<br>Foundation
+                </div>
+                <div class="milestone active">
+                    v0.3.0<br>Expansion
+                </div>
+                <div class="milestone pending">
+                    v0.4.0<br>Swarm
+                </div>
+                <div class="milestone pending">
+                    v1.0.0<br>Sovereign
+                </div>
+            </div>
+        </section>
 
         <section id="manifesto" style="margin-bottom: 6rem;">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
