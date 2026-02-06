@@ -224,19 +224,22 @@ class OmniAgent:
             # Implicit intent
             if not triggered and self.active_brain == "None":
                 keywords = {
-                    "game": "unity", "atari": "unity", "remake": "architect",
+                    "unity": "unity", "unreal": "unreal", "3d": "unity", "engine": "unreal",
                     "app": "flutter", "mobile": "flutter",
-                    "web": "frontend", "site": "frontend",
+                    "web": "frontend", "site": "frontend", "game": "frontend", "atari": "frontend",
                     "api": "backend", "server": "backend",
                     "deploy": "devops", "cloud": "devops"
                 }
                 for k, v in keywords.items():
                     if k in user_input.lower():
-                        if v in self.available_brains:
-                            console.print(f"[dim]Intent detected: '{k}' -> Routing to @roe/{v}[/dim]")
-                            if self.load_brain(v):
-                                triggered = True
-                            break
+                        # Special Case: Simple Game vs Engine
+                        if k in ["game", "atari"] and "unity" not in user_input.lower() and "unreal" not in user_input.lower():
+                             v = "frontend" # Default to Web/JS Game
+                        
+                        console.print(f"[dim]Intent detected: '{k}' -> Routing to @roe/{v}[/dim]")
+                        if self.load_brain(v):
+                            triggered = True
+                        break
             
             # Response Generation
             if self.active_brain != "None":
