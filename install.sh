@@ -52,4 +52,4 @@ fi
 
 echo ""
 echo "✅ Omni Installed!"
-echo "👉 Try it now: omni init"
+echo "👉 Try it now: omni run"
