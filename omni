@@ -248,8 +248,8 @@ class OmniAgent:
 
         print(BANNER)
         file_count = self.scan_context()
-        print(f"ready. ({file_count} local files scanned)")
-        print("Type 'menu' for options or just start talking.")
+        print(f"I see {file_count} files here. How can I help you today?")
+        print("(Try: 'I want to build a Flutter app' or 'Train a brain on ./docs')")
         
         while True:
             try:
@@ -259,17 +259,17 @@ class OmniAgent:
                 
                 if not user_input: continue
                 
-                # Check for "train" command in interactive mode too?
-                if user_input.startswith("train "):
-                    parts = user_input.split()
-                    if len(parts) >= 3:
-                        # Handle spaces in path?
-                        # naive parse: train name path
-                        name = parts[1]
-                        path = parts[2]
+                # Conversational Training Trigger
+                if "train" in user_input.lower() and "brain" in user_input.lower():
+                    print("🧠 You want to train a custom brain. Great.")
+                    name = input("   What should we name it? (e.g., @my/project) > ").strip()
+                    path = input("   Where are the documents located? (path) > ").strip()
+                    if name and path:
                         self.train_brain(name, path)
-                        continue
-                
+                    else:
+                        print("❌ Training cancelled. Need name and path.")
+                    continue
+
                 action = self.route_intent(user_input)
                 
                 if action == "EXIT":
