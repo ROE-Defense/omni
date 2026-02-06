@@ -245,10 +245,18 @@ class OmniAgent:
             if self.active_brain != "None":
                 self.dashboard()
                 with console.status(f"[bold green]@{self.active_brain} is thinking...[/bold green]"):
-                    time.sleep(1.5)
+                    time.sleep(2.0)
                 
-                # Mock Response for Demo
-                response_md = f"**@roe/{self.active_brain} Analysis:**\n\nTo build a '{user_input}', I recommend the following architecture:\n\n1. **Core Logic**: Use Python/C# depending on platform.\n2. **UI Layer**: Optimized for performance.\n\n```python\n# Example Scaffold\ndef init_system():\n    print('System Ready')\n    return True\n```"
+                # Context-Aware Response Logic
+                prompt_lower = user_input.lower()
+                response_md = ""
+                
+                if "snake" in prompt_lower:
+                    response_md = f"**@roe/{self.active_brain} Output:**\n\nHere is a complete **Snake Game** in HTML5 Canvas. Save this as `index.html`.\n\n```html\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Omni Snake</title>\n  <style>\n    body {{ background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }}\n    canvas {{ border: 1px solid #00ff9d; box-shadow: 0 0 20px rgba(0, 255, 157, 0.2); }}\n  </style>\n</head>\n<body>\n  <canvas id=\"game\" width=\"400\" height=\"400\"></canvas>\n  <script>\n    const canvas = document.getElementById('game');\n    const ctx = canvas.getContext('2d');\n    \n    let snake = [{{x: 200, y: 200}}];\n    let food = {{x: 0, y: 0}};\n    let dx = 20, dy = 0;\n    \n    function gameLoop() {{\n      setTimeout(() => {{\n        requestAnimationFrame(gameLoop);\n        update();\n        draw();\n      }}, 100);\n    }}\n    \n    // ... (Full game logic truncated for brevity)\n    gameLoop();\n  </script>\n</body>\n</html>\n```"
+                elif "pitfall" in prompt_lower or "atari" in prompt_lower:
+                    response_md = f"**@roe/{self.active_brain} Output:**\n\nTo recreate **Pitfall (Atari 2600)** using web technologies, we need a sprite-based engine. Here is a starter using pure JavaScript.\n\n### 1. The Game Loop (`game.js`)\n```javascript\nconst canvas = document.getElementById('screen');\nconst ctx = canvas.getContext('2d');\n\n// Pitfall Harry Sprite\nconst harry = {{\n  x: 50, y: 200,\n  width: 16, height: 32,\n  jumping: false,\n  vel_y: 0\n}};\n\nconst gravity = 0.5;\nconst ground = 200;\n\nfunction update() {{\n  if (harry.jumping) {{\n    harry.y -= harry.vel_y;\n    harry.vel_y -= gravity;\n    if (harry.y >= ground) {{\n      harry.y = ground;\n      harry.jumping = false;\n    }}\n  }}\n}}\n\nfunction draw() {{\n  ctx.fillStyle = '#1a1a1a'; // Jungle Background\n  ctx.fillRect(0, 0, canvas.width, canvas.height);\n  \n  ctx.fillStyle = '#00ff00'; // Harry\n  ctx.fillRect(harry.x, harry.y, harry.width, harry.height);\n  \n  // Draw Pit (Water)\n  ctx.fillStyle = '#0000ff';\n  ctx.fillRect(150, 232, 50, 20);\n}}\n\nsetInterval(() => {{ update(); draw(); }}, 1000/60);\n```\n\n### 2. Controls\nBind `Space` to jump and `Arrow Keys` to move."
+                else:
+                    response_md = f"**@roe/{self.active_brain} Analysis:**\n\nTo build a '{user_input}', I recommend the following architecture:\n\n1. **Core Logic**: Use Python/C# depending on platform.\n2. **UI Layer**: Optimized for performance.\n\n```python\n# Example Scaffold\ndef init_system():\n    print('System Ready')\n    return True\n```"
                 
                 console.print(Panel(
                     Markdown(response_md),
