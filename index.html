@@ -23,6 +23,16 @@
             line-height: 1.5;
             overflow-x: hidden;
         }
+        .mvp-banner {
+            background: var(--accent);
+            color: #000;
+            text-align: center;
+            padding: 0.5rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -479,6 +489,9 @@
     </script>
 </head>
 <body>
+    <div class="mvp-banner">
+        ⚠️ BETA PREVIEW (v0.3.0) - ACTIVE DEVELOPMENT
+    </div>
     <div class="container">
         <header>
             <div class="logo">ROE DEFENSE</div>
@@ -554,31 +567,6 @@
                 </div>
             </div>
         </header>
-
-        <!-- Mission Status -->
-        <section class="mission-status">
-            <div class="status-header">
-                <span class="status-title">Mission Phase: MVP Expansion</span>
-                <span class="status-percent">65% COMPLETE</span>
-            </div>
-            <div class="progress-track">
-                <div class="progress-fill" style="width: 65%;"></div>
-            </div>
-            <div class="milestones">
-                <div class="milestone done">
-                    v0.2.0<br>Foundation
-                </div>
-                <div class="milestone active">
-                    v0.3.0<br>Expansion
-                </div>
-                <div class="milestone pending">
-                    v0.4.0<br>Swarm
-                </div>
-                <div class="milestone pending">
-                    v1.0.0<br>Sovereign
-                </div>
-            </div>
-        </section>
 
         <section id="manifesto" style="margin-bottom: 6rem;">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
