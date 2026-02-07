@@ -169,10 +169,24 @@
 
 ---
 
-## 🔮 v0.9.0: The "Sovereign OS" Update
-*Focus: Security, Hardening, and Independence.*
+## 🔮 v0.9.0: The "Secure OS" Update
+*Focus: Security, Hardening, and The Heavy Industries.*
 
-### **1. Air Gap Mode (The Kill Switch)**
+### **1. The Defense Suite (TAK)**
+-   **`@roe/atak`:** Android Team Awareness Kit.
+-   **`@roe/wintak`:** Windows TAK.
+-   **`@roe/itak`:** iOS TAK.
+-   **`@roe/tak-server`:** Federation & SSL.
+
+### **2. The Desktop Suite**
+-   **`@roe/macos`:** Native Swift/AppKit.
+-   **`@roe/windows`:** Native C#/WinUI.
+
+### **3. The Game Engine Suite**
+-   **`@roe/unity`:** C# / DOTS.
+-   **`@roe/unreal`:** C++ / Blueprints.
+
+### **4. Air Gap Mode (The Kill Switch)**
 -   **Feature:** One-toggle total isolation.
 -   **Technical Detail:**
     -   Software-level disable of network interfaces (`ifconfig down`).

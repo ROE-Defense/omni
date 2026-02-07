@@ -62,13 +62,52 @@ TASKS = {
         "file": "flutter_training.jsonl",
         "prompt": "Generate 10 unique Flutter Development tasks (Dart/Widgets). Focus on state management (Provider/Riverpod), custom painters, and platform channels. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
     },
+    "shell": {
+        "file": "shell_training.jsonl",
+        "prompt": "Generate 10 unique Command Line tasks (Bash/Zsh/Awk/Sed). Focus on file manipulation, text processing one-liners, and system administration. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    },
+    "sql": {
+        "file": "sql_training.jsonl",
+        "prompt": "Generate 10 unique SQL tasks (PostgreSQL/ANSI SQL). Focus on complex joins, window functions, CTEs, and database administration queries. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    },
+    "git": {
+        "file": "git_training.jsonl",
+        "prompt": "Generate 10 unique Git tasks. Focus on advanced operations like rebase, bisect, cherry-pick, submodule management, and recovering lost commits. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    },
     "react-native": {
         "file": "react_native_training.jsonl",
         "prompt": "Generate 10 unique React Native tasks (TypeScript/JavaScript). Focus on Native Modules, Expo, Reanimated, and bridge optimization. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
     },
-    "desktop": {
-        "file": "desktop_training.jsonl",
-        "prompt": "Generate 10 unique Desktop App tasks (Electron/Tauri/MacOS). Focus on cross-platform windowing and native APIs. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    "macos": {
+        "file": "macos_training.jsonl",
+        "prompt": "Generate 10 unique macOS Desktop Development tasks (Swift/AppKit/SwiftUI). Focus on window management, menu bar apps, XPC services, and system extensions. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    },
+    "windows": {
+        "file": "windows_training.jsonl",
+        "prompt": "Generate 10 unique Windows Desktop Development tasks (C#/.NET/WPF/WinUI 3). Focus on MVVM patterns, Win32 API interop (P/Invoke), and MSIX packaging. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    },
+    "secops": {
+        "file": "secops_training.jsonl",
+        "prompt": "Generate 10 unique Security Operations tasks (Python/Bash). Focus on vulnerability scanning, log analysis (SIEM), firewall rule generation (iptables/nftables), and server hardening scripts. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    }
+    # DEFERRED TO v0.9.0
+    # "atak": { ... }, "wintak": { ... }
+}
+    "itak": {
+        "file": "itak_training.jsonl",
+        "prompt": "Generate 10 unique iTAK (iOS Team Awareness Kit) Plugin tasks (Swift/SwiftUI). Focus on lightweight map tools, data packages, and iOS-specific UI patterns for situational awareness. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    },
+    "tak_server": {
+        "file": "tak_server_training.jsonl",
+        "prompt": "Generate 10 unique TAK Server Administration tasks (Bash/Docker/XML). Focus on SSL/TLS certificate generation, federation config, user management, and data package synchronization. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
+    },
+    "tak_ops": {
+        "file": "tak_ops_training.jsonl",
+        "prompt": "Generate 10 unique TAK Operator Q&A tasks. Focus on field usage: 'How do I broadcast a 9-line?', 'How to pair a drone?', 'Troubleshoot connection', 'Using the viewshed tool'. Format: JSON array of objects with keys 'instruction' (the user question) and 'output' (the step-by-step answer). Output ONLY raw JSON."
+    },
+    "cot": {
+        "file": "cot_training.jsonl",
+        "prompt": "Generate 10 unique CoT (Cursor on Target) XML tasks. Focus on generating valid XML messages for various unit types (Hostile/Friendly/Neutral), sensor hits, and chat messages. Format: JSON array of objects with keys 'instruction' (the request) and 'output' (the XML block). Output ONLY raw JSON."
     },
     "ai_eng": {
         "file": "ai_eng_training.jsonl",
@@ -142,7 +181,7 @@ def generate_batch(task_name):
         print(f"[{task_name.upper()}] Error: {e}")
 
 # Priority Order
-PRIORITY_ORDER = ["backend", "frontend", "architect", "devops", "ios", "android", "flutter", "react-native", "desktop", "ai_eng"]
+PRIORITY_ORDER = ["backend", "frontend", "architect", "devops", "ios", "android", "flutter", "shell", "sql", "git", "react-native", "tak_ops", "atak", "wintak", "itak", "tak_server", "cot", "macos", "windows", "secops", "ai_eng"]
 TARGET_COUNT = 1000
 
 def get_current_count(task_name):

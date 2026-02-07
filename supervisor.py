@@ -24,11 +24,22 @@ BRAINS = [
     {"name": "ios",       "file": "datasets/ios_training.jsonl",       "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
     {"name": "android",   "file": "datasets/android_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
     {"name": "flutter",   "file": "datasets/flutter_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
-    {"name": "desktop",   "file": "datasets/desktop_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
     {"name": "ai_eng",    "file": "datasets/ai_eng_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
-    {"name": "regex-pro", "file": "datasets/regex_training.jsonl",    "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
+    {"name": "shell",     "file": "datasets/shell_training.jsonl",     "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
+    {"name": "sql",       "file": "datasets/sql_training.jsonl",       "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
+    {"name": "git",       "file": "datasets/git_training.jsonl",       "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
+    {"name": "regex-pro", "file": "datasets/regex_training.jsonl",     "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
     {"name": "sec-ops",   "file": "datasets/secops_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
 ]
+
+# DEFERRED TO v0.9.0
+#    {"name": "desktop",   "file": "datasets/desktop_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+#    {"name": "atak",      "file": "datasets/atak_training.jsonl",      "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+#    {"name": "wintak",    "file": "datasets/wintak_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+#    {"name": "itak",      "file": "datasets/itak_training.jsonl",      "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+#    {"name": "tak-server","file": "datasets/tak_server_training.jsonl", "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
+#    {"name": "tak-ops",   "file": "datasets/tak_ops_training.jsonl",   "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
+#    {"name": "cot",       "file": "datasets/cot_training.jsonl",       "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
 
 def log(message):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
