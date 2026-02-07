@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, WebSocket, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List, Optional
 import asyncio
@@ -10,11 +11,10 @@ import os
 from .core import OmniCore
 from swarm.types import SwarmMessage
 
-app = FastAPI(title="Omni Local API", version="0.9.0")
+app = FastAPI(title="Omni Local API", version="0.9.1")
 UPLOAD_DIR = os.path.expanduser("~/.omni/uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-# ... (CORS logic same as before) ...
 # CORS (Allow local frontend)
 app.add_middleware(
     CORSMiddleware,
@@ -31,8 +31,6 @@ active_websockets: List[WebSocket] = []
 # Hook Swarm Bus to WebSockets
 def swarm_hook(msg: SwarmMessage):
     data = msg.to_json()
-    # Broadcast to all connected clients
-    # Note: This is synchronous, ideally use async queue
     for ws in active_websockets:
         asyncio.create_task(ws.send_text(data))
 
@@ -47,14 +45,14 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     response: str
 
-class VisionRequest(BaseModel):
-    prompt: str = "Describe this image."
+class SpeakRequest(BaseModel):
+    text: str
 
 # -- Endpoints --
 
 @app.get("/")
 def read_root():
-    return {"status": "Omni Online", "version": "v0.9.0"}
+    return {"status": "Omni Online", "version": "v0.9.1"}
 
 @app.get("/brains")
 def list_brains():
@@ -105,15 +103,22 @@ async def transcribe_audio(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/speak")
+async def speak_text(req: SpeakRequest):
+    try:
+        output_path = os.path.join(UPLOAD_DIR, "speech_out.wav")
+        omni.run_tts(req.text, output_path)
+        return FileResponse(output_path, media_type="audio/wav")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     active_websockets.append(websocket)
     try:
         while True:
-            # Keep alive
             data = await websocket.receive_text()
-            # Handle incoming WS commands if any
     except:
         active_websockets.remove(websocket)
 
