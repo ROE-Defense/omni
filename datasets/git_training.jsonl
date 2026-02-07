@@ -778,3 +778,223 @@
 {"instruction": "Move a range of commits (feature branch) that were based on an 'old-base' branch to sit on top of a 'new-base' branch.", "output": "git rebase --onto new-base old-base feature-branch"}
 {"instruction": "Remove a specific file from the git index (staging area) but keep it in the working directory (stop tracking a file without deleting it).", "output": "git rm --cached <filename>"}
 {"instruction": "Permanently remove a sensitive file named 'config.json' from the entire commit history of the repository.", "output": "git filter-branch --force --index-filter \"git rm --cached --ignore-unmatch config.json\" --prune-empty --tag-name-filter cat -- --all"}
+{"instruction": "Squash the last 4 commits of the current branch into a single commit to clean up the history before merging.", "output": "git rebase -i HEAD~4"}
+{"instruction": "Start a binary search to find the commit that introduced a bug, marking the current version as 'bad' and the version tagged 'v1.0' as 'good'.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.0"}
+{"instruction": "Apply the specific changes introduced by commit 'a1b2c3d' from the 'feature-login' branch onto the current branch without merging the entire branch.", "output": "git cherry-pick a1b2c3d"}
+{"instruction": "Add an external repository located at 'https://github.com/example/lib-utils.git' as a submodule into the directory 'vendor/utils'.", "output": "git submodule add https://github.com/example/lib-utils.git vendor/utils"}
+{"instruction": "You accidentally performed a hard reset and lost a commit. Display the reference logs to find the SHA of the lost commit.", "output": "git reflog"}
+{"instruction": "Clone a repository including all nested submodules, initializing and updating them recursively in one step.", "output": "git clone --recurse-submodules https://github.com/username/repo.git"}
+{"instruction": "Modify the most recent commit to include staged changes (like a forgotten file) without changing the commit message.", "output": "git commit --amend --no-edit"}
+{"instruction": "Revert a merge commit 'm1e2r3g' on the main branch, keeping the history of the first parent (the branch you were on before the merge).", "output": "git revert -m 1 m1e2r3g"}
+{"instruction": "Reapply the commits from the current feature branch on top of the latest 'main' branch to resolve conflicts locally before a pull request.", "output": "git fetch origin\ngit rebase origin/main"}
+{"instruction": "Restore a deleted branch named 'experiment-1' starting from a specific commit SHA 'd9e8f7a' found in the reflog.", "output": "git branch experiment-1 d9e8f7a"}
+{"instruction": "Squash the last 4 commits into a single commit using interactive rebase.", "output": "git rebase -i HEAD~4"}
+{"instruction": "Start a binary search to find a bug, marking the current HEAD as 'bad' and the tag 'v2.0' as 'good'.", "output": "git bisect start\ngit bisect bad HEAD\ngit bisect good v2.0"}
+{"instruction": "Apply the changes from a specific commit (hash 'abc1234') to the current branch, but do not automatically create a commit object.", "output": "git cherry-pick -n abc1234"}
+{"instruction": "Initialize and update all submodules within the repository, including nested submodules.", "output": "git submodule update --init --recursive"}
+{"instruction": "Locate a commit hash lost via a hard reset using the reference logs, and create a new branch named 'recovered-branch' pointing to that specific hash.", "output": "git reflog\ngit branch recovered-branch <commit-hash>"}
+{"instruction": "Transplant the 'client' branch, which was branched off 'server', onto the 'master' branch (rebase --onto).", "output": "git rebase --onto master server client"}
+{"instruction": "Create a separate working tree in a parallel directory named '../hotfix-build' for the 'hotfix' branch to run tests without switching the main repository context.", "output": "git worktree add ../hotfix-build hotfix"}
+{"instruction": "Search the entire commit history for any commit that introduced or removed the string 'TODO: Refactor' (Pickaxe search).", "output": "git log -S \"TODO: Refactor\""}
+{"instruction": "Completely remove untracked files and directories, including those listed in .gitignore.", "output": "git clean -fdx"}
+{"instruction": "Modify the author information of the most recent commit without launching the editor to change the commit message.", "output": "git commit --amend --author=\"New Name <email@example.com>\" --no-edit"}
+{"instruction": "Squash the last 5 commits into a single commit using interactive rebase.", "output": "git rebase -i HEAD~5"}
+{"instruction": "Start a binary search to find a bug, marking the current commit as 'bad', version v1.0 as 'good', and automatically run 'npm test' to validate each step.", "output": "git bisect start && git bisect bad && git bisect good v1.0 && git bisect run npm test"}
+{"instruction": "Apply a specific commit (e.g., hash 'a1b2c3d') from a different branch to the current branch without merging the entire branch.", "output": "git cherry-pick a1b2c3d"}
+{"instruction": "Add a new Git submodule pointing to a repository URL at the path 'libs/utils'.", "output": "git submodule add https://github.com/username/repo-name.git libs/utils"}
+{"instruction": "Recover a commit that was lost due to a hard reset by finding its hash in the reflog and resetting the HEAD to it.", "output": "git reflog\n# Identify hash, e.g., abc1234\ngit reset --hard abc1234"}
+{"instruction": "Change the author information (name and email) of the most recent commit without modifying the commit message or content.", "output": "git commit --amend --author=\"New Author <newauthor@example.com>\" --no-edit"}
+{"instruction": "Create a new linked working tree in a separate directory named '../hotfix-work' based on the branch 'hotfix/login-bug'.", "output": "git worktree add ../hotfix-work hotfix/login-bug"}
+{"instruction": "Remove a sensitive file named 'config/secrets.json' from the entire commit history (rewrite history).", "output": "git filter-branch --force --index-filter \"git rm --cached --ignore-unmatch config/secrets.json\" --prune-empty --tag-name-filter cat -- --all"}
+{"instruction": "Stash changes interactively, allowing you to select specific hunks of code to stash while keeping others in the working directory.", "output": "git stash push -p"}
+{"instruction": "Initialize and update all nested submodules recursively after cloning a repository.", "output": "git submodule update --init --recursive"}
+{"instruction": "Squash the last 5 commits into a single commit to clean up the history before merging into the main branch.", "output": "git rebase -i HEAD~5"}
+{"instruction": "Use a binary search to identify the specific commit that introduced a bug. The current HEAD is bad, and the tag 'v1.4.2' is known to be good.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.4.2"}
+{"instruction": "Apply a specific commit (hash: 9fceb02) from the 'feature-login' branch onto the current branch without merging the entire branch.", "output": "git cherry-pick 9fceb02"}
+{"instruction": "You accidentally performed a hard reset and lost a commit. Locate the lost commit hash in the reference logs and restore the HEAD to that commit.", "output": "git reflog\n# Identify the hash (e.g., abc1234)\ngit reset --hard abc1234"}
+{"instruction": "Add a new submodule from a remote repository URL to the path 'libs/utils' within your current project.", "output": "git submodule add https://github.com/example/utils-repo.git libs/utils"}
+{"instruction": "Completely remove a sensitive file named 'config.json' from the entire project history (all commits and tags) to ensure it is not recoverable.", "output": "git filter-branch --force --index-filter \"git rm --cached --ignore-unmatch config.json\" --prune-empty --tag-name-filter cat -- --all"}
+{"instruction": "Create a 'fixup' commit for an older commit (hash: a1b2c3d) and then automatically squash it into that commit using an interactive rebase.", "output": "git commit --fixup a1b2c3d\ngit rebase -i --autosquash a1b2c3d^"}
+{"instruction": "Clone a repository and automatically initialize and update all nested submodules recursively in one command.", "output": "git clone --recursive https://github.com/example/repo.git"}
+{"instruction": "Stash only specific files (e.g., 'src/main.js') interactively while leaving other modified files in the working directory.", "output": "git stash push -p -m \"stashing main.js only\" src/main.js"}
+{"instruction": "Change the author name and email of the most recent commit without editing the commit message.", "output": "git commit --amend --author=\"Jane Doe <jane@example.com>\" --no-edit"}
+{"instruction": "Interactively squash the last 4 commits into a single commit to clean up the history before pushing.", "output": "git rebase -i HEAD~4"}
+{"instruction": "Start a binary search to find the specific commit that introduced a bug, marking the current HEAD as bad and the tag 'v1.0' as good.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.0"}
+{"instruction": "Apply a specific range of commits (from commit A to commit B) from another branch onto the current branch without merging the entire branch.", "output": "git cherry-pick A^..B"}
+{"instruction": "Clone a repository and automatically initialize and update all nested submodules recursively.", "output": "git clone --recurse-submodules <repository-url>"}
+{"instruction": "Recover a commit that was lost due to a hard reset by finding its SHA hash in the reference logs and resetting the current branch to it.", "output": "git reflog\ngit reset --hard <commit-sha>"}
+{"instruction": "Move a feature branch that was branched off of 'develop' to be based off of 'main' instead (transplanting the branch).", "output": "git rebase --onto main develop feature-branch"}
+{"instruction": "Find the commit hash that deleted a specific file in the project history.", "output": "git log --diff-filter=D --summary | grep <filename>"}
+{"instruction": "Create a new linked working tree in a separate directory to work on a hotfix branch without switching branches in the current repository.", "output": "git worktree add ../hotfix-directory hotfix-branch"}
+{"instruction": "Search through the entire commit history (diffs) to find the commit that added or removed a specific string (e.g., 'API_KEY').", "output": "git log -S \"API_KEY\""}
+{"instruction": "Update local submodules to track the latest commit on their respective remote branches, merging changes.", "output": "git submodule update --remote --merge"}
+{"instruction": "Combine the last 4 commits into a single commit using interactive rebase.", "output": "git rebase -i HEAD~4"}
+{"instruction": "Use git bisect to automatically find the commit that introduced a bug, assuming 'HEAD' is bad, 'v1.0' is good, and 'npm test' detects the error.", "output": "git bisect start\ngit bisect bad HEAD\ngit bisect good v1.0\ngit bisect run npm test"}
+{"instruction": "Apply a specific range of commits (from commit A exclusive to commit B inclusive) from the 'dev' branch onto the current branch using cherry-pick.", "output": "git cherry-pick A..B"}
+{"instruction": "Recover a commit that was lost due to a hard reset by finding its SHA in the reflog and restoring the branch to that state.", "output": "git reflog\ngit reset --hard <commit-sha>"}
+{"instruction": "Initialize and update all nested submodules within the repository recursively after cloning.", "output": "git submodule update --init --recursive"}
+{"instruction": "Search the entire commit history (diffs) to find the commit that added or removed the string 'legacy_function_call'.", "output": "git log -S 'legacy_function_call'"}
+{"instruction": "Create a fixup commit for a specific previous commit and automatically squash it into that commit using rebase.", "output": "git commit --fixup <target-commit-sha>\ngit rebase -i --autosquash <target-commit-sha>^"}
+{"instruction": "Create a separate linked working tree in a folder named 'hotfix-build' checked out to the 'hotfix' branch, allowing you to work on two branches simultaneously.", "output": "git worktree add ../hotfix-build hotfix"}
+{"instruction": "Transplant the 'feature-branch', which is currently based on 'old-base', onto 'new-base' using the rebase command.", "output": "git rebase --onto new-base old-base feature-branch"}
+{"instruction": "Stash all current changes, including new untracked files and ignored files, to return the working directory to a pristine state.", "output": "git stash push --all"}
+{"instruction": "Combine the last 4 commits into a single commit using interactive rebase.", "output": "git rebase -i HEAD~4"}
+{"instruction": "Use binary search to find the commit that introduced a bug, marking the current HEAD as bad and tag 'v1.0' as good.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.0"}
+{"instruction": "Apply a specific range of commits (from commit A to commit B) from another branch to the current branch.", "output": "git cherry-pick A..B"}
+{"instruction": "Clone a repository including all nested submodules recursively in one command.", "output": "git clone --recurse-submodules https://github.com/username/repo.git"}
+{"instruction": "Recover a commit that was lost due to a hard reset by finding its SHA in the reference logs and resetting to it.", "output": "git reflog\n# Identify the SHA (e.g., abc1234)\ngit reset --hard abc1234"}
+{"instruction": "Create a 'fixup' commit for a specific previous commit hash to prepare for an autosquash rebase later.", "output": "git commit --fixup=a1b2c3d"}
+{"instruction": "Search through the entire commit history across all branches for commits that added or removed the string 'API_KEY'.", "output": "git log -S \"API_KEY\" --source --all"}
+{"instruction": "Create a new linked working tree in a separate directory called 'hotfix-worktree' based on the 'hotfix' branch to work on it without switching the current branch.", "output": "git worktree add ../hotfix-worktree hotfix"}
+{"instruction": "Stash changes including untracked files and ignored files, keeping the index (staged changes) intact.", "output": "git stash push --include-untracked --keep-index"}
+{"instruction": "Package the 'main' branch into a single binary file named 'repo.bundle' to transfer to another machine without a network connection.", "output": "git bundle create repo.bundle main"}
+{"instruction": "Perform an interactive rebase to squash the last 4 commits into a single commit to clean up the history before pushing.", "output": "git rebase -i HEAD~4"}
+{"instruction": "Start a binary search to identify the specific commit that introduced a bug, marking the current HEAD as 'bad' and the tag 'v1.2.0' as 'good'.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.2.0"}
+{"instruction": "Apply a specific commit (hash: a1b2c3d) from the 'feature-x' branch onto the 'main' branch without merging the entire branch.", "output": "git checkout main\ngit cherry-pick a1b2c3d"}
+{"instruction": "Recover a commit that was lost due to an accidental hard reset by looking up the SHA in the reference logs and resetting to it.", "output": "git reflog\n# Locate the lost commit SHA (e.g., f8e9d0a)\ngit reset --hard f8e9d0a"}
+{"instruction": "Add an external repository as a submodule to the project at the path 'libs/utils'.", "output": "git submodule add https://github.com/username/utils-repo.git libs/utils"}
+{"instruction": "Update all submodules in the repository to the commits specified in the superproject, initializing them if necessary and handling nested submodules.", "output": "git submodule update --init --recursive"}
+{"instruction": "Move the 'new-feature' branch, which currently branches off 'old-feature', to base off 'main' instead (transplanting the commits).", "output": "git rebase --onto main old-feature new-feature"}
+{"instruction": "Revert a merge commit (hash: 8m3rge) on the main branch, specifying that the first parent (main) should be kept.", "output": "git revert -m 1 8m3rge"}
+{"instruction": "Stash only the changes made to specific files (file1.js and file2.js) while leaving other modified files in the working directory.", "output": "git stash push -m \"stashing specific files\" file1.js file2.js"}
+{"instruction": "Force delete a remote branch named 'legacy-feature' from the origin remote.", "output": "git push origin --delete legacy-feature"}
+{"instruction": "Squash the last 4 commits into a single commit using interactive rebase.", "output": "git rebase -i HEAD~4"}
+{"instruction": "Start a binary search to identify a regression, marking the current HEAD as bad and tag 'v1.2' as good.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.2"}
+{"instruction": "Apply the changes from a specific commit (hash 'a1b2c3d') to the current branch, but do not create a commit automatically (stage the changes only).", "output": "git cherry-pick -n a1b2c3d"}
+{"instruction": "Move the current branch segments (which branched off 'old-master') onto 'new-master' (transplanting the commits).", "output": "git rebase --onto new-master old-master HEAD"}
+{"instruction": "Find a lost commit hash after an accidental hard reset by viewing the reference logs.", "output": "git reflog"}
+{"instruction": "Initialize and update all nested submodules recursively within the repository.", "output": "git submodule update --init --recursive"}
+{"instruction": "Find the specific commit that introduced or removed the string 'TODO: Refactor' in the history.", "output": "git log -S 'TODO: Refactor'"}
+{"instruction": "Create a fixup commit for a previous commit (hash '999abc') and automatically squash it into that commit using an interactive rebase.", "output": "git commit --fixup 999abc\ngit rebase -i --autosquash 999abc^"}
+{"instruction": "Remove a file named 'config.json' from the Git index (staging area) so it is no longer tracked, but keep the file on the local disk.", "output": "git rm --cached config.json"}
+{"instruction": "Push the current local branch to the 'origin' remote, but delete the remote branch named 'legacy-feature'.", "output": "git push origin --delete legacy-feature"}
+{"instruction": "Combine the last 5 commits into a single commit using interactive rebase.", "output": "git rebase -i HEAD~5"}
+{"instruction": "Start a binary search to find a bug, marking the current commit as 'bad', the tag 'v1.0' as 'good', and using a script named 'test.sh' to automate the verification.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.0\ngit bisect run ./test.sh"}
+{"instruction": "Apply changes from a specific range of commits (excluding commit A, up to and including commit B) from another branch onto the current branch.", "output": "git cherry-pick A..B"}
+{"instruction": "Move the 'feature-login' branch, which currently branches off 'develop', to instead base itself off 'main' (transplanting the branch).", "output": "git rebase --onto main develop feature-login"}
+{"instruction": "Recover a hard-reset or deleted commit by finding its SHA hash in the reference logs.", "output": "git reflog"}
+{"instruction": "Add a remote repository as a submodule to the path 'libs/payment-gateway'.", "output": "git submodule add https://github.com/example/payment-gateway.git libs/payment-gateway"}
+{"instruction": "Update all submodules in the project to the latest commit on their respective remote tracking branches.", "output": "git submodule update --remote --merge"}
+{"instruction": "Create a 'fixup' commit for a specific commit hash (e.g., 'a1b2c3d') and immediately perform an autosquash interactive rebase to merge them.", "output": "git commit --fixup a1b2c3d\ngit rebase -i --autosquash a1b2c3d^"}
+{"instruction": "Restore a specific file named 'database.yml' from three commits ago without modifying the rest of the working directory.", "output": "git checkout HEAD~3 -- database.yml"}
+{"instruction": "Push the current branch to the remote repository, but ensure the push is rejected if the remote branch has been updated by someone else (safer than --force).", "output": "git push --force-with-lease"}
+{"instruction": "Combine the last 4 commits into a single commit using interactive rebase.", "output": "git rebase -i HEAD~4"}
+{"instruction": "Apply a specific commit (by hash) from a feature branch onto the current branch without merging the entire branch.", "output": "git cherry-pick <commit-hash>"}
+{"instruction": "Start a binary search to find the commit that introduced a bug, marking the current state as bad and tag 'v1.0' as good.", "output": "git bisect start && git bisect bad && git bisect good v1.0"}
+{"instruction": "Recover a commit that was lost due to a hard reset by locating its SHA in the reference logs and resetting to it.", "output": "git reflog\ngit reset --hard <commit-sha-from-reflog>"}
+{"instruction": "Undo a merge commit (SHA: 7a3b2c) on the mainline, keeping the history of the merge but inverting the changes.", "output": "git revert -m 1 7a3b2c"}
+{"instruction": "Initialize and update all submodules within a repository, including nested submodules.", "output": "git submodule update --init --recursive"}
+{"instruction": "Modify the most recent commit message and add new staged changes to it without creating a new commit.", "output": "git commit --amend"}
+{"instruction": "Stash current changes, including new files that are not yet tracked by Git.", "output": "git stash push -u"}
+{"instruction": "Create a new linked working tree in a parallel directory named 'deploy-check' checking out the 'release' branch.", "output": "git worktree add ../deploy-check release"}
+{"instruction": "Find the specific commit hash that deleted the file 'database.yml' from the project history.", "output": "git log --diff-filter=D --summary -- database.yml"}
+{"instruction": "Squash the last 4 commits of the current branch into a single commit with the message 'Refactor core logic'.", "output": "git reset --soft HEAD~4 && git commit -m \"Refactor core logic\""}
+{"instruction": "Apply a specific commit (hash 5d4e3f) from the 'feature/login' branch onto the current branch.", "output": "git cherry-pick 5d4e3f"}
+{"instruction": "Start a binary search to identify a regression, marking the current version as bad and tag 'v1.0.2' as good.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.0.2"}
+{"instruction": "Add an external repository 'https://github.com/example/lib.git' as a submodule in the folder 'vendor/lib'.", "output": "git submodule add https://github.com/example/lib.git vendor/lib"}
+{"instruction": "Recover a commit that was lost due to a hard reset by viewing the reference logs and restoring the specific SHA 'abc1234'.", "output": "git reflog\ngit reset --hard abc1234"}
+{"instruction": "Update the current feature branch with the latest changes from the 'main' branch by rewriting history instead of creating a merge commit.", "output": "git fetch origin\ngit rebase origin/main"}
+{"instruction": "Initialize and update all nested submodules recursively after cloning a repository.", "output": "git submodule update --init --recursive"}
+{"instruction": "Move the current feature branch (feature-z) which is currently based on 'dev', so that it is based on 'main' instead.", "output": "git rebase --onto main dev feature-z"}
+{"instruction": "Stash only the changes made to 'config.yaml' with a specific message, leaving other modified files in the working directory.", "output": "git stash push -m \"Temporary config\" config.yaml"}
+{"instruction": "Modify the previous commit (HEAD~1) to include a forgotten file change without modifying the commit message.", "output": "git add forgotten_file.txt\ngit commit --amend --no-edit"}
+{"instruction": "Initiate an interactive rebase to squash the last 5 commits into a single commit.", "output": "git rebase -i HEAD~5"}
+{"instruction": "Start a binary search (bisect) to identify a bug, marking the current HEAD as 'bad' and the tag 'v1.2.0' as 'good'.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.2.0"}
+{"instruction": "Apply a specific commit from another branch to the current branch without merging the entire branch.", "output": "git cherry-pick <commit-hash>"}
+{"instruction": "Recover a commit that was lost due to a hard reset by locating its SHA in the reference logs and restoring it.", "output": "git reflog\ngit reset --hard <lost-commit-sha>"}
+{"instruction": "Initialize and update all submodules within a repository, including nested submodules.", "output": "git submodule update --init --recursive"}
+{"instruction": "Change the base of the current feature branch from 'master' to 'develop' using the --onto flag.", "output": "git rebase --onto develop master feature-branch"}
+{"instruction": "Create a new commit that reverts the changes made by a previous merge commit (assuming parent 1 is the mainline).", "output": "git revert -m 1 <merge-commit-hash>"}
+{"instruction": "Temporarily stash changes for a specific file only, keeping other modified files in the working directory.", "output": "git stash push -p <path/to/file>"}
+{"instruction": "Automate git bisect using a test script to verify each step.", "output": "git bisect run ./test-script.sh"}
+{"instruction": "Amend the previous commit to include a forgotten file without changing the commit message.", "output": "git add <forgotten-file>\ngit commit --amend --no-edit"}
+{"instruction": "Perform an interactive rebase to squash the last 5 commits into a single commit.", "output": "git rebase -i HEAD~5"}
+{"instruction": "Start a git bisect session to identify a bug, marking the current HEAD as 'bad' and the tag 'v1.0.0' as 'good'.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.0.0"}
+{"instruction": "Cherry-pick a range of commits from commit hash 'start-hash' (exclusive) to 'end-hash' (inclusive) onto the current branch.", "output": "git cherry-pick start-hash..end-hash"}
+{"instruction": "Recover a lost commit (e.g., after a hard reset) by finding its hash in the reference logs and creating a new branch pointing to it.", "output": "git reflog\ngit branch recover-branch <commit-hash-from-log>"}
+{"instruction": "Add an external repository as a submodule to the project at the path 'libs/external-lib'.", "output": "git submodule add https://github.com/username/repo.git libs/external-lib"}
+{"instruction": "Initialize and update all nested submodules recursively after cloning a repository.", "output": "git submodule update --init --recursive"}
+{"instruction": "Stash specific chunks of code interactively rather than stashing all modified files.", "output": "git stash push -p"}
+{"instruction": "Completely remove a sensitive file named 'secrets.env' from the entire commit history (using filter-branch).", "output": "git filter-branch --force --index-filter \"git rm --cached --ignore-unmatch secrets.env\" --prune-empty --tag-name-filter cat -- --all"}
+{"instruction": "Amend the most recent commit to change the author's name and email without modifying the commit message or file contents.", "output": "git commit --amend --author=\"New Name <new@email.com>\" --no-edit"}
+{"instruction": "Find the commit that introduced a specific string 'TODO: Fix this' in the file 'app.js' using the pickaxe search.", "output": "git log -S \"TODO: Fix this\" -- app.js"}
+{"instruction": "Squash the last 4 commits into a single commit using interactive rebase.", "output": "git rebase -i HEAD~4"}
+{"instruction": "Apply a specific commit (hash: 3a2b1c) from another branch to your current working branch.", "output": "git cherry-pick 3a2b1c"}
+{"instruction": "Start a binary search to find the commit that introduced a bug, marking the current state as bad and version v1.2 as good.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.2"}
+{"instruction": "Add a new Git repository as a submodule located at 'libs/helper'.", "output": "git submodule add https://github.com/example/helper.git libs/helper"}
+{"instruction": "Recover a commit that was lost due to a hard reset by viewing the reference logs and resetting to the specific index (e.g., HEAD@{1}).", "output": "git reflog\ngit reset --hard HEAD@{1}"}
+{"instruction": "Update all submodules in the repository to their latest commits on the remote branch recursively.", "output": "git submodule update --remote --recursive"}
+{"instruction": "Change the author information of the most recent commit without editing the commit message.", "output": "git commit --amend --author=\"John Doe <john@example.com>\" --no-edit"}
+{"instruction": "Permanently remove a sensitive file named 'config.json' from the entire commit history.", "output": "git filter-branch --force --index-filter \"git rm --cached --ignore-unmatch config.json\" --prune-empty --tag-name-filter cat -- --all"}
+{"instruction": "Stash only the changes made to 'app.js' while leaving other modified files in the working directory.", "output": "git stash push -m \"Fixing app.js\" app.js"}
+{"instruction": "Reapply commits from the current feature branch on top of the latest 'main' branch to maintain a linear history.", "output": "git checkout feature-branch\ngit rebase main"}
+{"instruction": "Squash the last 5 commits into a single commit using interactive rebase.", "output": "git rebase -i HEAD~5"}
+{"instruction": "Start a binary search to find the commit that introduced a bug, marking the current HEAD as 'bad' and the tag 'v1.0' as 'good'.", "output": "git bisect start\ngit bisect bad HEAD\ngit bisect good v1.0"}
+{"instruction": "Apply the changes from a specific range of commits (from commit A exclusive to commit B inclusive) from another branch onto the current branch.", "output": "git cherry-pick A..B"}
+{"instruction": "Recover a branch that was accidentally hard-reset by finding the previous HEAD hash in the reflog and resetting to it (assuming the target hash is 'a1b2c3d').", "output": "git reflog\ngit reset --hard a1b2c3d"}
+{"instruction": "Clone a repository along with all of its nested submodules recursively.", "output": "git clone --recursive https://github.com/username/repository.git"}
+{"instruction": "Revert a faulty merge commit (hash 'm3rge12') while keeping the history of the main branch (parent 1) intact.", "output": "git revert -m 1 m3rge12"}
+{"instruction": "Stash all current changes, including untracked files and ignored files, to clean the working directory completely.", "output": "git stash --all"}
+{"instruction": "Restore a specific file named 'config.yaml' from a previous commit (hash 'f4s7b89') to the staging area without changing the current HEAD.", "output": "git checkout f4s7b89 -- config.yaml"}
+{"instruction": "Merge the 'feature-branch' into the current branch, but force conflict resolution by accepting all incoming changes from 'feature-branch' (theirs).", "output": "git merge -X theirs feature-branch"}
+{"instruction": "Completely remove a submodule located at 'lib/utils' from the configuration and the file system.", "output": "git submodule deinit -f lib/utils\ngit rm -f lib/utils\nrm -rf .git/modules/lib/utils"}
+{"instruction": "Combine the last 4 commits into a single commit to clean up the history before pushing.", "output": "git rebase -i HEAD~4\n# In the editor, change 'pick' to 'squash' (or 's') for the bottom 3 commits, save, and exit."}
+{"instruction": "Use binary search to automatically find the commit that introduced a bug, assuming the current HEAD is bad and the tag 'v1.0' was good, using a test script named 'test.sh'.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.0\ngit bisect run ./test.sh"}
+{"instruction": "Apply a specific commit from a 'feature' branch to the 'main' branch without merging the entire branch.", "output": "git checkout main\ngit cherry-pick <commit-hash-from-feature>"}
+{"instruction": "Recover a commit that was lost due to a hard reset by finding its SHA in the reference logs and restoring the branch pointer to it.", "output": "git reflog\n# Identify the SHA (e.g., abc1234) of the lost commit\ngit reset --hard abc1234"}
+{"instruction": "Add an external repository as a submodule to the project in the folder 'libs/external-tool'.", "output": "git submodule add https://github.com/username/external-tool.git libs/external-tool"}
+{"instruction": "Clone a repository that contains submodules and ensure all nested submodules are initialized and updated in one command.", "output": "git clone --recurse-submodules https://github.com/username/repo.git"}
+{"instruction": "During a rebase, you encountered conflicts. You have resolved the conflicts in the files and added them to the staging area. Continue the rebase process.", "output": "git add .\ngit rebase --continue"}
+{"instruction": "Create a 'fixup' commit for a specific past commit to prepare for an autosquash rebase, effectively amending a commit older than the most recent one.", "output": "git commit --fixup <target-commit-hash>\ngit rebase -i --autosquash <target-commit-hash>^"}
+{"instruction": "Create a new working tree in a separate directory called 'hotfix-worktree' based on the 'master' branch to work on two branches simultaneously without switching contexts.", "output": "git worktree add ../hotfix-worktree master"}
+{"instruction": "Completely remove a file named 'secrets.txt' from the entire Git history (all commits and tags) to prevent sensitive data leakage.", "output": "git filter-branch --force --index-filter \"git rm --cached --ignore-unmatch secrets.txt\" --prune-empty --tag-name-filter cat -- --all"}
+{"instruction": "Squash the last 5 commits into a single commit to clean up the history before pushing.", "output": "git rebase -i HEAD~5"}
+{"instruction": "Use git bisect to automatically find the commit that introduced a bug by running a test script, assuming the current HEAD is bad and 'v2.0' is good.", "output": "git bisect start && git bisect bad && git bisect good v2.0 && git bisect run ./test-script.sh"}
+{"instruction": "Apply a specific range of commits (from commit A exclusive to commit B inclusive) from another branch onto the current branch.", "output": "git cherry-pick A..B"}
+{"instruction": "Recover a branch pointer that was accidentally lost due to a 'git reset --hard' by finding the previous HEAD SHA in the logs.", "output": "git reflog\n# Locate the desired SHA, then:\ngit reset --hard <commit-sha>"}
+{"instruction": "Initialize and update all nested submodules recursively after cloning a repository that wasn't cloned with the recursive flag.", "output": "git submodule update --init --recursive"}
+{"instruction": "Revert a merge commit (hash: 8f2a1b) on the main line, keeping the changes from the first parent (the branch you merged into).", "output": "git revert -m 1 8f2a1b"}
+{"instruction": "Create a new linked working tree in a directory named 'deploy-fix' checked out to the 'hotfix' branch, allowing parallel work without switching the current branch.", "output": "git worktree add ../deploy-fix hotfix"}
+{"instruction": "Search through the entire commit history (including diff contents) for the string 'TODO: Refactor' across all branches.", "output": "git log --all -S \"TODO: Refactor\""}
+{"instruction": "Change the author information of the most recent commit without modifying its content or message.", "output": "git commit --amend --author=\"New Name <email@example.com>\" --no-edit"}
+{"instruction": "Remove a file named 'secrets.env' from the entire commit history and rewrite tags to match.", "output": "git filter-branch --force --index-filter \"git rm --cached --ignore-unmatch secrets.env\" --prune-empty --tag-name-filter cat -- --all"}
+{"instruction": "Squash the last 3 commits into a single commit using interactive rebase.", "output": "git rebase -i HEAD~3"}
+{"instruction": "Start a binary search to find the commit that introduced a bug, marking the current state as bad and version v1.0.0 as good.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.0.0"}
+{"instruction": "Apply a specific range of commits (from commit A exclusive to commit B inclusive) from another branch to the current branch.", "output": "git cherry-pick <commit-A>..<commit-B>"}
+{"instruction": "Recover a branch that was accidentally deleted by finding its last commit SHA in the reflog and creating a new branch from it.", "output": "git reflog\ngit checkout -b <new-branch-name> <sha-from-reflog>"}
+{"instruction": "Clone a repository and automatically initialize and update all nested submodules recursively.", "output": "git clone --recurse-submodules <repository-url>"}
+{"instruction": "Create a 'fixup' commit for a specific previous commit SHA, then automatically squash it into that commit using rebase.", "output": "git commit --fixup <target-sha>\ngit rebase -i --autosquash <target-sha>^"}
+{"instruction": "Create a separate working tree for a feature branch in a new directory to work on it in parallel without switching the current branch.", "output": "git worktree add ../<new-directory-name> <feature-branch>"}
+{"instruction": "Find dangling commits (lost commits not reachable by any reference) to recover data after a destructive operation.", "output": "git fsck --lost-found"}
+{"instruction": "Search the commit history for the specific commit that added or removed the string 'API_SECRET_KEY' (Pickaxe search).", "output": "git log -S \"API_SECRET_KEY\""}
+{"instruction": "Permanently remove a submodule from the project, including its git config entries and directory.", "output": "git submodule deinit -f <submodule-path>\ngit rm -f <submodule-path>\nrm -rf .git/modules/<submodule-path>"}
+{"instruction": "Squash the last 3 commits on the current branch into a single commit using interactive rebase.", "output": "git rebase -i HEAD~3"}
+{"instruction": "Use git bisect to automatically find the commit that broke a test, assuming the current HEAD is bad and version v1.0 was good.", "output": "git bisect start\ngit bisect bad\ngit bisect good v1.0\ngit bisect run npm test"}
+{"instruction": "Cherry-pick a range of commits (from commit A to commit B) onto the current branch.", "output": "git cherry-pick A^..B"}
+{"instruction": "Recover a branch that was accidentally deleted or lost due to a hard reset by finding its SHA in the reflog and creating a new branch pointing to it.", "output": "git reflog\ngit branch <new-branch-name> <commit-sha-from-reflog>"}
+{"instruction": "Initialize and update all nested submodules within an existing repository recursively.", "output": "git submodule update --init --recursive"}
+{"instruction": "Create a new linked working tree in a separate directory named 'hotfix-work' based on the 'master' branch.", "output": "git worktree add ../hotfix-work master"}
+{"instruction": "Search the entire commit history for the commit that added or removed the string 'API_SECRET_KEY' (Pickaxe search).", "output": "git log -S \"API_SECRET_KEY\""}
+{"instruction": "Revert a merge commit, specifying the first parent as the mainline.", "output": "git revert -m 1 <merge-commit-hash>"}
+{"instruction": "Stash all changes, including untracked files, but keep the index (staged changes) as is.", "output": "git stash push --include-untracked --keep-index"}
+{"instruction": "Force push changes to the remote repository safely, ensuring you do not overwrite work pushed by others since your last fetch.", "output": "git push --force-with-lease origin <branch-name>"}
+{"instruction": "Start an interactive rebase for the last 5 commits to squash, reword, or reorder them.", "output": "git rebase -i HEAD~5"}
+{"instruction": "Initialize a binary search to find a bug, marking the current HEAD as 'bad' and the tag 'v2.0' as 'good'.", "output": "git bisect start && git bisect bad && git bisect good v2.0"}
+{"instruction": "Apply a range of commits from commit A (exclusive) to commit B (inclusive) from another branch to the current branch.", "output": "git cherry-pick A..B"}
+{"instruction": "Recover a lost commit with hash 'a1b2c3d' (found via reflog) by creating a new branch named 'recovery-branch' pointing to it.", "output": "git branch recovery-branch a1b2c3d"}
+{"instruction": "Transplant the 'feature' branch, which is currently based on 'old-base', onto 'new-base' using rebase --onto.", "output": "git rebase --onto new-base old-base feature"}
+{"instruction": "Initialize and clone all nested submodules recursively for the project.", "output": "git submodule update --init --recursive"}
+{"instruction": "Create a fixup commit for a specific existing commit hash to be automatically squashed later with rebase --autosquash.", "output": "git commit --fixup <commit-hash>"}
+{"instruction": "Reset the current branch hard to the state it was in 3 actions ago according to the reflog.", "output": "git reset --hard HEAD@{3}"}
+{"instruction": "Automate the bisect process using a script named 'test-script.sh' to identify the breaking commit.", "output": "git bisect run ./test-script.sh"}
+{"instruction": "Stash untracked files and staged changes, but keep the current index (staged files) intact in the working directory, with a custom message.", "output": "git stash push --keep-index --include-untracked -m \"saving work\""}
+{"instruction": "Squash the last 4 commits on the current branch into a single commit using interactive rebase.", "output": "git rebase -i HEAD~4"}
+{"instruction": "Use git bisect to find a bug, marking the current commit as 'bad' and the tag 'v1.0' as 'good'.", "output": "git bisect start\ngit bisect bad HEAD\ngit bisect good v1.0"}
+{"instruction": "Apply a specific range of commits (from commit A to commit B) from another branch onto the current branch using cherry-pick.", "output": "git cherry-pick A..B"}
+{"instruction": "Recover a commit that was lost due to a hard reset by finding its hash in the reflog and resetting the current branch to it.", "output": "git reflog\n# Assuming the lost commit hash is abc1234\ngit reset --hard abc1234"}
+{"instruction": "Add a new repository as a submodule to the project at the path 'vendor/plugins'.", "output": "git submodule add https://github.com/example/plugin.git vendor/plugins"}
+{"instruction": "Move the 'feature' branch, which is currently based on 'develop', to be based on 'master' instead.", "output": "git rebase --onto master develop feature"}
+{"instruction": "Create a 'fixup' commit for a specific previous commit hash to prepare for an autosquash rebase.", "output": "git commit --fixup <commit-hash>"}
+{"instruction": "Initialize and update all nested submodules recursively after cloning a repository.", "output": "git submodule update --init --recursive"}
+{"instruction": "Create a separate linked working tree for the 'hotfix' branch in a new directory called '../project-hotfix' to work on it without switching the current directory context.", "output": "git worktree add ../project-hotfix hotfix"}
+{"instruction": "Search the commit history for any commit that added or removed the string 'API_KEY' in the file 'config.js'.", "output": "git log -S \"API_KEY\" -- config.js"}
