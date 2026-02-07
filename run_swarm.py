@@ -35,10 +35,15 @@ def main():
     
     # 3. Trigger
     print("\n🚀 Injecting User Request...")
-    architect.send(
-        recipient="@roe/architect", # Self-trigger or from 'user'
+    
+    # Manually publish as "user"
+    msg = SwarmMessage(
+        sender="user",
+        recipient="@roe/architect",
+        type=MessageType.INSTRUCTION,
         payload={"task": "Build a Todo App"}
     )
+    bus.publish(msg)
     
     # 4. In a real threaded system, we'd wait. 
     # Since our bus is synchronous (process_queue calls callbacks immediately),
