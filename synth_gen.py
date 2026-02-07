@@ -89,25 +89,6 @@ TASKS = {
     "secops": {
         "file": "secops_training.jsonl",
         "prompt": "Generate 10 unique Security Operations tasks (Python/Bash). Focus on vulnerability scanning, log analysis (SIEM), firewall rule generation (iptables/nftables), and server hardening scripts. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
-    }
-    # DEFERRED TO v0.9.0
-    # "atak": { ... }, "wintak": { ... }
-}
-    "itak": {
-        "file": "itak_training.jsonl",
-        "prompt": "Generate 10 unique iTAK (iOS Team Awareness Kit) Plugin tasks (Swift/SwiftUI). Focus on lightweight map tools, data packages, and iOS-specific UI patterns for situational awareness. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
-    },
-    "tak_server": {
-        "file": "tak_server_training.jsonl",
-        "prompt": "Generate 10 unique TAK Server Administration tasks (Bash/Docker/XML). Focus on SSL/TLS certificate generation, federation config, user management, and data package synchronization. Format: JSON array of objects with keys 'instruction' (the task) and 'output' (the code solution). Output ONLY raw JSON."
-    },
-    "tak_ops": {
-        "file": "tak_ops_training.jsonl",
-        "prompt": "Generate 10 unique TAK Operator Q&A tasks. Focus on field usage: 'How do I broadcast a 9-line?', 'How to pair a drone?', 'Troubleshoot connection', 'Using the viewshed tool'. Format: JSON array of objects with keys 'instruction' (the user question) and 'output' (the step-by-step answer). Output ONLY raw JSON."
-    },
-    "cot": {
-        "file": "cot_training.jsonl",
-        "prompt": "Generate 10 unique CoT (Cursor on Target) XML tasks. Focus on generating valid XML messages for various unit types (Hostile/Friendly/Neutral), sensor hits, and chat messages. Format: JSON array of objects with keys 'instruction' (the request) and 'output' (the XML block). Output ONLY raw JSON."
     },
     "ai_eng": {
         "file": "ai_eng_training.jsonl",
@@ -181,7 +162,8 @@ def generate_batch(task_name):
         print(f"[{task_name.upper()}] Error: {e}")
 
 # Priority Order
-PRIORITY_ORDER = ["backend", "frontend", "architect", "devops", "ios", "android", "flutter", "shell", "sql", "git", "react-native", "tak_ops", "atak", "wintak", "itak", "tak_server", "cot", "macos", "windows", "secops", "ai_eng"]
+# Removing deferred brains (TAK suite, Desktop) from active generation
+PRIORITY_ORDER = ["backend", "frontend", "architect", "devops", "ios", "android", "flutter", "shell", "sql", "git", "react-native", "secops", "ai_eng"]
 TARGET_COUNT = 1000
 
 def get_current_count(task_name):
