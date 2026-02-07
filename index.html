@@ -516,6 +516,17 @@
                 }
             }
         }
+        
+        // Init on load
+        window.onload = function() {
+            // Ensure all are hidden first except default
+            document.querySelectorAll('.tab-section').forEach(el => el.style.display = 'none');
+            
+            switchSection('manifesto');
+            // Fix the button highlight manually since event.target won't exist
+            document.querySelectorAll('.main-nav .filter-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('nav-manifesto').classList.add('active');
+        };
     </script>
 </head>
 <body>
@@ -579,9 +590,9 @@
                     <span class="tag"><b>@roe/react-native</b> ✅ Live</span>
                     <span class="tag"><b>@roe/shell</b> ✅ Live</span>
                     <span class="tag"><b>@roe/sql</b> ✅ Live</span>
+                    <span class="tag"><b>@roe/git</b> ✅ Live</span>
                     <span class="tag"><b>@roe/ai-eng</b> 🛠️ Building</span>
                     <span class="tag"><b>@roe/sec-ops</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/git</b> 🛠️ Building</span>
                     <!-- v0.9.0 Planned -->
                     <span class="tag"><b>@roe/macos</b> 🥚 v0.9.0</span>
                     <span class="tag"><b>@roe/windows</b> 🥚 v0.9.0</span>
@@ -602,19 +613,19 @@
                     <span class="tag"><b>@roe/android</b> ✅ Live</span>
                     <span class="tag"><b>@roe/flutter</b> ✅ Live</span>
                     <span class="tag"><b>@roe/react-native</b> ✅ Live</span>
-                    <span class="tag"><b>@roe/macos</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/windows</b> 🛠️ Building</span>
+                    <span class="tag"><b>@roe/shell</b> ✅ Live</span>
+                    <span class="tag"><b>@roe/sql</b> ✅ Live</span>
+                    <span class="tag"><b>@roe/git</b> ✅ Live</span>
                     <span class="tag"><b>@roe/ai-eng</b> 🛠️ Building</span>
                     <span class="tag"><b>@roe/sec-ops</b> 🛠️ Building</span>
+                    <span class="tag"><b>@roe/macos</b> 🛠️ Building</span>
+                    <span class="tag"><b>@roe/windows</b> 🛠️ Building</span>
                     <span class="tag"><b>@roe/atak</b> 🛠️ Building</span>
                     <span class="tag"><b>@roe/wintak</b> 🛠️ Building</span>
                     <span class="tag"><b>@roe/itak</b> 🛠️ Building</span>
                     <span class="tag"><b>@roe/tak-server</b> 🛠️ Building</span>
                     <span class="tag"><b>@roe/tak-ops</b> 🛠️ Building</span>
                     <span class="tag"><b>@roe/cot</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/shell</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/sql</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/git</b> 🛠️ Building</span>
                     <span class="tag"><b>@roe/unity</b> 🥚 Planned</span>
                     <span class="tag"><b>@roe/unreal</b> 🥚 Planned</span>
                 </div>
@@ -843,7 +854,7 @@
                         <span class="brain-name">@roe/git</span>
                         <div class="brain-meta">
                             <span class="brain-size">1B</span>
-                            <span class="brain-status">SOON</span>
+                            <span class="brain-status live">LIVE</span>
                         </div>
                     </div>
                     <p class="brain-desc">The Version Controller. Handles rebase, bisect, and complex merge conflicts.</p>
@@ -1147,7 +1158,7 @@
             <!-- Content moved to top manifesto section -->
         </section>
 
-        <section id="swarm" class="tab-section">
+        <section id="swarm">
             <h2 class="section-title">The Swarm (Coming Soon)</h2>
             <div style="background: #0a0a0a; border: 1px solid #333; padding: 2rem; border-radius: 12px;">
                 <p style="font-size: 1.1rem; color: #ccc; margin-bottom: 1.5rem;">
@@ -1179,15 +1190,15 @@
                     <h3>The Expansion</h3>
                     <p>Mobile, Desktop, and AI Engineering brains. "Train Your Own Brain" (Local LoRA) wizard.</p>
                 </div>
-                <div class="roadmap-item done">
-                    <span>v0.6.2</span>
+                <div class="roadmap-item active">
+                    <span>v0.6.2 (Current)</span>
                     <h3>The Agentic Core</h3>
                     <p>Real Inference (Llama-3B), Code Execution, and the "Secure" TUI. Live now.</p>
                 </div>
-                <div class="roadmap-item active">
-                    <span>v0.7.0 (Alpha)</span>
+                <div class="roadmap-item">
+                    <span>v0.7.0</span>
                     <h3>The Swarm</h3>
-                    <p>Multi-agent bus protocol. Agents talking to agents. Architecture live.</p>
+                    <p>Multi-agent bus. Brains talk to each other to solve complex tasks. Shared Vector Memory.</p>
                 </div>
                 <div class="roadmap-item">
                     <span>v0.8.0</span>
