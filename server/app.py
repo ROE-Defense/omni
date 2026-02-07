@@ -1,15 +1,20 @@
-from fastapi import FastAPI, HTTPException, WebSocket
+from fastapi import FastAPI, HTTPException, WebSocket, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 import asyncio
 import json
+import shutil
+import os
 
 from .core import OmniCore
 from swarm.types import SwarmMessage
 
-app = FastAPI(title="Omni Local API", version="0.8.0")
+app = FastAPI(title="Omni Local API", version="0.9.0")
+UPLOAD_DIR = os.path.expanduser("~/.omni/uploads")
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+# ... (CORS logic same as before) ...
 # CORS (Allow local frontend)
 app.add_middleware(
     CORSMiddleware,
@@ -42,11 +47,14 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     response: str
 
+class VisionRequest(BaseModel):
+    prompt: str = "Describe this image."
+
 # -- Endpoints --
 
 @app.get("/")
 def read_root():
-    return {"status": "Omni Online", "version": "v0.8.0"}
+    return {"status": "Omni Online", "version": "v0.9.0"}
 
 @app.get("/brains")
 def list_brains():
@@ -71,6 +79,30 @@ def chat(req: ChatRequest):
     except Exception as e:
         if "Model not installed" in str(e):
              raise HTTPException(status_code=404, detail="Model missing")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/vision")
+async def analyze_image(prompt: str = "Describe this", file: UploadFile = File(...)):
+    try:
+        file_path = os.path.join(UPLOAD_DIR, file.filename)
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+            
+        description = omni.run_vision(file_path, prompt)
+        return {"description": description}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/voice")
+async def transcribe_audio(file: UploadFile = File(...)):
+    try:
+        file_path = os.path.join(UPLOAD_DIR, file.filename)
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+            
+        text = omni.run_transcription(file_path)
+        return {"transcription": text}
+    except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.websocket("/ws")

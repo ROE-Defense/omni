@@ -123,3 +123,44 @@ Current Persona: @roe/{active_brain if active_brain != "None" else "omni"}
             return True
         except Exception as e:
             raise e
+
+    # -- VISION (The Eyes) --
+    def run_vision(self, image_path: str, prompt: str = "Describe this image."):
+        """Analyze an image using Moondream/NanoLLaVA."""
+        print(f"[Vision] Analyzing {image_path}...")
+        try:
+            from mlx_vlm import load, generate
+            from mlx_vlm.utils import load_image
+            
+            # Use Moondream for speed/size (safe for 8B concurrent)
+            vision_model_path = "mlx-community/moondream2-mlx" 
+            
+            # Load Model (Cached by MLX)
+            model, processor = load(vision_model_path)
+            
+            # Load Image
+            image = load_image(image_path)
+            
+            # Generate
+            output = generate(model, processor, image, prompt, verbose=False)
+            return output
+        except Exception as e:
+            print(f"[Vision] Error: {e}")
+            return f"Vision Error: {str(e)}"
+
+    # -- VOICE (The Ears) --
+    def run_transcription(self, audio_path: str):
+        """Transcribe audio using Whisper."""
+        print(f"[Voice] Listening to {audio_path}...")
+        try:
+            import mlx_whisper
+            
+            # Use base model (sufficient for commands)
+            result = mlx_whisper.transcribe(
+                audio_path, 
+                path_or_hf_repo="mlx-community/whisper-base-mlx"
+            )
+            return result["text"]
+        except Exception as e:
+            print(f"[Voice] Error: {e}")
+            return f"Voice Error: {str(e)}"
