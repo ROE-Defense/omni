@@ -266,7 +266,16 @@ class OmniAgent:
 
 def main():
     agent = OmniAgent()
-    agent.run_cli()
+    
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "serve":
+            console.print("[bold green]Starting Omni Local API...[/bold green]")
+            import uvicorn
+            uvicorn.run("server.app:app", host="127.0.0.1", port=8000, reload=False)
+        else:
+            agent.run_cli()
+    else:
+        agent.run_cli()
 
 if __name__ == "__main__":
     main()
