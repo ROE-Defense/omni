@@ -156,7 +156,7 @@ class OmniAgent:
         if not matches:
             return
 
-        lang, code = matches[-1] # Take the last block (usually the full solution)
+        lang, code = matches[-1] # Take the last block
         
         # Determine filename
         ext = "txt"
@@ -177,9 +177,22 @@ class OmniAgent:
             # Execute
             try:
                 if ext == "py":
-                    subprocess.run([sys.executable, filename])
+                    # Run with current python
+                    result = subprocess.run([sys.executable, filename], capture_output=True, text=True)
+                    print(result.stdout)
+                    if result.returncode != 0:
+                        console.print(f"[red]Execution Error:[/red]\n{result.stderr}")
+                        
+                        # Auto-Fix Dependencies
+                        if "ModuleNotFoundError" in result.stderr:
+                            missing_module = result.stderr.split("'")[1]
+                            if Confirm.ask(f"[yellow]Missing module '{missing_module}'. Install via pip?[/yellow]"):
+                                with console.status(f"Installing {missing_module}..."):
+                                    subprocess.run([sys.executable, "-m", "pip", "install", missing_module])
+                                console.print("[green]✓ Installed. Re-running...[/green]")
+                                subprocess.run([sys.executable, filename])
+
                 elif ext == "html":
-                    # Open in browser (macOS/Linux)
                     opener = "open" if sys.platform == "darwin" else "xdg-open"
                     subprocess.run([opener, filename])
                 elif ext == "sh":
@@ -229,6 +242,12 @@ class OmniAgent:
             if user_input.lower() == "menu":
                 self.available_brains = self.scan_brains()
                 console.print(f"[cyan]Available Personas:[/cyan] {', '.join(self.available_brains)}")
+                continue
+
+            # System Inspection Logic
+            if "what brains" in user_input.lower() or "list brains" in user_input.lower():
+                self.available_brains = self.scan_brains()
+                console.print(f"[cyan]System Registry:[/cyan] {', '.join(self.available_brains)}")
                 continue
 
             # Auto-Routing Logic
