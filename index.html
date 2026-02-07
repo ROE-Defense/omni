@@ -437,6 +437,13 @@
         .use-case-item.active .arrow { transform: rotate(180deg); color: var(--accent); }
         .section-title { font-size: 2rem; margin-bottom: 2rem; border-bottom: 1px solid #222; padding-bottom: 1rem; }
         
+        /* Section Visibility Control */
+        .tab-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        #manifesto { display: block; } /* Default open */
+
         footer { margin-top: 6rem; text-align: center; color: #444; font-size: 0.9rem; border-top: 1px solid #111; padding-top: 2rem; }
         a { color: var(--accent); text-decoration: none; }
     </style>
@@ -494,27 +501,21 @@
             event.target.classList.add('active');
 
             // Hide all main sections
-            const sections = ['manifesto', 'custom-brain', 'brains', 'use-cases', 'swarm', 'roadmap'];
-            sections.forEach(id => {
-                document.getElementById(id).style.display = 'none';
-            });
+            document.querySelectorAll('.tab-section').forEach(el => el.style.display = 'none');
 
             // Show target
             document.getElementById(sectionId).style.display = 'block';
             
-            // Special handling for flexible display types if needed, but block works for most
-            if (sectionId === 'custom-brain') {
-                 // Keep its flex/grid layout internal
+            // Smooth Scroll to Top of Content (Fix Jolt)
+            // Only scroll if we are below the nav bar
+            const nav = document.querySelector('.main-nav');
+            if (nav) {
+                const navBottom = nav.getBoundingClientRect().bottom + window.scrollY;
+                if (window.scrollY > navBottom) {
+                    window.scrollTo({ top: navBottom - 20, behavior: 'smooth' });
+                }
             }
         }
-        
-        // Init on load
-        window.onload = function() {
-            switchSection('manifesto');
-            // Fix the button highlight manually since event.target won't exist
-            document.querySelectorAll('.main-nav .filter-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('nav-manifesto').classList.add('active');
-        };
     </script>
 </head>
 <body>
@@ -630,7 +631,7 @@
             </div>
         </header>
 
-        <section id="manifesto" style="margin-bottom: 6rem;">
+        <section id="manifesto" class="tab-section" style="margin-bottom: 6rem;">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
                 <div>
                     <h2 class="section-title" style="margin-top: 0;">What is Omni?</h2>
@@ -673,7 +674,7 @@
             </div>
         </section>
 
-        <section id="custom-brain" style="background: linear-gradient(145deg, #0a0a0a, #111); border: 1px solid var(--accent); border-radius: 16px; padding: 3rem; margin: 6rem 0; position: relative; overflow: hidden;">
+        <section id="custom-brain" class="tab-section" style="background: linear-gradient(145deg, #0a0a0a, #111); border: 1px solid var(--accent); border-radius: 16px; padding: 3rem; margin: 6rem 0; position: relative; overflow: hidden;">
             <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: var(--accent); opacity: 0.1; filter: blur(80px); border-radius: 50%;"></div>
             
             <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.5rem;">
@@ -711,7 +712,7 @@
             </div>
         </section>
 
-        <section id="brains">
+        <section id="brains" class="tab-section">
             <h2 class="section-title">The Brain Store 🧠</h2>
             <p style="text-align: center; color: #888; margin-bottom: 2rem;">Select a specialized brain to load into your stack.</p>
             
@@ -1088,7 +1089,7 @@
             </div>
         </section>
 
-        <section id="use-cases">
+        <section id="use-cases" class="tab-section">
             <h2 class="section-title">What Can You Build?</h2>
             
             <div class="use-case-item">
@@ -1146,7 +1147,7 @@
             <!-- Content moved to top manifesto section -->
         </section>
 
-        <section id="swarm">
+        <section id="swarm" class="tab-section">
             <h2 class="section-title">The Swarm (Coming Soon)</h2>
             <div style="background: #0a0a0a; border: 1px solid #333; padding: 2rem; border-radius: 12px;">
                 <p style="font-size: 1.1rem; color: #ccc; margin-bottom: 1.5rem;">
@@ -1170,7 +1171,7 @@
             </div>
         </section>
 
-        <section id="roadmap">
+        <section id="roadmap" class="tab-section">
             <h2 class="section-title">Master Roadmap</h2>
             <div class="roadmap-tree">
                 <div class="roadmap-item done">
