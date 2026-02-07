@@ -245,9 +245,30 @@ class OmniAgent:
                 continue
 
             # System Inspection Logic
-            if "what brains" in user_input.lower() or "list brains" in user_input.lower():
-                self.available_brains = self.scan_brains()
-                console.print(f"[cyan]System Registry:[/cyan] {', '.join(self.available_brains)}")
+            if any(x in user_input.lower() for x in ["what brains", "list brains", "which brains", "downloaded", "installed"]):
+                table = Table(title="Cognitive Cartridge Status", border_style="cyan")
+                table.add_column("Brain", style="white")
+                table.add_column("Status", style="green")
+                
+                # Check Local
+                local_brains = []
+                if os.path.exists("models"):
+                    for p in glob.glob("models/*-fused"):
+                        local_brains.append(os.path.basename(p).replace("-fused", ""))
+                
+                # Base Model
+                if os.path.exists(LOCAL_MODEL_DIR):
+                    table.add_row("Base Model (Llama-3B)", "✅ Downloaded")
+                else:
+                    table.add_row("Base Model (Llama-3B)", "❌ Missing")
+
+                for brain in self.available_brains:
+                    if brain in local_brains:
+                        table.add_row(f"@roe/{brain}", "✅ Fine-Tuned")
+                    else:
+                        table.add_row(f"@roe/{brain}", "☁️  Remote / Simulated")
+                
+                console.print(table)
                 continue
 
             # Auto-Routing Logic
