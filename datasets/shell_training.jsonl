@@ -1,0 +1,1000 @@
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in a file named 'config.conf' and create a backup file named 'config.conf.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.conf"}
+{"instruction": "Find all files larger than 100MB in the current directory and its subdirectories, and delete them immediately.", "output": "find . -type f -size +100M -exec rm {} +"}
+{"instruction": "Sum the values in the third column of a comma-separated value (CSV) file named 'sales.csv' using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Extract IP addresses (assumed to be the first column) from an Apache/Nginx access log, count unique occurrences, and display the top 10 most frequent IPs.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively search for the string 'FIXME' in the current directory, displaying line numbers, while excluding the 'node_modules' and '.git' directories.", "output": "grep -rn \"FIXME\" . --exclude-dir={node_modules,.git}"}
+{"instruction": "Batch rename all files with the extension '.jpeg' to '.jpg' in the current directory using a bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Display the disk usage of all subdirectories in the current path in a human-readable format, sorted by size in descending order.", "output": "du -h --max-depth=1 | sort -hr"}
+{"instruction": "Kill all running processes that match the name 'python' using pkill.", "output": "pkill -f python"}
+{"instruction": "Print specific lines (from line 5 to line 10) of a file named 'script.sh'.", "output": "sed -n '5,10p' script.sh"}
+{"instruction": "List all listening TCP ports along with the process ID and name (requires sudo for full process details).", "output": "sudo ss -tulpn"}
+{"instruction": "Sum the values in the third column of a CSV file using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find all '.txt' files in the current directory and replace the string 'foo' with 'bar' inside them using sed.", "output": "find . -type f -name \"*.txt\" -exec sed -i 's/foo/bar/g' {} +"}
+{"instruction": "Extract the top 10 most frequent IP addresses from an Apache/Nginx access log.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all files with the extension '.jpeg' to '.jpg' in the current directory using a bash loop.", "output": "for file in *.jpeg; do mv -- \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Print specific lines (e.g., lines 20 to 30) from a large file using sed.", "output": "sed -n '20,30p' largefile.log"}
+{"instruction": "Remove duplicate lines from a file based on the first column only, preserving the original order.", "output": "awk '!seen[$1]++' input.txt"}
+{"instruction": "Find and delete all empty directories recursively starting from the current location.", "output": "find . -type d -empty -delete"}
+{"instruction": "Convert Windows line endings (CRLF) to Unix line endings (LF) in a script file using sed.", "output": "sed -i 's/\\r$//' script.sh"}
+{"instruction": "List the top 5 memory-consuming processes sorted by memory usage.", "output": "ps aux --sort=-%mem | awk 'NR<=6 {print $0}'"}
+{"instruction": "Using Zsh, archive all log files modified in the last 7 days into a tarball.", "output": "tar -czvf logs_backup.tar.gz **/*.log(.m-7)"}
+{"instruction": "Sum the numbers in the third column of a comma-separated file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files ending in '.log' in the '/var/log' directory that are older than 30 days.", "output": "find /var/log -name \"*.log\" -mtime +30 -delete"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in 'config.php' in-place and create a backup file with extension .bak.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.php"}
+{"instruction": "Parse an Nginx access log to count unique IP addresses (column 1) and sort them by the number of occurrences in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Recursively search for the string 'TODO' in the current directory, showing line numbers, but exclude the 'node_modules' directory.", "output": "grep -rn \"TODO\" . --exclude-dir=node_modules"}
+{"instruction": "Batch rename all '.txt' files in the current directory to '.md' using a bash for loop.", "output": "for f in *.txt; do mv \"$f\" \"${f%.txt}.md\"; done"}
+{"instruction": "Display the top 5 largest directories within the current path in a human-readable format.", "output": "du -ah --max-depth=1 | sort -hr | head -n 5"}
+{"instruction": "Print specific lines 10 through 20 from a file named 'large_dataset.txt'.", "output": "sed -n '10,20p' large_dataset.txt"}
+{"instruction": "Create a compressed tar archive of the 'project' folder, excluding the '.git' directory.", "output": "tar -czvf project_backup.tar.gz --exclude='.git' project"}
+{"instruction": "List all processes listening on TCP ports along with their PID and program name (requires root privileges).", "output": "sudo ss -tulpn"}
+{"instruction": "Find all files in the current directory and subdirectories modified within the last 7 days and archive them into a tarball named 'backup.tar.gz'.", "output": "find . -type f -mtime -7 -print0 | xargs -0 tar -czf backup.tar.gz"}
+{"instruction": "Recursively replace all occurrences of the string 'http://old-site.com' with 'https://new-site.com' in all '.html' files.", "output": "find . -name \"*.html\" -print0 | xargs -0 sed -i 's|http://old-site.com|https://new-site.com|g'"}
+{"instruction": "Calculate the sum of the numbers in the third column of a CSV file named 'data.csv', ignoring the header row.", "output": "awk -F',' 'NR>1 {sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Parse a server access log (e.g., Nginx/Apache) to find the top 10 most frequent IP addresses (assuming IP is the first field).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all files in the current directory with the extension '.jpeg' to '.jpg'.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Remove all empty lines or lines containing only whitespace from a file named 'config.txt' in place.", "output": "sed -i '/^\\s*$/d' config.txt"}
+{"instruction": "Display the disk usage of all subdirectories in the current path, sorted by size in descending human-readable format, showing only the top 5.", "output": "du -h --max-depth=1 | sort -hr | head -n 5"}
+{"instruction": "Extract and print all lines from a file that appear between the text markers 'BEGIN_KEY' and 'END_KEY' inclusive.", "output": "sed -n '/BEGIN_KEY/,/END_KEY/p' filename.pem"}
+{"instruction": "Find and forcibly kill all running processes that match the name 'worker_script.py'.", "output": "pkill -9 -f worker_script.py"}
+{"instruction": "Check if the 'nginx' service is active using systemd; if it is not, attempt to start it.", "output": "systemctl is-active --quiet nginx || sudo systemctl start nginx"}
+{"instruction": "Calculate the sum of numbers in the third column of a CSV file using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find all files ending in '.log' in the current directory and subdirectories, then archive them into a tarball using xargs for handling large file counts safely.", "output": "find . -type f -name \"*.log\" -print0 | xargs -0 tar -cvzf logs_archive.tar.gz"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in a configuration file in-place, while creating a backup file with a .bak extension.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.conf"}
+{"instruction": "Parse an Nginx/Apache access log to find the top 10 most frequent IP addresses (assuming IP is the first column).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively find the top 5 largest directories or files in the current path and display their size in a human-readable format.", "output": "du -ah . | sort -rh | head -n 5"}
+{"instruction": "Kill a process by its name without using pkill or killall (using ps, grep, awk, and xargs).", "output": "ps aux | grep \"process_name\" | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Extract a block of text from a file that is situated between the lines containing 'START' and 'END' (inclusive).", "output": "sed -n '/START/,/END/p' source_file.txt"}
+{"instruction": "Batch rename all .jpg files in the current directory by prepending the current date (YYYY-MM-DD) to the filename.", "output": "for f in *.jpg; do mv \"$f\" \"$(date +%F)-$f\"; done"}
+{"instruction": "Remove duplicate lines from a file without re-sorting the file (preserving original order) using awk.", "output": "awk '!seen[$0]++' input.txt"}
+{"instruction": "Check which process ID (PID) and command are listening on a specific TCP port (e.g., 8080) using lsof.", "output": "lsof -i :8080 -sTCP:LISTEN"}
+{"instruction": "Sum the numerical values in the third column of a CSV file using Awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find all '.txt' files in the current directory and replace the string 'localhost' with '127.0.0.1' in-place.", "output": "find . -type f -name \"*.txt\" -exec sed -i 's/localhost/127.0.0.1/g' {} +"}
+{"instruction": "Parse a web server access log to display the top 5 most requesting IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 5"}
+{"instruction": "Kill a process by name pattern (e.g., 'python_worker') without using pkill/killall, utilizing ps, grep, awk, and xargs.", "output": "ps aux | grep 'python_worker' | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Print lines 10 through 20 of a file using sed.", "output": "sed -n '10,20p' filename.txt"}
+{"instruction": "Find and list all files in the '/var/log' directory that are larger than 100MB.", "output": "find /var/log -type f -size +100M -exec ls -lh {} \\;"}
+{"instruction": "Batch rename all files with the extension '.htm' to '.html' in the current directory using a Bash for-loop.", "output": "for f in *.htm; do mv -- \"$f\" \"${f%.htm}.html\"; done"}
+{"instruction": "Remove all empty lines (including lines with only whitespace) from a file.", "output": "sed -i '/^\\s*$/d' filename.txt"}
+{"instruction": "Check if a specific systemd service (e.g., nginx) is active, and if not, attempt to start it.", "output": "systemctl is-active --quiet nginx || sudo systemctl start nginx"}
+{"instruction": "Extract all email addresses from a text file using grep with extended regex.", "output": "grep -E -o \"\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b\" input.txt"}
+{"instruction": "Recursively find all files ending in '.log' inside '/var/logs' that are older than 7 days and delete them.", "output": "find /var/logs -name \"*.log\" -type f -mtime +7 -delete"}
+{"instruction": "Parse an Apache/Nginx access log to find the top 10 most frequent IP addresses (assumes IP is the first column).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all '.txt' files in the current directory to '.md' using a bash for-loop.", "output": "for f in *.txt; do mv -- \"$f\" \"${f%.txt}.md\"; done"}
+{"instruction": "Replace the string 'http://' with 'https://' in all files within the current directory recursively.", "output": "grep -rl 'http://' . | xargs sed -i 's|http://|https://|g'"}
+{"instruction": "Display the top 5 largest directories within the current path, sorted by size in human-readable format.", "output": "du -ah --max-depth=1 | sort -rh | head -n 5"}
+{"instruction": "Kill a process running on a specific TCP port (e.g., port 8080) immediately.", "output": "fuser -k 8080/tcp"}
+{"instruction": "Print only the lines in a text file that are longer than 80 characters using awk.", "output": "awk 'length($0) > 80' input.txt"}
+{"instruction": "Extract a specific range of lines (e.g., lines 20 to 30) from a large file.", "output": "sed -n '20,30p' largefile.txt"}
+{"instruction": "Watch a log file in real-time, but only display lines containing the word 'ERROR'.", "output": "tail -f application.log | grep --line-buffered \"ERROR\""}
+{"instruction": "Remove all empty lines and lines containing only whitespace from a file in place.", "output": "sed -i '/^\\s*$/d' file.txt"}
+{"instruction": "Recursively find all files with the extension '.log' in the '/var/logs' directory that are older than 7 days and delete them.", "output": "find /var/logs -name \"*.log\" -type f -mtime +7 -exec rm {} \\;"}
+{"instruction": "Calculate the sum of the values in the third column of a comma-separated CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all HTML files within the current directory.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "Parse an Apache access log to find the top 10 most frequent requesting IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Find and kill a specific process named 'zombie_worker' by filtering the process list and extracting the PID.", "output": "ps aux | grep '[z]ombie_worker' | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Display the disk usage of all immediate subdirectories in the current path, sorted by size in a human-readable format.", "output": "du -h --max-depth=1 | sort -hr"}
+{"instruction": "Extract and print lines 20 through 30 from a file named 'config.ini'.", "output": "sed -n '20,30p' config.ini"}
+{"instruction": "Batch rename all files in the current directory ending in '.jpeg' to replace the extension with '.jpg'.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "List the usernames of all users on the system who have '/bin/bash' set as their default shell.", "output": "awk -F: '$7 == \"/bin/bash\" {print $1}' /etc/passwd"}
+{"instruction": "Identify which process ID (PID) is currently listening on TCP port 8080.", "output": "lsof -i TCP:8080 -sTCP:LISTEN -t"}
+{"instruction": "Calculate the sum of numbers in the third column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find all '.txt' files in the current directory and replace the string 'http://' with 'https://' in-place.", "output": "find . -type f -name \"*.txt\" -exec sed -i 's|http://|https://|g' {} +"}
+{"instruction": "Delete all empty lines and lines containing only whitespace from a file named 'config.conf'.", "output": "sed -i '/^\\s*$/d' config.conf"}
+{"instruction": "Rename all files with the extension '.jpeg' to '.jpg' in the current directory using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "List the top 10 largest directories within '/var', displaying sizes in a human-readable format.", "output": "du -ah /var 2>/dev/null | sort -rh | head -n 10"}
+{"instruction": "Parse an Apache access log named 'access.log' to count the occurrences of each unique IP address (first field), sorted by frequency.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Print only the lines located between the markers 'START' and 'END' (inclusive) from a file named 'stream.txt'.", "output": "sed -n '/START/,/END/p' stream.txt"}
+{"instruction": "Using Zsh, recursively change the permissions of all shell scripts ending in '.sh' to be executable.", "output": "chmod +x **/*.sh"}
+{"instruction": "Search for the string 'TODO' in all files within the current directory recursively, displaying line numbers.", "output": "grep -rn \"TODO\" ."}
+{"instruction": "Create a compressed tarball named 'project_backup.tar.gz' of the current directory, excluding the hidden '.git' folder.", "output": "tar -czf project_backup.tar.gz --exclude='.git' ."}
+{"instruction": "Recursively find all files ending in '.txt' in the current directory and rename them to '.md'.", "output": "find . -type f -name \"*.txt\" -exec sh -c 'mv \"$1\" \"${1%.txt}.md\"' _ {} \\;"}
+{"instruction": "Parse an Apache access log to calculate the total size (bytes) of data transferred (column 10) for all requests returning a 200 status code (column 9).", "output": "awk '$9 == 200 { sum += $10 } END { print sum }' access.log"}
+{"instruction": "Replace all occurrences of 'http://example.com' with 'https://example.com' in all HTML files in the current directory, creating backup files with a .bak extension.", "output": "sed -i.bak 's|http://example.com|https://example.com|g' *.html"}
+{"instruction": "Find the top 10 memory-consuming processes, displaying the percentage of memory used, the PID, and the command name.", "output": "ps aux --sort=-%mem | awk 'NR<=11 {print $4, $2, $11}'"}
+{"instruction": "Extract all unique IPv4 addresses from a text file using grep and sort them numerically.", "output": "grep -oE '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}' file.txt | sort -u -t . -k 1,1n -k 2,2n -k 3,3n -k 4,4n"}
+{"instruction": "Recursively set permissions for all directories to 755 and all files to 644 within the current folder.", "output": "find . -type d -exec chmod 755 {} + && find . -type f -exec chmod 644 {} +"}
+{"instruction": "Convert a CSV file to a JSON format where the first row contains headers (assuming 3 columns: Name, Age, City).", "output": "awk -F, 'NR==1{next} {printf \"{\\\"Name\\\":\\\"%s\\\", \\\"Age\\\":\\\"%s\\\", \\\"City\\\":\\\"%s\\\"}\\n\", $1, $2, $3}' input.csv"}
+{"instruction": "Create a compressed tar archive (tar.gz) containing only Python files modified in the last 7 days.", "output": "find . -name \"*.py\" -mtime -7 -print0 | tar -czvf python_backup.tar.gz --null -T -"}
+{"instruction": "Compare two unsorted text files line by line to see unique lines in each.", "output": "diff <(sort file1.txt) <(sort file2.txt)"}
+{"instruction": "Check which process is listening on TCP port 8080.", "output": "lsof -i tcp:8080 -sTCP:LISTEN"}
+{"instruction": "Sum the numerical values in the 3rd column of a comma-separated file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all '.log' files in the '/var/log/app' directory that are older than 30 days.", "output": "find /var/log/app -name \"*.log\" -type f -mtime +30 -print0 | xargs -0 rm -f"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in all HTML files in the current directory, editing the files in-place.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "Extract the first column (IP addresses) from a standard access log, count unique occurrences, and display the top 10 most frequent IPs.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -10"}
+{"instruction": "Recursively change permissions within the current directory so that all directories are set to 755 and all files are set to 644.", "output": "find . -type d -exec chmod 755 {} + && find . -type f -exec chmod 644 {} +"}
+{"instruction": "Display the top 5 largest subdirectories within the current path, sorted by size in a human-readable format.", "output": "du -h --max-depth=1 | sort -hr | head -5"}
+{"instruction": "Extract all strings resembling email addresses from a file named 'raw_text.txt' using grep with extended regex.", "output": "grep -E -o \"\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b\" raw_text.txt"}
+{"instruction": "Force kill all running processes that match the name 'zombie_worker' without needing the PID.", "output": "pkill -9 -f zombie_worker"}
+{"instruction": "Print specific lines (specifically lines 20 through 30) of a file named 'config.ini'.", "output": "sed -n '20,30p' config.ini"}
+{"instruction": "Archive and compress the 'project' folder into a file named 'backup.tar.gz', while excluding the 'node_modules' directory.", "output": "tar -czvf backup.tar.gz --exclude='node_modules' project/"}
+{"instruction": "Count the top 10 most frequent IP addresses in an Apache access log file named 'access.log'.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively replace all occurrences of the string 'http://' with 'https://' in all HTML files within the current directory.", "output": "find . -type f -name \"*.html\" -exec sed -i 's|http://|https://|g' {} +"}
+{"instruction": "Find and kill the process currently listening on TCP port 3000.", "output": "lsof -ti :3000 | xargs kill -9"}
+{"instruction": "Calculate the sum of values in the third column of a CSV file named 'expenses.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' expenses.csv"}
+{"instruction": "Batch rename all files in the current directory with a '.jpeg' extension to '.jpg'.", "output": "for file in *.jpeg; do mv -- \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "List the top 5 memory-consuming processes on the system.", "output": "ps aux --sort=-%mem | awk 'NR<=6 {print $1, $2, $3, $4, $11}'"}
+{"instruction": "Extract all valid email addresses from a text file using regex and grep.", "output": "grep -E -o '\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b' input.txt"}
+{"instruction": "Create a tarball archive of the 'project' directory, excluding the 'node_modules' folder.", "output": "tar -czvf project.tar.gz --exclude='node_modules' project/"}
+{"instruction": "Print lines 20 through 30 of a large file named 'data.txt' without reading the whole file.", "output": "sed -n '20,30p' data.txt"}
+{"instruction": "Generate a random 16-character alphanumeric password.", "output": "cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1"}
+{"instruction": "Recursively find and delete all empty directories within the current folder.", "output": "find . -type d -empty -delete"}
+{"instruction": "Sum the values in the third column of a comma-separated value (CSV) file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in the file 'config.xml' in-place, creating a backup with extension .bak.", "output": "sed -i.bak 's|http://|https://|g' config.xml"}
+{"instruction": "List the top 10 largest directories in the current path, displaying human-readable sizes.", "output": "du -sh * | sort -rh | head -10"}
+{"instruction": "Extract and print all unique IPv4 addresses from a text file named 'access.log'.", "output": "grep -oE '([0-9]{1,3}\\.){3}[0-9]{1,3}' access.log | sort | uniq"}
+{"instruction": "Batch rename all files in the current directory ending in '.htm' to '.html'.", "output": "for f in *.htm; do mv -- \"$f\" \"${f%.htm}.html\"; done"}
+{"instruction": "Count the frequency of each unique line in a file, sorting the result by count in descending order.", "output": "sort file.txt | uniq -c | sort -nr"}
+{"instruction": "Kill all running processes that match the name 'node' without confirmation.", "output": "pkill -f node"}
+{"instruction": "Create a compressed tarball of the 'project' directory, excluding the '.git' subdirectory.", "output": "tar -czvf project_backup.tar.gz --exclude='.git' project/"}
+{"instruction": "Watch the 'var/log/syslog' file in real-time, filtering only for lines containing the word 'error' (case-insensitive).", "output": "tail -f /var/log/syslog | grep -i 'error'"}
+{"instruction": "Recursively find all files larger than 100MB in the current directory and display their details.", "output": "find . -type f -size +100M -exec ls -lh {} \\;"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in all HTML files in the current directory, modifying the files in-place.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "Calculate the sum of values in the third column of a comma-separated (CSV) file named 'sales.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Extract and count the top 10 unique IP addresses from a standard Apache/Nginx access log.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all '.txt' files to '.md' in the current directory using a loop.", "output": "for file in *.txt; do mv \"$file\" \"${file%.txt}.md\"; done"}
+{"instruction": "Display the top 5 directories consuming the most disk space in the current path.", "output": "du -h --max-depth=1 | sort -rh | head -n 5"}
+{"instruction": "Remove all empty lines and lines containing only whitespace from a file.", "output": "sed -i '/^[[:space:]]*$/d' filename.txt"}
+{"instruction": "Create a compressed tar archive of a folder named 'project', excluding the '.git' directory.", "output": "tar -czvf project.tar.gz --exclude='.git' project/"}
+{"instruction": "Watch the system log in real-time, filtering only for lines containing the word 'Error' (case-insensitive).", "output": "tail -f /var/log/syslog | grep -i 'error'"}
+{"instruction": "Kill all running processes associated with a specific username.", "output": "pkill -u username"}
+{"instruction": "Recursively find all files larger than 50MB in the '/var/log' directory and delete them immediately.", "output": "find /var/log -type f -size +50M -delete"}
+{"instruction": "Replace all occurrences of the string 'localhost' with '127.0.0.1' in the file 'server.conf' in-place, creating a backup file with extension .bak.", "output": "sed -i.bak 's/localhost/127.0.0.1/g' server.conf"}
+{"instruction": "Calculate the sum of numbers located in the third column of a comma-separated values (CSV) file named 'sales.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Batch rename all files with the extension '.jpeg' to '.jpg' in the current directory using a standard Bash loop.", "output": "for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"}
+{"instruction": "Parse an Apache access log to count the unique occurrences of each client IP address and sort them by frequency in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Display the top 10 largest files or directories within the current folder, utilizing human-readable sizes.", "output": "du -ah . | sort -rh | head -n 10"}
+{"instruction": "Print only the lines in a text file that exist between the markers 'START_BLOCK' and 'END_BLOCK' (inclusive).", "output": "sed -n '/START_BLOCK/,/END_BLOCK/p' filename.txt"}
+{"instruction": "Check which process is listening on TCP port 8080 and display the process ID and name.", "output": "lsof -i :8080 -sTCP:LISTEN"}
+{"instruction": "Archive and compress the 'webapp' directory into 'webapp.tar.gz', explicitly excluding the 'node_modules' subdirectory and '.git' folder.", "output": "tar -czvf webapp.tar.gz --exclude='node_modules' --exclude='.git' webapp/"}
+{"instruction": "Remove duplicate lines from a file named 'unsorted_list.txt' without sorting the file (preserving original order).", "output": "awk '!seen[$0]++' unsorted_list.txt"}
+{"instruction": "Calculate the sum of numbers in the third column of a comma-separated file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find all files ending in '.log' in the '/var/log' directory that are older than 7 days and delete them.", "output": "find /var/log -name \"*.log\" -mtime +7 -delete"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in the file 'config.php' in-place and create a backup file with extension '.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.php"}
+{"instruction": "Extract IP addresses from the first column of an Apache access log, count unique occurrences, and display the top 10 most frequent IPs.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -10"}
+{"instruction": "Recursively search for the string 'TODO' in the current directory, showing line numbers, while excluding the 'node_modules' and '.git' directories.", "output": "grep -rn \"TODO\" . --exclude-dir={node_modules,.git}"}
+{"instruction": "Batch rename all '.txt' files in the current directory to have a '.md' extension using a bash for-loop.", "output": "for f in *.txt; do mv \"$f\" \"${f%.txt}.md\"; done"}
+{"instruction": "Display the size of all subdirectories in the current folder in a human-readable format, sorted by size in descending order, showing only the top 5.", "output": "du -sh * | sort -rh | head -5"}
+{"instruction": "Kill all running processes named 'node' forcefully.", "output": "pkill -9 node"}
+{"instruction": "Print specific lines (from line 10 to line 20) of a large text file named 'archive.txt'.", "output": "sed -n '10,20p' archive.txt"}
+{"instruction": "Identify which process ID (PID) and command is listening on TCP port 8080.", "output": "lsof -i tcp:8080"}
+{"instruction": "Rename all files in the current directory with a .txt extension to .md.", "output": "for file in *.txt; do mv \"$file\" \"${file%.txt}.md\"; done"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in 'config.conf' and create a backup file named 'config.conf.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.conf"}
+{"instruction": "Parse an Apache access log to count the occurrences of each IP address (column 1) and sort them by frequency in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Find all files in the current directory and subdirectories that are larger than 100MB and display their size in human-readable format.", "output": "find . -type f -size +100M -exec du -h {} +"}
+{"instruction": "Print specific lines from a file, for example, lines 10 through 20 inclusive.", "output": "sed -n '10,20p' filename.txt"}
+{"instruction": "Sum the values of the 5th column (file size) from the output of 'ls -l' using awk.", "output": "ls -l | awk '{sum += $5} END {print sum}'"}
+{"instruction": "Recursively search for the string 'TODO' in all files, displaying line numbers, while excluding the 'node_modules' directory.", "output": "grep -rn --exclude-dir=node_modules \"TODO\" ."}
+{"instruction": "Remove duplicate lines from a file without sorting it (preserving the original order).", "output": "awk '!seen[$0]++' filename.txt"}
+{"instruction": "Create a compressed tar archive of the 'src' folder with the current date (YYYY-MM-DD) appended to the filename.", "output": "tar -czf \"backup_$(date +%F).tar.gz\" src/"}
+{"instruction": "Parse a CSV file to print the 3rd column where the value of the 2nd column is strictly greater than 50.", "output": "awk -F, '$2 > 50 {print $3}' data.csv"}
+{"instruction": "Calculate the sum of the numbers in the third column of a comma-separated file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find all files in '/var/www' ending with '.php' and change their permissions to 644.", "output": "find /var/www -type f -name \"*.php\" -exec chmod 644 {} \\;"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in the file 'config.xml' and create a backup file named 'config.xml.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.xml"}
+{"instruction": "Parse 'access.log' to count the occurrences of each IP address (1st column), sort them by frequency in descending order, and show the top 10.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -10"}
+{"instruction": "Batch rename all '.htm' files in the current directory to '.html' using a Bash for-loop.", "output": "for file in *.htm; do mv \"$file\" \"${file%.htm}.html\"; done"}
+{"instruction": "Print only the lines from 'server.log' that fall between the timestamps '10:00' and '11:00' (assuming timestamps are at the start of the line).", "output": "sed -n '/^10:00/,/^11:00/p' server.log"}
+{"instruction": "Find the Process ID (PID) of a running process named 'worker.py' and kill it using piping.", "output": "ps aux | grep '[w]orker.py' | awk '{print $2}' | xargs kill"}
+{"instruction": "Remove all empty lines or lines containing only whitespace from a file named 'draft.txt' in place.", "output": "sed -i '/^\\s*$/d' draft.txt"}
+{"instruction": "Calculate the total size (in bytes) of all '.mp4' files in the current directory and subdirectories.", "output": "find . -name \"*.mp4\" -ls | awk '{sum += $7} END {print sum}'"}
+{"instruction": "Print the second to last field of every line in a space-delimited file named 'output.txt'.", "output": "awk '{print $(NF-1)}' output.txt"}
+{"instruction": "Calculate the sum of the values in the third column of a comma-separated CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files ending in '.log' within the '/var/log/app' directory that are older than 30 days.", "output": "find /var/log/app -type f -name \"*.log\" -mtime +30 -delete"}
+{"instruction": "Recursively replace all occurrences of 'http://' with 'https://' in all HTML files in the current directory.", "output": "find . -type f -name \"*.html\" -exec sed -i 's/http:\\/\\//https:\\/\\//g' {} +"}
+{"instruction": "Remove all empty lines and lines starting with a hashtag (comments) from a configuration file in place.", "output": "sed -i '/^$/d; /^#/d' config.conf"}
+{"instruction": "Extract and count the number of requests per IP address from a standard Apache/Nginx access log, sorted by most frequent.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Batch rename all '.txt' files in the current directory to have a '.bak' extension.", "output": "for f in *.txt; do mv -- \"$f\" \"${f%.txt}.bak\"; done"}
+{"instruction": "Kill a process by name using a pipeline to find the PID, excluding the grep process itself.", "output": "ps aux | grep \"process_name\" | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Remove duplicate lines from a file while preserving the original order of occurrence.", "output": "awk '!seen[$0]++' input.txt"}
+{"instruction": "Create a compressed tarball of a directory with the current date appended to the filename.", "output": "tar -czf \"backup_$(date +%Y%m%d).tar.gz\" /path/to/directory"}
+{"instruction": "Compare two unsorted files line by line to see differences.", "output": "diff <(sort file1.txt) <(sort file2.txt)"}
+{"instruction": "Recursively find all '.html' files in the current directory and replace every occurrence of 'http://' with 'https://' in-place.", "output": "find . -type f -name \"*.html\" -exec sed -i 's/http:\\/\\//https:\\/\\//g' {} +"}
+{"instruction": "Parse an Nginx/Apache access log ('access.log') to find the top 10 most frequent IP addresses (assuming the IP is in the first column).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Sum the values of the third column in a whitespace-delimited file named 'data.txt'.", "output": "awk '{sum += $3} END {print sum}' data.txt"}
+{"instruction": "Rename all files in the current directory with the extension '.jpeg' to '.jpg'.", "output": "for file in *.jpeg; do mv -- \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Find and delete all files in the '/tmp' directory that are larger than 100MB and haven't been modified in the last 7 days.", "output": "find /tmp -type f -size +100M -mtime +7 -delete"}
+{"instruction": "Display the top 5 memory-consuming processes, showing only the percentage of memory used and the command name.", "output": "ps aux --sort=-%mem | awk 'NR<=6 {print $4, $11}'"}
+{"instruction": "Extract and print lines 20 through 30 from a file named 'config.ini'.", "output": "sed -n '20,30p' config.ini"}
+{"instruction": "Check which process ID (PID) and command is listening on TCP port 8080.", "output": "lsof -i tcp:8080"}
+{"instruction": "Remove all empty lines or lines containing only whitespace from a file named 'text.txt' in-place.", "output": "sed -i '/^\\s*$/d' text.txt"}
+{"instruction": "Compare two sorted files ('file1.txt' and 'file2.txt') and output only the lines unique to 'file1.txt'.", "output": "comm -23 file1.txt file2.txt"}
+{"instruction": "Calculate the sum of the numbers in the third column of a comma-separated value (CSV) file named 'data.csv' using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files in the '/var/log' directory ending in '.log' that have not been modified in the last 30 days.", "output": "find /var/log -name \"*.log\" -type f -mtime +30 -delete"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all '.conf' files within the current directory, editing the files in-place.", "output": "sed -i 's|http://|https://|g' *.conf"}
+{"instruction": "Parse an 'access.log' file to extract IP addresses (assumed to be the first column), count their occurrences, and display the top 10 most frequent IPs sorted in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively search for the string 'TODO' in the current directory, displaying line numbers, while excluding the 'node_modules' and '.git' directories.", "output": "grep -rn \"TODO\" . --exclude-dir={node_modules,.git}"}
+{"instruction": "Bulk rename all files in the current directory with the extension '.jpeg' to '.jpg' using a bash for-loop.", "output": "for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"}
+{"instruction": "Identify the Process ID (PID) of a running process named 'worker_process' and kill it using ps, awk, and xargs (excluding the grep process itself).", "output": "ps aux | grep \"[w]orker_process\" | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Extract and print specific lines (from line 50 to line 100) from a large text file named 'dataset.txt'.", "output": "sed -n '50,100p' dataset.txt"}
+{"instruction": "Find the top 10 largest files or directories within the current folder and display them in a human-readable size format.", "output": "du -ah . | sort -rh | head -n 10"}
+{"instruction": "Remove all empty lines and lines containing only whitespace from a file named 'config.txt' and save the output to 'clean_config.txt'.", "output": "sed '/^[[:space:]]*$/d' config.txt > clean_config.txt"}
+{"instruction": "Calculate the sum of numbers located in the third column of a comma-separated file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find all files ending with '.htm' in the current directory and rename them to '.html'.", "output": "find . -name \"*.htm\" -exec sh -c 'mv \"$1\" \"${1%.htm}.html\"' _ {} \\;"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in the file 'config.conf' in-place and create a backup named 'config.conf.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.conf"}
+{"instruction": "Extract IP addresses (assumed to be the first column) from 'access.log', count unique occurrences, and sort them in descending order of frequency.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Find and force kill (signal 9) all running processes named 'zombie_worker'.", "output": "pkill -9 -f zombie_worker"}
+{"instruction": "List the top 10 largest files in the '/var/log' directory, displaying size in a human-readable format.", "output": "du -ah /var/log | sort -rh | head -n 10"}
+{"instruction": "Search for the string 'TODO' recursively in the current directory, showing line numbers, while excluding the 'node_modules' and '.git' directories.", "output": "grep -rn \"TODO\" . --exclude-dir={node_modules,.git}"}
+{"instruction": "Using Zsh globbing qualifiers, list all regular files in the current directory that were modified within the last hour.", "output": "ls -ld *(.mh-1)"}
+{"instruction": "Display all listening TCP ports and their associated process names/IDs (requires sudo).", "output": "sudo ss -tulpn"}
+{"instruction": "Iterate through a list of domains in 'domains.txt' and print 'UP' if the HTTP status code is 200, otherwise print 'DOWN'.", "output": "while read d; do if [[ $(curl -s -o /dev/null -w \"%{http_code}\" \"$d\") == \"200\" ]]; then echo \"$d UP\"; else echo \"$d DOWN\"; fi; done < domains.txt"}
+{"instruction": "Sum the values in the 3rd column of a comma-separated value (CSV) file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files ending in '.log' in the '/var/log/app' directory that are older than 7 days.", "output": "find /var/log/app -name \"*.log\" -type f -mtime +7 -delete"}
+{"instruction": "Replace all occurrences of the string 'http://domain.com' with 'https://domain.com' inside all HTML files in the current directory.", "output": "sed -i 's|http://domain.com|https://domain.com|g' *.html"}
+{"instruction": "Extract IP addresses (assumed to be the first column) from an Apache/Nginx access log, count unique occurrences, and display the top 10 most frequent IPs.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -10"}
+{"instruction": "Batch rename all files in the current directory with a '.jpeg' extension to have a '.jpg' extension using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Display the top 5 largest files or directories in the current location, formatted with human-readable sizes.", "output": "du -ah --max-depth=1 | sort -rh | head -5"}
+{"instruction": "Print specific lines from a file, specifically from line number 10 to line number 20 inclusive.", "output": "sed -n '10,20p' filename.txt"}
+{"instruction": "Remove duplicate lines from a file while preserving the original order of the text (unlike 'sort -u').", "output": "awk '!visited[$0]++' filename.txt"}
+{"instruction": "Remove all trailing whitespace (spaces and tabs) from the end of every line in a file named 'script.py'.", "output": "sed -i 's/[ \\t]*$//' script.py"}
+{"instruction": "List all running processes consuming more than 10% of the CPU.", "output": "ps aux | awk '$3 > 10.0 {print $0}'"}
+{"instruction": "Find all files in the current directory and subdirectories that are larger than 100MB and delete them immediately.", "output": "find . -type f -size +100M -exec rm -f {} \\;"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all HTML files in the current directory, editing the files in place.", "output": "sed -i 's/http:\\/\\//https:\\/\\//g' *.html"}
+{"instruction": "Calculate the sum of the values in the third column of a comma-separated CSV file named 'sales.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Display the disk usage of all items in the current directory in a human-readable format, sorted by size in descending order.", "output": "du -sh * | sort -rh"}
+{"instruction": "Batch rename all files in the current directory with the extension '.jpeg' to '.jpg' using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Identify the Process ID (PID) of a running process named 'worker.py' and kill it using ps, grep, awk, and xargs.", "output": "ps aux | grep 'worker.py' | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Extract all unique IPv4 addresses from a file named 'server.log', count the occurrences of each IP, and sort the result by frequency.", "output": "grep -oE '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}' server.log | sort | uniq -c | sort -nr"}
+{"instruction": "Print lines 10 through 20 of a text file named 'config.txt'.", "output": "sed -n '10,20p' config.txt"}
+{"instruction": "List all currently open TCP and UDP listening ports on the system without resolving service names to ensure faster output.", "output": "ss -tuln"}
+{"instruction": "Create a compressed tarball archive of the 'webapp' directory, excluding the 'node_modules' folder.", "output": "tar --exclude='node_modules' -czvf webapp_backup.tar.gz webapp/"}
+{"instruction": "Count the occurrences of unique IP addresses (assumed to be the first column) in an access log file and sort them by frequency in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Recursively replace the string 'http://' with 'https://' in all '.txt' files within the current directory and subdirectories.", "output": "find . -type f -name \"*.txt\" -exec sed -i 's|http://|https://|g' {} +"}
+{"instruction": "Sum the numerical values in the third column of a comma-separated values (CSV) file.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Delete all empty lines or lines containing only whitespace from a configuration file in-place.", "output": "sed -i '/^\\s*$/d' config.conf"}
+{"instruction": "Find the top 10 largest files in the current directory tree, displaying their size and path.", "output": "find . -type f -exec du -ah {} + | sort -rh | head -n 10"}
+{"instruction": "Rename all '.jpg' files in the current directory by prepending the current date in YYYY-MM-DD format.", "output": "for f in *.jpg; do mv \"$f\" \"$(date +%F)-$f\"; done"}
+{"instruction": "Extract and print lines 20 through 30 from a large log file efficiently.", "output": "sed -n '20,30p;31q' server.log"}
+{"instruction": "Remove duplicate lines from a text file while preserving the original order (i.e., do not sort the file).", "output": "awk '!seen[$0]++' input.txt"}
+{"instruction": "List the usernames of all users on the system with a UID greater than or equal to 1000 (regular users) from /etc/passwd.", "output": "awk -F: '$3 >= 1000 {print $1}' /etc/passwd"}
+{"instruction": "Recursively reset file permissions in a project folder: set all directories to 755 and all files to 644.", "output": "find . -type d -exec chmod 755 {} + && find . -type f -exec chmod 644 {} +"}
+{"instruction": "Count the occurrences of each unique IP address (assumed to be the first field) in a web server log file named 'access.log' and sort them by frequency in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Recursively find all directories inside '/var/www' and set their permissions to 755.", "output": "find /var/www -type d -exec chmod 755 {} +"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in the file 'config.xml' in-place, creating a backup with the extension '.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.xml"}
+{"instruction": "Sum the values in the third column of a CSV file named 'expenses.csv' (ignoring the header row).", "output": "awk -F',' 'NR>1 {sum+=$3} END {print sum}' expenses.csv"}
+{"instruction": "Find and kill all running processes that match the name 'worker.py' using ps, grep, awk, and xargs.", "output": "ps aux | grep 'worker.py' | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Batch rename all files in the current directory ending with '.jpeg' to '.jpg'.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Remove all empty lines and lines containing only whitespace from a file named 'script.sh'.", "output": "sed -i '/^\\s*$/d' script.sh"}
+{"instruction": "List the top 10 largest files or directories in the current folder, displaying sizes in a human-readable format.", "output": "du -ah . | sort -rh | head -n 10"}
+{"instruction": "Extract the User ID (UID) from the '/etc/passwd' file for a specific username 'deploy'.", "output": "awk -F: '$1 == \"deploy\" {print $3}' /etc/passwd"}
+{"instruction": "Find files modified in the last 7 days within the '/backup' directory and delete them.", "output": "find /backup -type f -mtime -7 -delete"}
+{"instruction": "Find all files in the '/var/log' directory ending in '.log' that have not been modified in the last 30 days and delete them.", "output": "find /var/log -name \"*.log\" -type f -mtime +30 -delete"}
+{"instruction": "Parse an Apache/Nginx access log to count the top 10 most frequent IP addresses (assuming IP is the first column).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively replace the string 'http://example.com' with 'https://example.com' in all HTML files in the current directory.", "output": "find . -type f -name \"*.html\" -exec sed -i 's|http://example.com|https://example.com|g' {} +"}
+{"instruction": "Sum the values in the 3rd column of a comma-separated value (CSV) file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Batch rename all '.jpg' files in the current directory by appending the current date (YYYY-MM-DD) to the filename.", "output": "for f in *.jpg; do mv \"$f\" \"${f%.jpg}_$(date +%F).jpg\"; done"}
+{"instruction": "Display the top 5 largest directories or files in the current path, sorted by size in a human-readable format.", "output": "du -ah . | sort -rh | head -n 5"}
+{"instruction": "Delete lines 5 through 10 and remove all empty lines from a file named 'config.txt', printing the result to stdout.", "output": "sed -e '5,10d' -e '/^$/d' config.txt"}
+{"instruction": "Check for listening TCP and UDP ports and show the process ID and name associated with them.", "output": "ss -tulnp"}
+{"instruction": "Print only the lines in 'input.txt' that are longer than 80 characters, prefixed with the line number.", "output": "awk 'length($0) > 80 {print NR, $0}' input.txt"}
+{"instruction": "Extract all email addresses from a text file named 'contacts.txt' and save them to 'emails_only.txt'.", "output": "grep -E -o \"\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b\" contacts.txt > emails_only.txt"}
+{"instruction": "Sum the values in the third column of a CSV file named 'data.csv' and print the total.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all '.log' files in the '/var/log/app' directory that are older than 7 days.", "output": "find /var/log/app -name \"*.log\" -type f -mtime +7 -exec rm {} \\;"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in the file 'config.php' and create a backup named 'config.php.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.php"}
+{"instruction": "Parse 'access.log', extract IP addresses (assuming the first column), and display the top 10 most frequent IPs with their occurrence counts.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Rename all '.jpeg' files in the current directory to '.jpg' using a bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Identify the process ID (PID) consuming the most CPU and kill it immediately.", "output": "ps -eo pid,%cpu --sort=-%cpu | head -n 2 | tail -n 1 | awk '{print $1}' | xargs kill -9"}
+{"instruction": "List the top 5 largest directories within the current folder, displaying sizes in a human-readable format.", "output": "du -h --max-depth=1 . | sort -hr | head -n 5"}
+{"instruction": "Print lines 10 through 20 of a file named 'large_dataset.txt'.", "output": "sed -n '10,20p' large_dataset.txt"}
+{"instruction": "List all usernames from '/etc/passwd' that have '/bin/bash' set as their default shell.", "output": "grep \"/bin/bash\" /etc/passwd | cut -d: -f1"}
+{"instruction": "Recursively count the total number of lines of code in all Python ('.py') files in the current directory.", "output": "find . -name \"*.py\" -print0 | xargs -0 wc -l | tail -n 1"}
+{"instruction": "Calculate the sum of numbers in the third column of a comma-separated value (CSV) file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files ending in '.log' within the '/var/log/app' directory that are older than 30 days.", "output": "find /var/log/app -name \"*.log\" -mtime +30 -exec rm {} \\;"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all HTML files in the current directory, editing the files in-place.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "Extract IP addresses from the first column of an Apache access log, count unique occurrences, and display the top 10 most frequent IPs.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -10"}
+{"instruction": "Recursively search for the string 'TODO' in the current directory, displaying line numbers, while explicitly excluding the 'node_modules' and '.git' directories.", "output": "grep -rn \"TODO\" . --exclude-dir={node_modules,.git}"}
+{"instruction": "Rename all files with a '.txt' extension in the current directory to have a '.bak' extension using a Bash for loop.", "output": "for f in *.txt; do mv \"$f\" \"${f%.txt}.bak\"; done"}
+{"instruction": "Display the top 5 largest directories within '/home/user' in a human-readable format.", "output": "du -h --max-depth=1 /home/user | sort -hr | head -5"}
+{"instruction": "Kill all running processes that match the name 'python' using the process kill command.", "output": "pkill -f python"}
+{"instruction": "Print specific lines (from line 5 to line 10) of a file named 'script.js'.", "output": "sed -n '5,10p' script.js"}
+{"instruction": "Check which processes are currently listening on TCP ports and display the associated process ID and name (requires sudo).", "output": "sudo ss -tulpn | grep LISTEN"}
+{"instruction": "Find all files in the current directory and subdirectories larger than 100MB and delete them immediately.", "output": "find . -type f -size +100M -exec rm -f {} +"}
+{"instruction": "Sum the numerical values in the second column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$2} END {print sum}' data.csv"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in a file named 'config.conf' in-place, while creating a backup file ending in .bak.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.conf"}
+{"instruction": "Display the top 10 memory-consuming processes currently running on the system, sorted by memory usage.", "output": "ps aux --sort=-%mem | head -n 11"}
+{"instruction": "Extract unique IP addresses (assumed to be the first column) from an Apache/Nginx access log, count their occurrences, and sort them in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Monitor a log file in real-time, filtering to show only lines containing the string 'ERROR'.", "output": "tail -f /var/log/syslog | grep --line-buffered \"ERROR\""}
+{"instruction": "Remove duplicate lines from a text file without sorting it (preserving the original order of first appearance).", "output": "awk '!seen[$0]++' filename.txt"}
+{"instruction": "Recursively search for the string 'TODO' in all files within the current directory, displaying the line number and filename.", "output": "grep -rn \"TODO\" ."}
+{"instruction": "Calculate the disk usage of all immediate subdirectories in the current path and sort the output by human-readable size (e.g., KB, MB, GB).", "output": "du -sh * | sort -h"}
+{"instruction": "Extract and print lines 5 through 10 from a specific file.", "output": "sed -n '5,10p' filename.txt"}
+{"instruction": "Find and delete all files larger than 100MB in the current directory and its subdirectories.", "output": "find . -type f -size +100M -exec rm {} +"}
+{"instruction": "Calculate the sum of the numbers in the third column of a comma-separated value (CSV) file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively replace all occurrences of the string 'http://' with 'https://' in all '.conf' files within the current directory.", "output": "find . -name \"*.conf\" -print0 | xargs -0 sed -i 's/http:\\/\\//https:\\/\\//g'"}
+{"instruction": "Display the top 10 largest files or directories within '/var/log', sorted by human-readable size.", "output": "du -ah /var/log | sort -rh | head -n 10"}
+{"instruction": "Parse an Apache/Nginx access log to count the number of requests per IP address (assuming IP is the first column), sorted by frequency descending.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Batch rename all files in the current directory ending in '.htm' to '.html' using a Bash loop.", "output": "for f in *.htm; do mv -- \"$f\" \"${f%.htm}.html\"; done"}
+{"instruction": "Kill all running processes matching the name 'my_worker.py' by filtering the process list and extracting PIDs.", "output": "ps aux | grep \"my_worker.py\" | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Print specific lines from a file, specifically lines 50 through 100, without reading the entire file into memory.", "output": "sed -n '50,100p' filename.txt"}
+{"instruction": "Create a compressed tarball of the current directory, explicitly excluding the 'node_modules' folder.", "output": "tar -czvf project_backup.tar.gz --exclude='node_modules' ."}
+{"instruction": "Extract all string patterns resembling email addresses from a text file using grep with extended regex.", "output": "grep -E -o \"\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b\" document.txt"}
+{"instruction": "Find all files in the current directory and subdirectories that are larger than 100MB and delete them immediately.", "output": "find . -type f -size +100M -delete"}
+{"instruction": "Replace all occurrences of the string 'localhost' with '127.0.0.1' in the file 'config.xml' in-place.", "output": "sed -i 's/localhost/127.0.0.1/g' config.xml"}
+{"instruction": "Sum the numbers found in the second column of a comma-separated value (CSV) file named 'expenses.csv'.", "output": "awk -F',' '{sum+=$2} END {print sum}' expenses.csv"}
+{"instruction": "List the top 10 processes consuming the most memory on the system.", "output": "ps aux --sort=-%mem | head -n 11"}
+{"instruction": "Batch rename all files with the extension '.htm' to '.html' in the current directory using a bash for-loop.", "output": "for f in *.htm; do mv -- \"$f\" \"${f%.htm}.html\"; done"}
+{"instruction": "Count the occurrences of unique lines in a text file and display them sorted by frequency in descending order.", "output": "sort filename.txt | uniq -c | sort -nr"}
+{"instruction": "Display all active listening TCP ports and the processes that own them using 'ss'.", "output": "ss -tulpn | grep LISTEN"}
+{"instruction": "Extract all IPv4 addresses from a log file using grep and regex.", "output": "grep -oE '\\b([0-9]{1,3}\\.){3}[0-9]{1,3}\\b' server.log"}
+{"instruction": "Create a tar.gz archive of the 'src' directory, specifically excluding the '.git' folder.", "output": "tar -czvf source_backup.tar.gz --exclude='.git' src/"}
+{"instruction": "Print every 3rd line of a file starting from the first line using awk.", "output": "awk 'NR % 3 == 1' filename.txt"}
+{"instruction": "Sum the numeric values in the 3rd column of a comma-separated file named 'sales.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Find and delete all files ending in '.log' in the '/var/log/app' directory that are older than 7 days.", "output": "find /var/log/app -name \"*.log\" -mtime +7 -exec rm {} \\;"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in 'config.php' and create a backup file named 'config.php.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.php"}
+{"instruction": "Extract IP addresses (assumed to be the first column) from 'access.log', count the occurrences of each, and display the top 10 most frequent IPs.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively search for the string 'TODO' in the 'src' directory, showing line numbers, while excluding the 'node_modules' directory.", "output": "grep -rn \"TODO\" src --exclude-dir=node_modules"}
+{"instruction": "Rename all '.txt' files in the current directory to '.md' using a bash loop.", "output": "for file in *.txt; do mv \"$file\" \"${file%.txt}.md\"; done"}
+{"instruction": "Display the top 5 largest directories within '/home/user', sorted by size in a human-readable format.", "output": "du -ah /home/user | sort -rh | head -n 5"}
+{"instruction": "Kill all running processes named 'node' using the pkill command.", "output": "pkill -f node"}
+{"instruction": "Print specific lines (from line 10 to line 20) of a large file named 'database.sql'.", "output": "sed -n '10,20p' database.sql"}
+{"instruction": "Find all files larger than 100MB in the current directory and compress them into a single tarball named 'large_files.tar.gz'.", "output": "find . -maxdepth 1 -type f -size +100M -print0 | xargs -0 tar -czvf large_files.tar.gz"}
+{"instruction": "Recursively find all HTML files in the current directory and replace every occurrence of 'http://' with 'https://' in-place.", "output": "find . -type f -name \"*.html\" -exec sed -i 's|http://|https://|g' {} +"}
+{"instruction": "Parse a CSV file named 'data.csv' to calculate the sum of the values in the third column, skipping the header row.", "output": "awk -F, 'NR>1 {sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and forcibly kill the process currently listening on TCP port 8080.", "output": "lsof -t -i:8080 | xargs kill -9"}
+{"instruction": "Extract IP addresses from the first column of an Apache/Nginx access log, count unique occurrences, and sort them in descending order by frequency.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Batch rename all files in the current directory ending in '.txt' to have a '.md' extension using a Bash loop.", "output": "for file in *.txt; do mv -- \"$file\" \"${file%.txt}.md\"; done"}
+{"instruction": "Display the top 10 largest files or directories within '/var/log', sorted by human-readable size.", "output": "du -ah /var/log | sort -rh | head -n 10"}
+{"instruction": "Delete lines 5 through 10 of a file named 'config.ini' and save the changes to the file.", "output": "sed -i '5,10d' config.ini"}
+{"instruction": "Find all files in the '/backup' directory modified more than 30 days ago and compress them into a single archive named 'archive.tar.gz'.", "output": "find /backup -type f -mtime +30 -print0 | tar -czvf archive.tar.gz --null -T -"}
+{"instruction": "Recursively search for the string 'TODO' inside the 'src' directory, printing line numbers and 2 lines of context before and after each match.", "output": "grep -rnC 2 \"TODO\" src/"}
+{"instruction": "Print the username (first column) of any user in '/etc/passwd' who has a UID (third column) greater than or equal to 1000.", "output": "awk -F: '$3 >= 1000 {print $1}' /etc/passwd"}
+{"instruction": "Recursively find all files larger than 100MB in the current directory and display their size and path.", "output": "find . -type f -size +100M -exec ls -lh {} \\; | awk '{ print $5, $9 }'"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in all HTML files within the current directory and subdirectories.", "output": "find . -name \"*.html\" -type f -exec sed -i 's|http://|https://|g' {} +"}
+{"instruction": "Sum the values of the third column in a CSV file (ignoring the header row).", "output": "awk -F',' 'NR>1 {sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Remove duplicate lines from a file while preserving the original order (i.e., do not sort the file).", "output": "awk '!visited[$0]++' filename.txt"}
+{"instruction": "Batch rename all files with the extension .jpeg to .jpg in the current directory using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Display the top 10 IP addresses making connections to the server on port 80, sorted by connection count.", "output": "netstat -tn 2>/dev/null | grep :80 | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Delete all empty lines or lines containing only whitespace from a text file in-place.", "output": "sed -i '/^\\s*$/d' filename.txt"}
+{"instruction": "Create a compressed tarball of a directory, excluding any 'node_modules' folders.", "output": "tar --exclude='node_modules' -czvf project_backup.tar.gz /path/to/project"}
+{"instruction": "Print specific lines from a file based on a range (e.g., lines 20 to 40).", "output": "sed -n '20,40p' filename.txt"}
+{"instruction": "Identify the process consuming the most memory on the system.", "output": "ps aux --sort=-%mem | head -n 2"}
+{"instruction": "Calculate the sum of numbers in the third column of a comma-separated value (CSV) file.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find all files in the current directory and subdirectories larger than 100MB and display their details.", "output": "find . -type f -size +100M -exec ls -lh {} \\;"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all HTML files within the current directory, editing files in place.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "Identify and kill all running processes matching a specific name pattern using ps, grep, awk, and xargs.", "output": "ps aux | grep \"process_pattern\" | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Remove duplicate lines from a file based solely on the content of the first column, keeping only the first occurrence.", "output": "awk '!seen[$1]++' input_file.txt"}
+{"instruction": "Recursively set permissions so that all directories are 755 and all files are 644 starting from the current location.", "output": "find . -type d -exec chmod 755 {} \\; && find . -type f -exec chmod 644 {} \\;"}
+{"instruction": "Extract and print lines 20 through 30 from a text file.", "output": "sed -n '20,30p' filename.txt"}
+{"instruction": "Batch rename all files with the extension .jpeg to .jpg in the current directory using a bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Count the number of active network connections per remote IP address and sort the results in descending order of frequency.", "output": "netstat -ntu | awk 'NR>2 {print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr"}
+{"instruction": "Delete all empty lines or lines containing only whitespace characters from a configuration file.", "output": "sed -i '/^\\s*$/d' config.conf"}
+{"instruction": "Find and delete all empty directories recursively in the current folder.", "output": "find . -type d -empty -delete"}
+{"instruction": "Sum the values in the third column of a comma-separated value (CSV) file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in all HTML files in the current directory, editing the files in-place.", "output": "sed -i 's/http:\\/\\//https:\\/\\//g' *.html"}
+{"instruction": "Display the top 5 memory-consuming processes sorted by memory usage in descending order.", "output": "ps aux --sort=-%mem | head -n 6"}
+{"instruction": "Extract IP addresses from an Apache access log, count the occurrences of each IP, and display the top 10 most frequent IPs.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively search for the string 'TODO' in the current directory, printing line numbers, while excluding the 'node_modules' and '.git' directories.", "output": "grep -rn --exclude-dir={node_modules,.git} \"TODO\" ."}
+{"instruction": "Batch rename all files in the current directory with the extension '.jpeg' to '.jpg' using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Check if port 8080 is open on the local machine using netcat.", "output": "nc -zv 127.0.0.1 8080"}
+{"instruction": "Find the 10 largest files or directories in the current path and display their sizes in a human-readable format.", "output": "du -ah . | sort -rh | head -n 10"}
+{"instruction": "Print lines 50 through 100 of a large text file named 'large_file.txt'.", "output": "sed -n '50,100p' large_file.txt"}
+{"instruction": "Calculate the sum of all numbers located in the third column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find all files with the extension '.html' in the current directory and replace the string 'http://example.com' with 'https://example.com' in-place.", "output": "find . -type f -name \"*.html\" -exec sed -i 's|http://example.com|https://example.com|g' {} +"}
+{"instruction": "Display the top 10 largest files or directories within the '/var/log' folder, sorted by size in a human-readable format.", "output": "du -ah /var/log | sort -rh | head -n 10"}
+{"instruction": "Extract unique IP addresses (assumed to be the first column) from an Apache access log where the HTTP status code (assumed to be the ninth column) is 404.", "output": "awk '$9 == 404 {print $1}' access.log | sort -u"}
+{"instruction": "Rename all '.jpg' files in the current directory by appending the current date (YYYY-MM-DD) to the end of the filename (e.g., 'image.jpg' becomes 'image_2023-10-25.jpg').", "output": "for f in *.jpg; do mv \"$f\" \"${f%.jpg}_$(date +%F).jpg\"; done"}
+{"instruction": "Kill all running processes named 'worker.py' that belong to the user 'deploy', ensuring to handle cases where no such processes exist without error.", "output": "pgrep -u deploy -f worker.py | xargs -r kill -9"}
+{"instruction": "Print lines 15 through 25 of a large text file named 'application.log'.", "output": "sed -n '15,25p' application.log"}
+{"instruction": "Using Zsh glob qualifiers, recursively delete all files in the current directory and subdirectories that are larger than 100MB.", "output": "rm **/*(.Lm+100)"}
+{"instruction": "Remove all empty lines and lines containing only whitespace characters from a configuration file named 'settings.conf' in-place.", "output": "sed -i '/^[[:space:]]*$/d' settings.conf"}
+{"instruction": "Check which process name and PID is currently listening on TCP port 8080.", "output": "lsof -i tcp:8080 -sTCP:LISTEN"}
+{"instruction": "Sum the values in the 3rd column of a CSV file named 'data.csv' using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files in '/var/log' ending in '.log' that are older than 30 days.", "output": "find /var/log -name \"*.log\" -mtime +30 -delete"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in 'config.php' in-place, creating a backup with the extension .bak.", "output": "sed -i.bak 's|http://|https://|g' config.php"}
+{"instruction": "Extract IP addresses (first column) from 'access.log', count unique occurrences, and display the top 10 most frequent IPs.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -10"}
+{"instruction": "Rename all .txt files in the current directory to .md using a bash for loop.", "output": "for f in *.txt; do mv -- \"$f\" \"${f%.txt}.md\"; done"}
+{"instruction": "Recursively search for the string 'TODO' in the 'src' directory, showing line numbers and ignoring binary files.", "output": "grep -rnI \"TODO\" src/"}
+{"instruction": "Print only the lines in a text file that are longer than 80 characters.", "output": "awk 'length($0) > 80' filename.txt"}
+{"instruction": "Find the top 5 largest directories within '/home/user' and display them in a human-readable format.", "output": "du -ah /home/user | sort -rh | head -n 5"}
+{"instruction": "Recursively set directory permissions to 755 and file permissions to 644 within '/var/www/html'.", "output": "find /var/www/html -type d -exec chmod 755 {} \\; -o -type f -exec chmod 644 {} \\;"}
+{"instruction": "Kill all running processes matching the name 'node' using pkill.", "output": "pkill -f node"}
+{"instruction": "Batch rename all files in the current directory ending in .htm to .html using a Bash for-loop.", "output": "for f in *.htm; do mv -- \"$f\" \"${f%.htm}.html\"; done"}
+{"instruction": "Calculate the sum of numbers located in the 3rd column of a CSV file named 'data.csv' using Awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find and delete all files in the '/tmp/logs' directory that are older than 7 days.", "output": "find /tmp/logs -type f -mtime +7 -delete"}
+{"instruction": "Replace every occurrence of the string 'http://' with 'https://' in 'config.conf', editing the file in-place and creating a backup named 'config.conf.bak'.", "output": "sed -i.bak 's|http://|https://|g' config.conf"}
+{"instruction": "Parse an Nginx/Apache access log to find the top 10 most frequent IP addresses (assumes IP is the first column).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Find the 5 largest files or directories within the current path, displaying human-readable sizes.", "output": "du -ah . | sort -rh | head -n 5"}
+{"instruction": "Kill all running processes that match the name 'zombie_script' using 'ps', 'grep', 'awk', and 'xargs' (useful when pkill is unavailable).", "output": "ps aux | grep 'zombie_script' | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Remove all empty lines and lines containing only whitespace from a text file named 'source.code'.", "output": "sed -i '/^\\s*$/d' source.code"}
+{"instruction": "Print only the lines in a text file that are longer than 80 characters using Awk.", "output": "awk 'length($0) > 80' input.txt"}
+{"instruction": "Archive all Python (.py) files found recursively in the current folder into a single 'scripts.tar.gz' file, handling filenames with spaces correctly.", "output": "find . -name \"*.py\" -print0 | tar -czvf scripts.tar.gz --null -T -"}
+{"instruction": "Find all files in the current directory and subdirectories larger than 100MB that have not been accessed in the last 30 days, and delete them.", "output": "find . -type f -size +100M -atime +30 -exec rm {} \\;"}
+{"instruction": "Parse a CSV file named 'data.csv' to calculate the sum of the numbers in the third column.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively search for the string 'TODO' in all files within the current directory, displaying line numbers, while excluding the 'node_modules' and '.git' directories.", "output": "grep -rn \"TODO\" . --exclude-dir={node_modules,.git}"}
+{"instruction": "Extract all IP addresses (assumed to be the first column) from a web server log file named 'access.log', count the unique occurrences of each IP, and sort them in descending order by count.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all HTML files in the current directory, editing the files in-place.", "output": "sed -i 's/http:\\/\\//https:\\/\\//g' *.html"}
+{"instruction": "Display the top 5 largest directories in the current path, formatted with human-readable sizes (e.g., MB, GB).", "output": "du -sh * | sort -rh | head -n 5"}
+{"instruction": "Print lines from a log file named 'server.log' that fall between the patterns 'START_TRANSACTION' and 'END_TRANSACTION' (inclusive).", "output": "sed -n '/START_TRANSACTION/,/END_TRANSACTION/p' server.log"}
+{"instruction": "Kill all running processes named 'python_worker' using their process IDs extracted via standard tools (ps, grep, awk) rather than pkill.", "output": "ps aux | grep '[p]ython_worker' | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Batch rename all '.txt' files in the current directory to have a '.bak' extension appended to them (e.g., file.txt becomes file.txt.bak).", "output": "for f in *.txt; do mv \"$f\" \"$f.bak\"; done"}
+{"instruction": "Check which processes are listening on TCP ports and display the numeric ports and associated Process IDs (requires root/sudo for PID visibility).", "output": "ss -tulnp"}
+{"instruction": "Recursively find all HTML files in the current directory and replace instances of 'http://' with 'https://' in-place.", "output": "find . -type f -name \"*.html\" -exec sed -i 's/http:\\/\\//https:\\/\\//g' {} +"}
+{"instruction": "Parse a CSV file named 'sales.csv' and calculate the sum of the numbers in the 3rd column.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Find the top 10 processes consuming the most memory on the system.", "output": "ps aux | sort -nrk 4 | head -10"}
+{"instruction": "Extract all valid IPv4 addresses from a log file using extended regex with grep.", "output": "grep -oE '\\b([0-9]{1,3}\\.){3}[0-9]{1,3}\\b' server.log"}
+{"instruction": "Find and delete all files in the '/var/log/app' directory that are older than 30 days.", "output": "find /var/log/app -type f -mtime +30 -delete"}
+{"instruction": "Count the occurrences of unique IP addresses in an Nginx access log and display them sorted by frequency descending.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Batch rename all files with the extension '.jpeg' to '.jpg' in the current directory using a bash loop.", "output": "for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"}
+{"instruction": "Remove trailing whitespace from the end of every line in a python script file.", "output": "sed -i 's/[ \\t]*$//' script.py"}
+{"instruction": "Display the disk usage of immediate subdirectories in the current path, human-readable and sorted by size.", "output": "du -h --max-depth=1 | sort -hr"}
+{"instruction": "Create a compressed tar archive of the current directory, excluding the '.git' and 'node_modules' folders.", "output": "tar -czvf backup.tar.gz --exclude='.git' --exclude='node_modules' ."}
+{"instruction": "Find and delete all files ending in '.log' inside '/var/log' that are older than 7 days.", "output": "find /var/log -type f -name \"*.log\" -mtime +7 -delete"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in the file 'config.php' and create a backup file named 'config.php.bak'.", "output": "sed -i.bak 's|http://|https://|g' config.php"}
+{"instruction": "Sum the numerical values in the third column of a CSV file named 'expenses.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' expenses.csv"}
+{"instruction": "Find the Process ID (PID) listening on TCP port 8080 and kill it immediately.", "output": "lsof -t -i:8080 | xargs kill -9"}
+{"instruction": "Count the top 5 most frequent words in 'manuscript.txt', ignoring case and punctuation.", "output": "tr -cs '[:alnum:]' '[\\n*]' < manuscript.txt | tr '[:upper:]' '[:lower:]' | sort | uniq -c | sort -nr | head -5"}
+{"instruction": "Display the top 10 largest files or directories in the current path, sorted by size in a human-readable format.", "output": "du -ah . | sort -rh | head -10"}
+{"instruction": "Recursively make all '.sh' files executable in the current directory and subdirectories using Zsh globbing.", "output": "chmod +x **/*.sh"}
+{"instruction": "Parse an Nginx/Apache access log to find the top 10 unique IP addresses making requests.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -10"}
+{"instruction": "Batch rename all files with the extension '.jpeg' to '.jpg' in the current directory using a Bash loop.", "output": "for file in *.jpeg; do mv -- \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Extract and print lines 50 through 100 from a large text file named 'dataset.txt'.", "output": "sed -n '50,100p' dataset.txt"}
+{"instruction": "Replace all occurrences of the string 'http' with 'https' in the file 'config.conf', creating a backup file with the extension '.bak'.", "output": "sed -i.bak 's/http/https/g' config.conf"}
+{"instruction": "Find and delete all files ending in '.log' within the '/var/log/app' directory that are older than 30 days.", "output": "find /var/log/app -name \"*.log\" -mtime +30 -delete"}
+{"instruction": "Calculate the sum of the numerical values in the third column of a comma-separated file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Extract IP addresses (assumed to be the first column) from 'access.log', sort them, and display the count of unique occurrences in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Batch rename all '.txt' files in the current directory to have a '.md' extension using a Bash loop.", "output": "for f in *.txt; do mv -- \"$f\" \"${f%.txt}.md\"; done"}
+{"instruction": "Display the top 5 largest directories inside '/home/user', showing sizes in a human-readable format.", "output": "du -sh /home/user/* | sort -rh | head -n 5"}
+{"instruction": "Force kill all running processes that match the name 'zombie_process'.", "output": "pkill -9 -f zombie_process"}
+{"instruction": "Print all lines in 'document.txt' that appear between the text markers 'START' and 'END' (inclusive).", "output": "sed -n '/START/,/END/p' document.txt"}
+{"instruction": "Check if TCP port 8080 is currently listening on the local machine using 'ss'.", "output": "ss -tuln | grep ':8080'"}
+{"instruction": "Using Zsh glob qualifiers, list all regular files in the current directory (recursively) that were modified in the last hour.", "output": "ls -d **/*(.mh-1)"}
+{"instruction": "Batch rename all .jpg files to .png in the current directory using a native Bash loop.", "output": "for file in *.jpg; do mv \"$file\" \"${file%.jpg}.png\"; done"}
+{"instruction": "Calculate the sum of the numbers in the third column of a CSV file named 'data.csv' using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find and delete all empty directories within the current path.", "output": "find . -type d -empty -delete"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in all HTML files in the current directory and subdirectories.", "output": "find . -name \"*.html\" -exec sed -i 's|http://|https://|g' {} +"}
+{"instruction": "List the top 10 memory-consuming processes sorted by RAM usage.", "output": "ps aux --sort=-%mem | head -n 11"}
+{"instruction": "Extract unique IP addresses from an Apache access log and count their occurrences, sorted descending.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Print lines 10 through 20 of a file named 'large_text.txt'.", "output": "sed -n '10,20p' large_text.txt"}
+{"instruction": "Remove duplicate lines from a text file while preserving the original order (without sorting).", "output": "awk '!seen[$0]++' filename.txt"}
+{"instruction": "Find all files in '/var/log' larger than 50MB and display their size in a human-readable format.", "output": "find /var/log -type f -size +50M -exec du -h {} +"}
+{"instruction": "Archive the 'project' folder into a tarball excluding the 'node_modules' directory.", "output": "tar -czvf project.tar.gz --exclude='node_modules' project/"}
+{"instruction": "Calculate the sum of the numbers in the third column of a CSV file named 'data.csv' using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find all files in the current directory and subdirectories larger than 100MB that have not been modified in the last 30 days.", "output": "find . -type f -size +100M -mtime +30"}
+{"instruction": " recursively replace the string 'http://' with 'https://' in all HTML files within the current directory.", "output": "find . -name \"*.html\" -print0 | xargs -0 sed -i 's/http:\\/\\//https:\\/\\//g'"}
+{"instruction": "Parse an Apache/Nginx access log to find the top 10 most frequent requesting IP addresses (assuming IP is the first column).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all files in the current directory with the extension .jpeg to .jpg using a bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Display all listening TCP and UDP ports along with the processes utilizing them using ss.", "output": "ss -tulnp"}
+{"instruction": "Extract all valid email addresses from a text file using grep with extended regex.", "output": "grep -E -o \"\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b\" file.txt"}
+{"instruction": "Print lines 5 through 10 of a file named 'config.txt' using sed.", "output": "sed -n '5,10p' config.txt"}
+{"instruction": "List processes for the current user, sorted by memory usage (RSS) in descending order.", "output": "ps -u $(whoami) -o pid,rss,command --sort -rss"}
+{"instruction": "Remove duplicate lines from a file while preserving the original order of the lines using awk.", "output": "awk '!seen[$0]++' filename.txt"}
+{"instruction": "Replace all occurrences of the string 'http' with 'https' in the file 'config.conf', editing the file in-place and creating a backup named 'config.conf.bak'.", "output": "sed -i.bak 's/http/https/g' config.conf"}
+{"instruction": "Find all files in the '/var/log' directory ending in '.log' that are older than 30 days and delete them.", "output": "find /var/log -name \"*.log\" -mtime +30 -exec rm {} \\;"}
+{"instruction": "Calculate the sum of the numbers in the third column of a comma-separated file named 'data.csv' using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Rename all files in the current directory with a '.txt' extension to have a '.md' extension using a bash loop.", "output": "for file in *.txt; do mv \"$file\" \"${file%.txt}.md\"; done"}
+{"instruction": "Count the occurrences of unique lines in 'access.log' and sort the output in descending order based on the frequency count.", "output": "sort access.log | uniq -c | sort -nr"}
+{"instruction": "Force kill all running processes matching the name 'node' using pkill.", "output": "pkill -9 -f node"}
+{"instruction": "Display the top 5 largest directories within '/home/user' in a human-readable format.", "output": "du -h /home/user | sort -rh | head -n 5"}
+{"instruction": "Extract all IPv4 addresses from a file named 'server.log' using grep with Perl-compatible regular expressions.", "output": "grep -oP '(\\d{1,3}\\.){3}\\d{1,3}' server.log"}
+{"instruction": "Create a gzip-compressed tar archive named 'backup.tar.gz' of the 'www' directory, explicitly excluding the 'node_modules' subdirectory.", "output": "tar -czf backup.tar.gz --exclude='node_modules' www"}
+{"instruction": "Print only the lines in 'input.txt' that are longer than 80 characters using awk.", "output": "awk 'length($0) > 80' input.txt"}
+{"instruction": "Recursively change all files with the extension .jpeg to .jpg in the current directory and subdirectories.", "output": "find . -type f -name \"*.jpeg\" -exec bash -c 'mv \"$0\" \"${0%.jpeg}.jpg\"' {} \\;"}
+{"instruction": "Sum the total size of files (column 5) listed in 'ls -l' output and print the result in bytes.", "output": "ls -l | awk '{sum += $5} END {print sum}'"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in the file 'index.html' in-place.", "output": "sed -i 's/http:\\/\\//https:\\/\\//g' index.html"}
+{"instruction": "Find the process ID (PID) listening on port 8080 and kill it immediately.", "output": "lsof -t -i:8080 | xargs kill -9"}
+{"instruction": "Print the first column of a comma-separated value (CSV) file named 'data.csv' where the value in the third column is greater than 50.", "output": "awk -F, '$3 > 50 {print $1}' data.csv"}
+{"instruction": "Display the top 10 largest files or directories in the current folder, sorted by human-readable size.", "output": "du -ah . | sort -rh | head -n 10"}
+{"instruction": "Recursively set permissions to 755 for all directories and 644 for all files in the current path.", "output": "find . -type d -exec chmod 755 {} + && find . -type f -exec chmod 644 {} +"}
+{"instruction": "Extract all valid IPv4 addresses from a text file named 'server.log' and output only unique, sorted addresses.", "output": "grep -oE '[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}' server.log | sort -u"}
+{"instruction": "List the top 5 running processes consuming the most memory on the system.", "output": "ps aux --sort=-%mem | head -n 6"}
+{"instruction": "Print specific lines 10 through 20 of a file named 'large_log.txt' without reading the entire file.", "output": "sed -n '10,20p' large_log.txt"}
+{"instruction": "Find all files in the current directory and subdirectories ending with '.log' that are older than 7 days and delete them.", "output": "find . -type f -name \"*.log\" -mtime +7 -exec rm {} \\;"}
+{"instruction": "Parse an Nginx access log to find the top 10 most frequent IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively replace the string 'http://' with 'https://' in all HTML files within the current directory using sed.", "output": "find . -type f -name \"*.html\" -exec sed -i 's|http://|https://|g' {} +"}
+{"instruction": "Calculate the sum of the numbers in the third column of a comma-separated value (CSV) file named 'expenses.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' expenses.csv"}
+{"instruction": "List the top 5 processes consuming the most memory on the system.", "output": "ps aux --sort=-%mem | head -n 6"}
+{"instruction": "Batch rename all '.txt' files in the current directory to have a '.bak' extension using a Bash loop.", "output": "for f in *.txt; do mv -- \"$f\" \"${f%.txt}.bak\"; done"}
+{"instruction": "Print specific lines from a file, specifically lines 20 through 30 of 'data.txt'.", "output": "sed -n '20,30p' data.txt"}
+{"instruction": "Check if a specific port (e.g., 8080) is currently in use by any process and display the process details.", "output": "lsof -i :8080"}
+{"instruction": "Remove duplicate lines from a file named 'list.txt' without changing the original order of the lines.", "output": "awk '!visited[$0]++' list.txt"}
+{"instruction": "Display the size of all subdirectories in the current path, sorted by size in a human-readable format.", "output": "du -h --max-depth=1 | sort -hr"}
+{"instruction": "Sum the values in the third column of a CSV file, ignoring the header row.", "output": "awk -F',' 'NR>1 {sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find all '.txt' files in the current directory and replace the string 'http://' with 'https://' in-place.", "output": "find . -type f -name \"*.txt\" -exec sed -i 's/http:\\/\\//https:\\/\\//g' {} +"}
+{"instruction": "Extract the top 10 most frequent IP addresses (assumed to be the first column) from a web server access log.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all '.jpeg' files in the current directory to '.jpg' using a Bash for-loop and parameter expansion.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Find and delete all files in the '/var/tmp' directory that have not been modified in the last 7 days.", "output": "find /var/tmp -type f -mtime +7 -delete"}
+{"instruction": "Print specific lines (e.g., lines 5 through 10) of a file using sed.", "output": "sed -n '5,10p' filename.txt"}
+{"instruction": "Find the 5 largest directories within the current path, displaying human-readable sizes.", "output": "du -ah --max-depth=1 | sort -rh | head -n 5"}
+{"instruction": "Kill a process by matching a string in its command line arguments (excluding the grep process itself) without using pkill/killall.", "output": "ps aux | grep \"process_name\" | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Compare two sorted files and output only the lines unique to the first file.", "output": "comm -23 file1.sorted file2.sorted"}
+{"instruction": "Remove duplicate lines from a file based specifically on the value of the second column, keeping only the first occurrence.", "output": "awk '!seen[$2]++' input_file.txt"}
+{"instruction": "Sum the values in the 3rd column of a comma-separated file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files ending in '.log' inside '/var/log/app' that are older than 30 days.", "output": "find /var/log/app -name \"*.log\" -mtime +30 -exec rm {} +"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in all HTML files in the current directory recursively.", "output": "grep -rl \"http://\" . --include=\"*.html\" | xargs sed -i \"s|http://|https://|g\""}
+{"instruction": "Extract IP addresses from the first column of 'access.log', count unique occurrences, and sort them by frequency in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Batch rename all '.jpeg' files to '.jpg' in the current directory using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Find the top 10 largest files in the '/var' directory and display their sizes in a human-readable format.", "output": "find /var -type f -exec du -h {} + | sort -hr | head -n 10"}
+{"instruction": "Recursively search for the string 'FIXME' in the current directory, showing line numbers, while excluding the 'node_modules' directory.", "output": "grep -rn \"FIXME\" . --exclude-dir=node_modules"}
+{"instruction": "Print only lines 5 through 10 of a file named 'config.ini'.", "output": "sed -n '5,10p' config.ini"}
+{"instruction": "Remove all empty lines from a text file named 'raw_text.txt' and save the output to 'clean_text.txt'.", "output": "sed '/^$/d' raw_text.txt > clean_text.txt"}
+{"instruction": "Check the SSL certificate expiration date for 'google.com' using OpenSSL.", "output": "echo | openssl s_client -servername google.com -connect google.com:443 2>/dev/null | openssl x509 -noout -dates"}
+{"instruction": "Calculate the sum of the numbers in the third column of a comma-separated value (CSV) file named 'sales.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Find all files in the current directory and subdirectories that are larger than 100MB and were modified in the last 7 days.", "output": "find . -type f -size +100M -mtime -7"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in the file 'config.php' in-place, using a pipe as the delimiter to avoid escaping slashes.", "output": "sed -i 's|http://|https://|g' config.php"}
+{"instruction": "List the top 10 IP addresses connecting to the server by parsing netstat output, sorting by connection count.", "output": "netstat -ntu | awk 'NR>2 {print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr | head -10"}
+{"instruction": "Batch rename all '.jpg' files in the current directory to include the current date (YYYY-MM-DD) before the file extension.", "output": "for f in *.jpg; do mv \"$f\" \"${f%.jpg}_$(date +%F).jpg\"; done"}
+{"instruction": "Recursively search for the string 'TODO' inside all JavaScript files in the current directory, printing the line number for each match.", "output": "grep -rn --include='*.js' 'TODO' ."}
+{"instruction": "Extract and print lines 20 through 40 from a large text file named 'application.log'.", "output": "sed -n '20,40p' application.log"}
+{"instruction": "Create a compressed tar archive of the 'webapp' folder, explicitly excluding the 'node_modules' directory.", "output": "tar -czvf webapp_backup.tar.gz --exclude='node_modules' webapp/"}
+{"instruction": "Kill all running processes named 'phantom_worker' using ps, grep, awk, and xargs.", "output": "ps aux | grep 'phantom_worker' | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Print the last field of every line in a space-delimited file, regardless of how many columns each line has.", "output": "awk '{print $NF}' data.txt"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in a file named 'config.web', editing the file in-place and creating a backup named 'config.web.bak'.", "output": "sed -i.bak 's|http://|https://|g' config.web"}
+{"instruction": "Find all files in the current directory and subdirectories that are larger than 100MB and display their human-readable size and path.", "output": "find . -type f -size +100M -exec du -h {} +"}
+{"instruction": "Parse an Nginx access log file named 'access.log' to count the occurrences of every client IP address (assumed to be the first column) and display the top 5 most frequent IPs.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 5"}
+{"instruction": "Batch rename all files in the current directory with the extension '.jpeg' to '.jpg' using a Bash loop.", "output": "for file in *.jpeg; do mv -- \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Calculate the sum of numbers in the third column of a CSV file named 'expenses.csv', skipping the header row.", "output": "awk -F',' 'NR>1 {sum+=$3} END {print sum}' expenses.csv"}
+{"instruction": "Remove all empty lines or lines containing only whitespace characters from a file named 'source.py'.", "output": "sed -i '/^\\s*$/d' source.py"}
+{"instruction": "List the usernames of all regular users on a Linux system (typically UID >= 1000) by parsing '/etc/passwd'.", "output": "awk -F: '$3 >= 1000 {print $1}' /etc/passwd"}
+{"instruction": "Create a compressed tarball archive named 'website_backup.tar.gz' containing the contents of '/var/www/html', preserving file permissions.", "output": "tar -czvf website_backup.tar.gz /var/www/html"}
+{"instruction": "Display lines 20 through 30 of a large text file named 'dataset.txt'.", "output": "sed -n '20,30p' dataset.txt"}
+{"instruction": "Kill all running processes named 'python3' that have been running for more than 1 hour (requires 'etime' filtering via ps, usually combined with awk and xargs).", "output": "ps -eo pid,etimes,comm | awk '$3==\"python3\" && $2>3600 {print $1}' | xargs -r kill"}
+{"instruction": "Find all log files in '/var/log' that have not been modified in the last 30 days and delete them.", "output": "find /var/log -name \"*.log\" -type f -mtime +30 -delete"}
+{"instruction": "Sum the values in the third column of a comma-separated value (CSV) file named 'expenses.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' expenses.csv"}
+{"instruction": "Recursively find all HTML files in the current directory and replace every occurrence of 'http://example.com' with 'https://example.com'.", "output": "find . -type f -name \"*.html\" -exec sed -i 's|http://example.com|https://example.com|g' {} +"}
+{"instruction": "Parse the 'ps' output to find the process IDs (PIDs) of all processes named 'node' and kill them.", "output": "ps aux | grep '[n]ode' | awk '{print $2}' | xargs -r kill"}
+{"instruction": "Batch rename all files in the current directory ending in '.txt' to have a '.md' extension using a bash loop.", "output": "for f in *.txt; do mv -- \"$f\" \"${f%.txt}.md\"; done"}
+{"instruction": "Analyze an Apache/Nginx access log to find the top 10 most frequent IP addresses (assuming the IP is the first field).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Display the 5 largest directories within the current path in a human-readable format.", "output": "du -h --max-depth=1 | sort -rh | head -n 5"}
+{"instruction": "Remove all empty lines and lines containing only whitespace from a file named 'config.conf' in place.", "output": "sed -i '/^[[:space:]]*$/d' config.conf"}
+{"instruction": "Read a list of domains from 'hosts.txt', ping each one once, and print whether it is UP or DOWN.", "output": "while read -r host; do ping -c 1 -W 1 \"$host\" &> /dev/null && echo \"$host UP\" || echo \"$host DOWN\"; done < hosts.txt"}
+{"instruction": "Print only the lines from 'input.txt' that are longer than 80 characters.", "output": "awk 'length($0) > 80' input.txt"}
+{"instruction": "Calculate the sum of numbers in the third column of a comma-separated value (CSV) file named 'sales.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Recursively find all directories within '/var/www/html' and set their permissions to 755.", "output": "find /var/www/html -type d -exec chmod 755 {} +"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all HTML files in the current directory, editing the files in-place.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "Extract all IPv4 addresses from a server log file named 'access.log', count the unique occurrences of each IP, and sort them in descending order by count.", "output": "grep -oE '([0-9]{1,3}\\.){3}[0-9]{1,3}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Create a compressed tarball of the 'project' directory named 'project_backup.tar.gz', excluding the 'node_modules' directory.", "output": "tar -czf project_backup.tar.gz --exclude='project/node_modules' project"}
+{"instruction": "Find and force-kill all processes owned by the user 'deploy' that match the name 'worker'.", "output": "pkill -9 -u deploy -f worker"}
+{"instruction": "Batch rename all files in the current directory ending in '.jpeg' to '.jpg'.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Delete a block of text in the file 'config.ini' starting from the line containing 'BEGIN_DEBUG' up to and including the line containing 'END_DEBUG'.", "output": "sed -i '/BEGIN_DEBUG/,/END_DEBUG/d' config.ini"}
+{"instruction": "Display the top 10 largest files or directories in the current path, formatted with human-readable sizes.", "output": "du -ah . | sort -rh | head -n 10"}
+{"instruction": "Identify which process ID (PID) and program name are listening on TCP port 8080.", "output": "ss -lptn 'sport = :8080'"}
+{"instruction": "Recursively find all files larger than 100MB in the current directory and display their sizes in a human-readable format.", "output": "find . -type f -size +100M -exec du -h {} \\;"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in 'config.xml' and create a backup of the original file with a .bak extension.", "output": "sed -i.bak 's|http://|https://|g' config.xml"}
+{"instruction": "Calculate the sum of the numbers located in the third column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Batch rename all files with the '.htm' extension to '.html' in the current directory using a Bash loop.", "output": "for file in *.htm; do mv -- \"$file\" \"${file%.htm}.html\"; done"}
+{"instruction": "Parse a standard access log to identify the top 10 most frequent IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Identify the Process ID (PID) utilizing TCP port 8080 and immediately kill the process.", "output": "lsof -t -i:8080 | xargs kill -9"}
+{"instruction": "Synchronize the contents of the 'source' directory to the 'destination' directory, showing a progress bar and preserving file permissions/times.", "output": "rsync -avz --progress source/ destination/"}
+{"instruction": "Extract and print lines 20 through 40 of a file named 'large_script.sh'.", "output": "sed -n '20,40p' large_script.sh"}
+{"instruction": "Remove duplicate lines from a text file without sorting (preserving the original order of the first occurrences).", "output": "awk '!seen[$0]++' input.txt"}
+{"instruction": "Create a compressed tar archive of the 'project' directory, explicitly excluding the '.git' subdirectory.", "output": "tar -czvf project_backup.tar.gz --exclude='.git' project/"}
+{"instruction": "Sum the numerical values in the third column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all '.log' files in the '/var/log' directory that are older than 30 days.", "output": "find /var/log -name \"*.log\" -mtime +30 -print0 | xargs -0 rm -f"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in the file 'config.php', creating an in-place backup with the extension '.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.php"}
+{"instruction": "List the top 5 memory-consuming processes, displaying only the memory percentage and the command name.", "output": "ps aux --sort=-%mem | awk 'NR<=6 {print $4, $11}'"}
+{"instruction": "Count the frequency of unique IP addresses from an Apache access log named 'access.log' (assuming IP is the first column), sorted from most frequent to least.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Rename all '.jpeg' files in the current directory to '.jpg' using a loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Display all TCP sockets currently listening on the system along with the process ID and name associated with them.", "output": "sudo ss -tulpn | grep LISTEN"}
+{"instruction": "Extract and print lines 10 through 20 from a file named 'large_text.txt'.", "output": "sed -n '10,20p' large_text.txt"}
+{"instruction": "Calculate the size of all immediate subdirectories in the current path, displaying them in a human-readable format sorted by size (largest first).", "output": "du -sh * 2>/dev/null | sort -rh"}
+{"instruction": "Filter a file named 'words.txt' to output only the lines that contain more than 10 characters.", "output": "awk 'length($0) > 10' words.txt"}
+{"instruction": "Sum the values in the third column of a comma-separated value (CSV) file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files in the '/var/logs' directory (and subdirectories) that contain the extension '.log' and haven't been modified in the last 30 days.", "output": "find /var/logs -type f -name '*.log' -mtime +30 -exec rm {} +"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in the file 'config.conf' in-place.", "output": "sed -i 's|http://|https://|g' config.conf"}
+{"instruction": "Parse an Apache/Nginx access log to count the top 10 most frequent visitor IP addresses (assuming the IP is the first column).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Kill the process currently listening on TCP port 8080.", "output": "lsof -t -i:8080 | xargs kill -9"}
+{"instruction": "Batch rename all files in the current directory ending in '.txt' to '.md'.", "output": "for f in *.txt; do mv \"$f\" \"${f%.txt}.md\"; done"}
+{"instruction": "Display the top 5 largest files or directories within the current path, in human-readable format.", "output": "du -ah . | sort -rh | head -n 5"}
+{"instruction": "Print only the lines in a text file that are between line 10 and line 20 (inclusive).", "output": "sed -n '10,20p' filename.txt"}
+{"instruction": "Check if a specific service (e.g., 'docker') is active and running using systemctl, returning 'Active' or 'Inactive'.", "output": "systemctl is-active --quiet docker && echo 'Active' || echo 'Inactive'"}
+{"instruction": "Archive a local directory using tar and immediately extract it to a specific path on a remote server via SSH.", "output": "tar czf - /local/folder | ssh user@remote_host 'tar xzf - -C /remote/destination'"}
+{"instruction": "Recursively find all files with a .txt extension in the current directory and subdirectories, then rename them to have a .md extension.", "output": "find . -type f -name \"*.txt\" -exec bash -c 'mv \"$0\" \"${0%.txt}.md\"' {} \\;"}
+{"instruction": "Calculate the sum of the numbers located in the third column of a CSV file named 'sales.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in the file 'config.conf' in-place, creating a backup file with the extension .bak.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.conf"}
+{"instruction": "Extract all unique IPv4 addresses from a server log file named 'access.log' and sort them.", "output": "grep -oE \"\\b([0-9]{1,3}\\.){3}[0-9]{1,3}\\b\" access.log | sort -u"}
+{"instruction": "Find the top 5 largest files or directories in the current path, displaying sizes in a human-readable format.", "output": "du -ah . | sort -rh | head -n 5"}
+{"instruction": "Count the frequency of every word in 'document.txt', ignoring case and punctuation, and display the 10 most common words.", "output": "tr -c '[:alnum:]' '[\\n*]' < document.txt | tr '[:upper:]' '[:lower:]' | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Kill all running processes that match the name 'node' using pattern matching against the full command line.", "output": "pkill -f node"}
+{"instruction": "Create a compressed tarball of the '/var/www/html' directory, excluding the 'uploads' folder.", "output": "tar -czvf website_backup.tar.gz --exclude='uploads' /var/www/html"}
+{"instruction": "Print only lines 20 through 30 of a file named 'large_dataset.txt'.", "output": "sed -n '20,30p' large_dataset.txt"}
+{"instruction": "Check if the 'nginx' service is active; if it is not, attempt to restart it using systemctl.", "output": "systemctl is-active --quiet nginx || sudo systemctl restart nginx"}
+{"instruction": "Recursively find all directories in the current path and set their permissions to 755, and set all files to 644.", "output": "find . -type d -exec chmod 755 {} + && find . -type f -exec chmod 644 {} +"}
+{"instruction": "Sum the values in the third column of a CSV file named 'data.csv' using awk.", "output": "awk -F, '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files in the '/var/log/app' directory that are older than 30 days.", "output": "find /var/log/app -type f -mtime +30 -delete"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all '.conf' files in the current directory, editing the files in-place.", "output": "sed -i 's/http:\\/\\//https:\\/\\//g' *.conf"}
+{"instruction": "Extract the top 10 most frequent IP addresses (column 1) from an Apache/Nginx access log.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Print only the 10th line of a file named 'script.sh'.", "output": "sed -n '10p' script.sh"}
+{"instruction": "Display the disk usage of all subdirectories in the current path, sorted by size in descending order, with human-readable sizes.", "output": "du -sh * | sort -rh"}
+{"instruction": "Kill a process by its name (e.g., 'my_script') by finding the PID, filtering out the grep process itself, and passing it to the kill command.", "output": "ps aux | grep 'my_script' | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Remove all trailing whitespace from every line in a file named 'code.py'.", "output": "sed -i 's/[ \\t]*$//' code.py"}
+{"instruction": "Print all lines in a text file that contain more than 80 characters.", "output": "awk 'length($0) > 80' filename.txt"}
+{"instruction": "Find the top 10 most frequent words in a text file, converting to lowercase and ignoring punctuation.", "output": "tr '[:upper:]' '[:lower:]' < filename.txt | tr -cs '[:alnum:]' '\\n' | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively find and delete all '.log' files in the current directory that are older than 30 days.", "output": "find . -type f -name \"*.log\" -mtime +30 -delete"}
+{"instruction": "Sum the values in the third column of a CSV file, skipping the header row.", "output": "awk -F',' 'NR>1 {sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all HTML files in the current directory in-place.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "List all usernames from /etc/passwd that have a UID greater than or equal to 1000 (regular users).", "output": "awk -F: '$3 >= 1000 {print $1}' /etc/passwd"}
+{"instruction": "Print lines 10 through 20 of a specific file.", "output": "sed -n '10,20p' filename.txt"}
+{"instruction": "Remove duplicate lines from a file while preserving the original order (unlike sort | uniq).", "output": "awk '!seen[$0]++' input.txt"}
+{"instruction": "Batch rename all '.jpeg' files to '.jpg' in the current directory using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Identify which process ID (PID) is listening on TCP port 8080.", "output": "lsof -t -i :8080 -s TCP:LISTEN"}
+{"instruction": "Extract all IPv4 addresses from a log file using extended grep.", "output": "grep -oE '\\b([0-9]{1,3}\\.){3}[0-9]{1,3}\\b' access.log"}
+{"instruction": "Calculate the sum of the numbers in the third column of a CSV file using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and recursively delete all files with the '.tmp' extension modified more than 7 days ago.", "output": "find . -type f -name \"*.tmp\" -mtime +7 -exec rm {} \\;"}
+{"instruction": "Parse a web server access log to find the top 10 most frequent IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively replace the string 'http://' with 'https://' in all HTML files within the current directory.", "output": "grep -rl \"http://\" . --include=\"*.html\" | xargs sed -i 's|http://|https://|g'"}
+{"instruction": "Display the top 5 directories consuming the most disk space in the current path, in human-readable format.", "output": "du -h --max-depth=1 | sort -hr | head -n 5"}
+{"instruction": "Remove duplicate lines from a file without sorting (preserving the original order) using awk.", "output": "awk '!seen[$0]++' input_file.txt > output_file.txt"}
+{"instruction": "Batch rename all '.jpeg' files in the current directory to '.jpg' using a bash loop.", "output": "for file in *.jpeg; do mv -- \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Extract all valid email addresses from a text file using grep with extended regex.", "output": "grep -E -o \"\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b\" document.txt"}
+{"instruction": "Monitor a log file in real-time, displaying only lines containing the word 'ERROR' or 'WARN'.", "output": "tail -f /var/log/syslog | grep -E --line-buffered \"ERROR|WARN\""}
+{"instruction": "List running processes sorted by memory usage, displaying the PID, User, and Command for the top 10.", "output": "ps aux --sort=-%mem | awk 'NR<=11 {print $2, $1, $11}'"}
+{"instruction": "Replace all occurrences of 'http' with 'https' in the file 'config.conf' in-place, creating a backup file with the extension '.bak'.", "output": "sed -i.bak 's/http/https/g' config.conf"}
+{"instruction": "Find all files in the '/var/log' directory that are larger than 100MB and display their human-readable size and path.", "output": "find /var/log -type f -size +100M -exec du -h {} +"}
+{"instruction": "Extract the second and fourth columns from a comma-separated file named 'data.csv' and print them separated by a tab.", "output": "awk -F, '{print $2 \"\\t\" $4}' data.csv"}
+{"instruction": "Rename all files ending in '.txt' in the current directory to have a '.md' extension using a standard Bash loop.", "output": "for f in *.txt; do mv -- \"$f\" \"${f%.txt}.md\"; done"}
+{"instruction": "Parse 'access.log' to count the occurrences of unique IP addresses (assuming the IP is the first field), then sort the results numerically in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Create a compressed tarball named 'backup.tar.gz' of the 'project' folder, specifically excluding the 'node_modules' directory.", "output": "tar -czvf backup.tar.gz --exclude='node_modules' project"}
+{"instruction": "Recursively search for the string 'TODO' in the current directory, displaying line numbers and ignoring binary files.", "output": "grep -rnI \"TODO\" ."}
+{"instruction": "Calculate the sum of the values in the third column of a whitespace-delimited file named 'expenses.txt'.", "output": "awk '{sum += $3} END {print sum}' expenses.txt"}
+{"instruction": "Forcefully kill all running processes containing the name 'python' using pkill.", "output": "pkill -9 -f python"}
+{"instruction": "Print specific lines (from line 5 to line 10 inclusive) of a file named 'script.sh'.", "output": "sed -n '5,10p' script.sh"}
+{"instruction": "Replace all occurrences of 'http' with 'https' in 'config.conf' and create a backup file named 'config.conf.bak'.", "output": "sed -i.bak 's/http/https/g' config.conf"}
+{"instruction": "Find and delete all files ending in '.tmp' in the current directory and subdirectories that have not been modified in the last 7 days.", "output": "find . -type f -name \"*.tmp\" -mtime +7 -delete"}
+{"instruction": "Sum the values in the third column of a comma-separated file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Extract IP addresses (first column) from 'access.log', count the unique occurrences, and sort them in descending order by count.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Check if the 'nginx' process is running; if not, attempt to start it using systemctl.", "output": "pgrep -x nginx >/dev/null || sudo systemctl start nginx"}
+{"instruction": "Print lines 10 through 20 of a file named 'large_dataset.txt'.", "output": "sed -n '10,20p' large_dataset.txt"}
+{"instruction": "Find the top 5 largest files in the '/var/log' directory and display their sizes in a human-readable format.", "output": "find /var/log -type f -exec du -h {} + | sort -rh | head -n 5"}
+{"instruction": "Batch rename all '.jpeg' files in the current directory to '.jpg' using a Bash loop.", "output": "for file in *.jpeg; do mv -- \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Remove all empty lines or lines containing only whitespace from 'script.sh' and save the result to 'clean_script.sh'.", "output": "sed '/^\\s*$/d' script.sh > clean_script.sh"}
+{"instruction": "Display the process ID (PID) and name of the process listening on TCP port 8080.", "output": "sudo lsof -i :8080 -sTCP:LISTEN"}
+{"instruction": "Calculate the sum of the values in the third column of a CSV file named 'data.csv' using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in the file 'config.conf', creating a backup file named 'config.conf.bak'.", "output": "sed -i.bak 's|http://|https://|g' config.conf"}
+{"instruction": "Find the top 5 largest files in the '/var/log' directory and display them with human-readable sizes.", "output": "find /var/log -type f -exec du -h {} + | sort -rh | head -n 5"}
+{"instruction": "Print specific lines from 'server.log' that fall between the first occurrence of the pattern 'START_TRACE' and 'END_TRACE' inclusive.", "output": "sed -n '/START_TRACE/,/END_TRACE/p' server.log"}
+{"instruction": "Batch rename all files in the current directory ending in '.jpeg' to '.jpg' using a bash for loop.", "output": "for file in *.jpeg; do mv -- \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Parse '/etc/passwd' to display only the username (column 1) and shell (column 7) for users with a UID greater than 1000, separated by a tab.", "output": "awk -F':' '$3 > 1000 {print $1 \"\\t\" $7}' /etc/passwd"}
+{"instruction": "Recursively list all files in the current directory and subdirectories that have been modified in the last 24 hours using Zsh qualifiers.", "output": "ls -l **/*(.m-1)"}
+{"instruction": "Kill all running processes named 'node' using ps, grep, awk, and xargs, ensuring the grep command itself is not targeted.", "output": "ps aux | grep '[n]ode' | awk '{print $2}' | xargs -r kill"}
+{"instruction": "Remove all empty lines and lines containing only whitespace from a file named 'draft.txt' in place.", "output": "sed -i '/^\\s*$/d' draft.txt"}
+{"instruction": "Count the number of active TCP connections per IP address using 'ss', sorted by the most frequent connections.", "output": "ss -ntu | awk 'NR>1 {print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr"}
+{"instruction": "Parse an Apache access log to find the top 10 most frequent IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -10"}
+{"instruction": "Recursively find and delete all empty directories within the current folder.", "output": "find . -type d -empty -delete"}
+{"instruction": "Sum the numerical values in the third column of a CSV file named 'sales.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in all HTML files in the current directory, editing the files in place.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "Find all files larger than 500MB in the '/var' directory and display their details in a human-readable format.", "output": "find /var -type f -size +500M -exec ls -lh {} +"}
+{"instruction": "Batch rename all files with the extension '.htm' to '.html' in the current directory using a loop.", "output": "for f in *.htm; do mv \"$f\" \"${f%.htm}.html\"; done"}
+{"instruction": "Print only lines 20 through 30 of a file named 'large_dataset.txt'.", "output": "sed -n '20,30p' large_dataset.txt"}
+{"instruction": "Recursively set permissions for all directories to 755 and all files to 644 in the current path.", "output": "find . -type d -exec chmod 755 {} + && find . -type f -exec chmod 644 {} +"}
+{"instruction": "Monitor a log file in real-time, displaying only lines containing the word 'ERROR'.", "output": "tail -f app.log | grep --line-buffered \"ERROR\""}
+{"instruction": "Extract all email addresses from a text file using extended regex.", "output": "grep -E -o \"\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b\" contacts.txt"}
+{"instruction": "Find and delete all files in the '/tmp' directory that haven't been accessed in the last 7 days.", "output": "find /tmp -type f -atime +7 -delete"}
+{"instruction": "Sum the values of the third column in a comma-separated CSV file.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively replace the string 'http://' with 'https://' in all HTML files within the current directory and subdirectories.", "output": "find . -type f -name \"*.html\" -exec sed -i 's|http://|https://|g' {} +"}
+{"instruction": "Display the top 10 processes sorted by memory usage.", "output": "ps aux --sort=-%mem | head -n 11"}
+{"instruction": "Remove duplicate lines from a text file while preserving the original order (without sorting).", "output": "awk '!visited[$0]++' filename.txt"}
+{"instruction": "Batch rename all files in the current directory by replacing spaces with underscores.", "output": "for f in *\\ *; do mv \"$f\" \"${f// /_}\"; done"}
+{"instruction": "Parse a web server access log to find the 5 most frequent requesting IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 5"}
+{"instruction": "Extract lines 20 through 30 from a file and save them to a new file.", "output": "sed -n '20,30p' source.txt > extracted.txt"}
+{"instruction": "Kill all processes matching a specific name (e.g., 'node') gracefully.", "output": "pkill -f node"}
+{"instruction": "Recursively find and remove all empty directories starting from the current path.", "output": "find . -type d -empty -delete"}
+{"instruction": "Recursively find all files ending in '.log' inside '/var/logs' that are older than 7 days and delete them.", "output": "find /var/logs -type f -name \"*.log\" -mtime +7 -exec rm {} +"}
+{"instruction": "Parse a standard Apache access log to find the top 10 most frequent IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in a file named 'config.php' in-place, creating a backup file with the extension '.bak'.", "output": "sed -i.bak 's|http://|https://|g' config.php"}
+{"instruction": "Kill all running processes currently listening on TCP port 8080.", "output": "lsof -t -i tcp:8080 | xargs -r kill -9"}
+{"instruction": "Sum the numbers found in the third column of a comma-separated value (CSV) file named 'expenses.csv'.", "output": "awk -F, '{sum+=$3} END {print sum}' expenses.csv"}
+{"instruction": "Batch rename all files in the current directory with the extension '.jpeg' to '.jpg'.", "output": "for file in *.jpeg; do mv -- \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "List the usernames of all users on the system who have '/bin/bash' set as their default shell.", "output": "awk -F: '$7 == \"/bin/bash\" {print $1}' /etc/passwd"}
+{"instruction": "Find the top 5 largest files in the current directory tree and display their sizes in a human-readable format.", "output": "find . -type f -exec du -h {} + | sort -rh | head -n 5"}
+{"instruction": "Extract and print lines from a text file that appear between the markers 'START' and 'END' (inclusive).", "output": "sed -n '/START/,/END/p' file.txt"}
+{"instruction": "Watch the 'auth.log' file in real-time, filtering only for lines containing 'Failed password'.", "output": "tail -f /var/log/auth.log | grep --line-buffered \"Failed password\""}
+{"instruction": "Sum the values in the 3rd column of a comma-separated file named 'data.csv' using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find all files ending in '.log' in the '/var/log' directory that were modified more than 7 days ago and delete them.", "output": "find /var/log -name \"*.log\" -mtime +7 -exec rm {} \\;"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in all HTML files in the current directory using sed in-place editing.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "Extract IP addresses from the first column of an Apache access log, count unique occurrences, and sort them by frequency in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Recursively find all empty directories in the current path and remove them.", "output": "find . -type d -empty -delete"}
+{"instruction": "Display the top 10 largest files or directories in the current folder, showing human-readable sizes.", "output": "du -ah --max-depth=1 | sort -rh | head -n 10"}
+{"instruction": "Batch rename all '.jpeg' files to '.jpg' in the current directory using a bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Search for the string 'Exception' in 'app.log', printing the matching line along with the 5 lines immediately following it.", "output": "grep -A 5 \"Exception\" app.log"}
+{"instruction": "Kill all processes matching the name 'python script.py' using pkill with the full command line match option.", "output": "pkill -f \"python script.py\""}
+{"instruction": "Print specific lines (from line 50 to line 100) of a large text file named 'dataset.txt'.", "output": "sed -n '50,100p' dataset.txt"}
+{"instruction": "Recursively find all files larger than 100MB in the current directory and display their size and path.", "output": "find . -type f -size +100M -exec du -h {} +"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all HTML files in the current folder, editing the files in-place.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "Sum the values in the third column of a CSV file (comma-separated) and print the total.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "List the top 10 memory-consuming processes sorted by memory usage descending.", "output": "ps aux --sort=-%mem | head -n 11"}
+{"instruction": "Remove duplicate lines from a text file while preserving the original order of the first occurrences.", "output": "awk '!seen[$0]++' filename.txt"}
+{"instruction": "Watch a log file in real-time and only display lines containing the word 'ERROR'.", "output": "tail -f /var/log/app.log | grep --line-buffered 'ERROR'"}
+{"instruction": "Batch rename all files with the extension .jpeg to .jpg in the current directory.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Check which process is listening on TCP port 8080.", "output": "lsof -i :8080 -sTCP:LISTEN"}
+{"instruction": "Print specific lines (from line 5 to line 10) of a file.", "output": "sed -n '5,10p' filename.txt"}
+{"instruction": "Calculate the total disk usage of the current directory's immediate subdirectories and sort them by size in human-readable format.", "output": "du -h --max-depth=1 | sort -hr"}
+{"instruction": "Replace all occurrences of the string 'http' with 'https' in the file 'config.conf' in-place, creating a backup file named 'config.conf.bak'.", "output": "sed -i.bak 's/http/https/g' config.conf"}
+{"instruction": "Find all files in the '/var/log' directory that are larger than 100MB and display their size in a human-readable format.", "output": "find /var/log -type f -size +100M -exec du -h {} +"}
+{"instruction": "Calculate the sum of the numbers located in the third column of a comma-separated value (CSV) file named 'financials.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' financials.csv"}
+{"instruction": "Batch rename all files in the current directory with the extension '.jpeg' to '.jpg' using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Extract IP addresses from the first column of an Apache/Nginx 'access.log', count the unique occurrences, and sort them by frequency in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Recursively search for the string 'TODO' in the current directory, showing line numbers, while explicitly excluding the 'node_modules' and '.git' directories.", "output": "grep -rn \"TODO\" . --exclude-dir={node_modules,.git}"}
+{"instruction": "Create a compressed tarball named 'backup.tar.gz' containing only files in the 'data' directory that have been modified in the last 7 days.", "output": "find data -type f -mtime -7 -print0 | tar -czvf backup.tar.gz --null -T -"}
+{"instruction": "List all processes currently listening on TCP ports along with their process IDs and service names using 'ss'.", "output": "ss -tulpn"}
+{"instruction": "Print only lines 10 through 20 of a text file named 'large_document.txt'.", "output": "sed -n '10,20p' large_document.txt"}
+{"instruction": "Using Zsh glob qualifiers, list only the directories found recursively within the 'src/' folder (excluding files).", "output": "ls -d src/**/*(/)"}
+{"instruction": "Recursively find all text files in the current directory and replace the string 'http://' with 'https://' in-place.", "output": "find . -type f -name \"*.txt\" -exec sed -i 's/http:\\/\\//https:\\/\\//g' {} +"}
+{"instruction": "Calculate the sum of the numbers in the third column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files in the '/var/log' directory that are older than 30 days.", "output": "find /var/log -type f -mtime +30 -delete"}
+{"instruction": "List the top 10 memory-consuming processes sorted by memory usage descending.", "output": "ps aux | awk '{print $4, $11}' | sort -k1rn | head -n 10"}
+{"instruction": "Batch rename all files in the current directory with the extension .jpeg to .jpg.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Parse an Apache access log to find the top 10 IP addresses making requests.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Extract all valid email addresses from a text file using grep.", "output": "grep -E -o \"\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b\" file.txt"}
+{"instruction": "Print lines 5 through 10 of a file using sed.", "output": "sed -n '5,10p' filename.txt"}
+{"instruction": "Create a compressed tarball of the current directory, excluding the 'node_modules' folder.", "output": "tar -czvf project_backup.tar.gz --exclude='node_modules' ."}
+{"instruction": "Check the disk usage of all immediate subdirectories in the current path, sorted by size.", "output": "du -sh * | sort -rh"}
+{"instruction": "Find all files in the current directory and subdirectories modified in the last 7 days that are larger than 100MB.", "output": "find . -type f -mtime -7 -size +100M"}
+{"instruction": "Calculate the sum of numbers in the third column of a comma-separated value (CSV) file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Remove duplicate lines from a file named 'list.txt' without changing the order of the remaining lines (unlike sort | uniq).", "output": "awk '!seen[$0]++' list.txt"}
+{"instruction": "Parse a web server access log to find the top 10 most frequent IP addresses (assuming the IP is the first column).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all files in the current directory with the extension .html to .php using a Bash loop.", "output": "for f in *.html; do mv -- \"$f\" \"${f%.html}.php\"; done"}
+{"instruction": "Delete all lines containing the word 'debug' from a file named 'app.log' in-place.", "output": "sed -i '/debug/d' app.log"}
+{"instruction": "Display the top 20 largest files and directories in the current path, sorted by human-readable size.", "output": "du -ah . | sort -rh | head -n 20"}
+{"instruction": "Kill all running processes that match the name 'worker_script.py' using a pipeline of ps, awk, and xargs.", "output": "ps aux | grep '[w]orker_script.py' | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Extract lines 10 through 20 from a file named 'source.txt' and display them.", "output": "sed -n '10,20p' source.txt"}
+{"instruction": "Sync the contents of the local 'project' folder to a backup directory, excluding the '.git' folder and showing progress.", "output": "rsync -avzP --exclude '.git' ./project/ /backup/project/"}
+{"instruction": "Sum the numerical values in the third column of a space-separated text file using Awk.", "output": "awk '{sum+=$3} END {print sum}' data.txt"}
+{"instruction": "Recursively find all directories in the current path and set permissions to 755, and set all files to 644.", "output": "find . -type d -exec chmod 755 {} + && find . -type f -exec chmod 644 {} +"}
+{"instruction": "Remove duplicate lines from a file while preserving the original order of occurrence.", "output": "awk '!seen[$0]++' input_file.txt"}
+{"instruction": "Watch a log file in real-time, displaying only lines that contain the string \"ERROR\".", "output": "tail -f /var/log/application.log | grep --line-buffered \"ERROR\""}
+{"instruction": "Batch rename all .jpg files in the current directory by prepending the current date (YYYY-MM-DD).", "output": "for f in *.jpg; do mv \"$f\" \"$(date +%F)-$f\"; done"}
+{"instruction": "Edit a configuration file in-place to remove all empty lines and lines starting with a hash (#) comment.", "output": "sed -i '/^#/d;/^$/d' config.ini"}
+{"instruction": "Display the top 10 running processes sorted by memory usage in descending order.", "output": "ps aux --sort=-%mem | head -n 11"}
+{"instruction": "Find lines that are common to two different files (intersection).", "output": "sort file1.txt file2.txt | uniq -d"}
+{"instruction": "Recursively search for a specific string inside files in the current directory, excluding the 'node_modules' folder, and show line numbers.", "output": "grep -rn \"search_term\" . --exclude-dir=node_modules"}
+{"instruction": "Extract all IPv4 addresses from a text file using extended regex.", "output": "grep -oE '\\b([0-9]{1,3}\\.){3}[0-9]{1,3}\\b' access.log"}
+{"instruction": "Calculate the sum of the numbers in the third column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find and delete all files ending in '.log' inside '/var/logs' that have not been modified in the last 30 days.", "output": "find /var/logs -type f -name \"*.log\" -mtime +30 -delete"}
+{"instruction": "Parse an Nginx/Apache access log to list the top 10 IP addresses by request frequency.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all '.txt' files in the current directory to '.md' using a Bash loop.", "output": "for f in *.txt; do mv -- \"$f\" \"${f%.txt}.md\"; done"}
+{"instruction": "Kill all processes matching the name 'worker_process' excluding the grep process itself.", "output": "ps aux | grep \"[w]orker_process\" | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Recursively replace all occurrences of 'http://old.com' with 'https://new.com' in all HTML files.", "output": "find . -type f -name \"*.html\" -exec sed -i 's|http://old.com|https://new.com|g' {} +"}
+{"instruction": "Display the 5 largest subdirectories in the current path in a human-readable format.", "output": "du -h --max-depth=1 | sort -hr | head -n 5"}
+{"instruction": "Extract lines 50 through 100 from a large text file named 'dataset.txt'.", "output": "sed -n '50,100p' dataset.txt"}
+{"instruction": "Print only the lines in 'input.txt' that are longer than 80 characters.", "output": "awk 'length($0) > 80' input.txt"}
+{"instruction": "Check for all listening TCP ports and their associated process names/PIDs.", "output": "sudo ss -tulnp"}
+{"instruction": "Find all files in the current directory and subdirectories larger than 100MB and display their details.", "output": "find . -type f -size +100M -ls"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all HTML files within the current directory.", "output": "sed -i 's/http:\\/\\//https:\\/\\//g' *.html"}
+{"instruction": "Sum the numbers in the third column of a CSV file (comma-separated) using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "List the top 5 memory-consuming processes currently running on the system.", "output": "ps aux --sort=-%mem | head -n 6"}
+{"instruction": "Batch rename all files with the extension .jpeg to .jpg in the current directory.", "output": "for file in *.jpeg; do mv -- \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Extract and count the unique occurrences of IP addresses from an Apache/Nginx access log, sorted by frequency.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Delete all empty lines or lines containing only whitespace from a text file.", "output": "sed -i '/^\\s*$/d' filename.txt"}
+{"instruction": "Create a compressed tarball archive of a directory, excluding the 'node_modules' folder.", "output": "tar -czvf project_backup.tar.gz --exclude='node_modules' ./my_project"}
+{"instruction": "Check which process ID (PID) is listening on port 8080.", "output": "lsof -t -i:8080"}
+{"instruction": "Print the 10th line of a file using sed.", "output": "sed -n '10p' filename.txt"}
+{"instruction": "Sum the values in the 3rd column of a comma-separated file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files ending in '.log' within '/var/log' that are older than 30 days.", "output": "find /var/log -type f -name \"*.log\" -mtime +30 -delete"}
+{"instruction": "Replace all occurrences of 'http://example.com' with 'https://example.org' in all .html files in the current directory, creating backups with the extension .bak.", "output": "sed -i.bak 's|http://example.com|https://example.org|g' *.html"}
+{"instruction": "Extract IP addresses (first column) from 'access.log', count the unique occurrences, and display the top 10 most frequent IPs.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively search for the string 'FIXME' in the 'src/' directory, printing line numbers, while excluding the '.git' directory.", "output": "grep -rn --exclude-dir=.git \"FIXME\" src/"}
+{"instruction": "Batch rename all '.txt' files in the current directory by prepending the current date (YYYY-MM-DD) to the filename.", "output": "for f in *.txt; do mv \"$f\" \"$(date +%F)_$f\"; done"}
+{"instruction": "Display the top 5 largest directories within the current path in a human-readable format.", "output": "du -h --max-depth=1 | sort -hr | head -n 5"}
+{"instruction": "Create a gzip-compressed tar archive named 'backup.tar.gz' of the current directory, excluding the 'node_modules' folder.", "output": "tar -czf backup.tar.gz --exclude='node_modules' ."}
+{"instruction": "Kill all running processes matching the name 'worker_script.py' using the full command line pattern.", "output": "pkill -f worker_script.py"}
+{"instruction": "Merge lines from 'names.txt' and 'emails.txt' side-by-side, separated by a colon.", "output": "paste -d ':' names.txt emails.txt"}
+{"instruction": "Find all files larger than 100MB in the current directory and its subdirectories, and prompt for confirmation before deleting each one.", "output": "find . -type f -size +100M -exec rm -i {} \\;"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in a file named 'config.conf' in-place.", "output": "sed -i 's|http://|https://|g' config.conf"}
+{"instruction": "Calculate the sum of the numbers in the third column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively change permissions so that all directories are 755 and all files are 644 within the current folder.", "output": "find . -type d -exec chmod 755 {} \\; && find . -type f -exec chmod 644 {} \\;"}
+{"instruction": "List the top 10 memory-consuming processes sorted by memory usage in descending order.", "output": "ps aux --sort=-%mem | head -n 11"}
+{"instruction": "Extract and print all valid IPv4 addresses from a text file named 'access.log' using grep.", "output": "grep -oE '\\b([0-9]{1,3}\\.){3}[0-9]{1,3}\\b' access.log"}
+{"instruction": "Create a compressed tarball (tar.gz) of the 'project' directory, excluding the 'node_modules' folder.", "output": "tar -czvf project_backup.tar.gz --exclude='project/node_modules' project"}
+{"instruction": "Count the frequency of each unique line in a text file and display the results sorted by count in descending order.", "output": "sort filename.txt | uniq -c | sort -nr"}
+{"instruction": "Kill a process named 'my_script.py' by finding its PID using ps, grep, and awk, then passing it to xargs.", "output": "ps aux | grep 'my_script.py' | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Print the 5th line after the match of the pattern 'ERROR' in a log file.", "output": "awk '/ERROR/{c=5} c&&!--c{print $0}' server.log"}
+{"instruction": "Recursively find all directories in the current path and change their permissions to 755, leaving files untouched.", "output": "find . -type d -exec chmod 755 {} +"}
+{"instruction": "Parse an Apache/Nginx access log to find the top 10 IP addresses making requests, sorted by frequency.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Use sed to delete all empty lines or lines containing only whitespace from a file in-place.", "output": "sed -i '/^[[:space:]]*$/d' filename.txt"}
+{"instruction": "Find all files larger than 100MB in the /var directory and display their size and path.", "output": "find /var -type f -size +100M -exec ls -lh {} \\; | awk '{ print $5, $9 }'"}
+{"instruction": "Generate a random 16-character alphanumeric password using OpenSSL.", "output": "openssl rand -base64 16 | cut -c1-16"}
+{"instruction": "Use awk to calculate the sum of the numbers in the third column of a comma-separated value (CSV) file.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Batch rename all files in the current directory with the extension .jpeg to .jpg using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "List the top 5 memory-consuming processes on the system, displaying the percentage of memory used and the command name.", "output": "ps aux --sort=-%mem | awk 'NR<=6 {print $4, $11}'"}
+{"instruction": "Extract all valid email addresses from a text file using grep with extended regular expressions.", "output": "grep -E -o \"\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b\" file.txt"}
+{"instruction": "Print lines from a file that appear between a start pattern 'BEGIN' and an end pattern 'END' (inclusive) using awk.", "output": "awk '/BEGIN/,/END/' file.txt"}
+{"instruction": "Find and interactively delete all files larger than 100MB in the current directory and subdirectories.", "output": "find . -type f -size +100M -exec rm -i {} +"}
+{"instruction": "Calculate the sum of numbers in the third column of a comma-separated value (CSV) file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in 'config.conf' in-place, creating a backup file with extension .bak.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.conf"}
+{"instruction": "Display the top 5 processes consuming the most memory on the system.", "output": "ps aux --sort=-%mem | head -n 6"}
+{"instruction": "Batch rename all files with the extension .txt to .md in the current directory using a Bash loop.", "output": "for f in *.txt; do mv -- \"$f\" \"${f%.txt}.md\"; done"}
+{"instruction": "Extract IP addresses from the first column of an Apache access log, count unique occurrences, and sort them by frequency in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Find the top 10 largest files or directories within the '/var' folder, suppressing permission errors.", "output": "du -ah /var 2>/dev/null | sort -rh | head -n 10"}
+{"instruction": "Remove all empty lines and lines containing only whitespace from a file named 'text.txt'.", "output": "sed -i '/^\\s*$/d' text.txt"}
+{"instruction": "Check if port 443 is open on 'example.com' using netcat with a 2-second timeout.", "output": "nc -zv -w 2 example.com 443"}
+{"instruction": "Using Zsh glob qualifiers, list all regular files recursively that were modified within the last 24 hours.", "output": "ls -ld **/*(.m-1)"}
+{"instruction": "Find all files in the current directory and subdirectories that are larger than 100MB and display their size and path.", "output": "find . -type f -size +100M -exec du -ah {} + | sort -rh"}
+{"instruction": "Replace all occurrences of the string 'localhost' with '127.0.0.1' in the file 'config.yaml' and create a backup of the original file.", "output": "sed -i.bak 's/localhost/127.0.0.1/g' config.yaml"}
+{"instruction": "Calculate the sum of the numbers in the third column of a comma-separated values (CSV) file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Remove duplicate lines from a text file named 'list.txt' without sorting (preserving the original order).", "output": "awk '!seen[$0]++' list.txt"}
+{"instruction": "Recursively change the file extension of all '.htm' files to '.html' in the current directory using a Bash loop.", "output": "for f in *.htm; do mv -- \"$f\" \"${f%.htm}.html\"; done"}
+{"instruction": "Display the top 10 most frequently occurring words in a text file, sorted by count in descending order.", "output": "tr -c '[:alnum:]' '[\\n*]' < file.txt | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Print lines 5 through 10 of a file named 'script.sh'.", "output": "sed -n '5,10p' script.sh"}
+{"instruction": "Find and delete all files in the '/tmp/logs' directory that are older than 7 days.", "output": "find /tmp/logs -type f -mtime +7 -exec rm {} \\;"}
+{"instruction": "Check the memory usage percentage using 'free' and 'awk'.", "output": "free | grep Mem | awk '{print $3/$2 * 100.0}'"}
+{"instruction": "Extract all IPv4 addresses from a log file using grep.", "output": "grep -oE '\\b([0-9]{1,3}\\.){3}[0-9]{1,3}\\b' access.log"}
+{"instruction": "Find all files in the current directory and subdirectories modified within the last 24 hours.", "output": "find . -type f -mtime -1"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in all HTML files in the current directory, in-place.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "Calculate the sum of the numbers located in the third column of a comma-separated value (CSV) file named 'expenses.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' expenses.csv"}
+{"instruction": "List the top 10 memory-consuming processes currently running on the system, sorted by memory usage descending.", "output": "ps aux --sort=-%mem | head -n 11"}
+{"instruction": "Recursively delete all files with the extension '.log' that are older than 30 days.", "output": "find /path/to/logs -name \"*.log\" -type f -mtime +30 -delete"}
+{"instruction": "Extract unique IP addresses from a standard Nginx or Apache access log file and count their occurrences, sorted by frequency.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Batch rename all files in the current directory ending in '.jpeg' to '.jpg' using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Display the 5 largest directories within '/var', showing human-readable sizes.", "output": "du -h /var/ --max-depth=1 | sort -rh | head -n 5"}
+{"instruction": "Print specific lines from a file (e.g., lines 10 through 20) using sed.", "output": "sed -n '10,20p' filename.txt"}
+{"instruction": "Kill all running processes matching the name 'node' without confirmation.", "output": "pkill -f node"}
+{"instruction": "Recursively find all files with the extension .htm in the current directory and rename them to .html.", "output": "find . -type f -name \"*.htm\" -exec bash -c 'mv \"$1\" \"${1%.htm}.html\"' _ {} \\;"}
+{"instruction": "Calculate the total size in bytes of all files listed in the current directory using ls -l and awk.", "output": "ls -l | awk '{sum += $5} END {print sum}'"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in all .conf files in the current directory, creating backups with the extension .bak.", "output": "sed -i.bak 's|http://|https://|g' *.conf"}
+{"instruction": "Kill all running processes named 'node' using ps, grep, awk, and xargs, avoiding the use of pkill or killall.", "output": "ps aux | grep '[n]ode' | awk '{print $2}' | xargs kill"}
+{"instruction": "Extract lines 50 through 100 from a file named large_log.txt.", "output": "sed -n '50,100p' large_log.txt"}
+{"instruction": "Print the second column of a comma-separated value (CSV) file named users.csv where the third column equals 'Active'.", "output": "awk -F, '$3 == \"Active\" {print $2}' users.csv"}
+{"instruction": "Find the top 10 largest directories under /var, displaying sizes in human-readable format.", "output": "du -h /var 2>/dev/null | sort -rh | head -n 10"}
+{"instruction": "List all system usernames from /etc/passwd, sorted alphabetically.", "output": "cut -d: -f1 /etc/passwd | sort"}
+{"instruction": "Create a directory structure for the current year with subdirectories for each month (01-12) using a single command.", "output": "mkdir -p $(date +%Y)/{01..12}"}
+{"instruction": "Count the number of established connections from each remote IP address on port 443, sorted by frequency.", "output": "ss -nt | grep ':443' | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr"}
+{"instruction": "Find and delete all files larger than 100MB in the current directory and subdirectories.", "output": "find . -type f -size +100M -exec rm {} +"}
+{"instruction": "Calculate the sum of values in the third column of a comma-separated value (CSV) file.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find all files containing the string 'localhost' and replace it with '127.0.0.1' in-place.", "output": "grep -rl 'localhost' . | xargs sed -i 's/localhost/127.0.0.1/g'"}
+{"instruction": "Identify the process ID (PID) listening on TCP port 3000 and kill it immediately.", "output": "lsof -t -i:3000 | xargs kill -9"}
+{"instruction": "Parse a standard web server access log to count unique occurrences of IP addresses (column 1) and sort them by frequency descending.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Create a gzipped tar archive of the current directory while excluding the '.git' folder.", "output": "tar --exclude='.git' -czvf backup.tar.gz ."}
+{"instruction": "List the top 10 largest items (files or directories) in the current path, displaying human-readable sizes.", "output": "du -sh * 2>/dev/null | sort -rh | head -n 10"}
+{"instruction": "Remove all empty lines and lines containing only whitespace from a specific text file.", "output": "sed -i '/^[[:space:]]*$/d' filename.txt"}
+{"instruction": "Batch rename all '.htm' files in the current directory to '.html' using a native Bash loop.", "output": "for f in *.htm; do mv -- \"$f\" \"${f%.htm}.html\"; done"}
+{"instruction": "Print specific lines (e.g., lines 5 through 10) from a file using sed.", "output": "sed -n '5,10p' input_file.txt"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in the file 'config.conf' in-place, while creating a backup file named 'config.conf.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.conf"}
+{"instruction": "Recursively find and delete all empty directories starting from the current directory.", "output": "find . -type d -empty -delete"}
+{"instruction": "Calculate and print the sum of the numbers located in the third column of a comma-separated value (CSV) file named 'expenses.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' expenses.csv"}
+{"instruction": "Parse a web server log file named 'access.log', extract the IP addresses (assumed to be the first column), count the occurrences of each unique IP, and display the top 10 most frequent IPs.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all '.txt' files in the current directory by appending the prefix 'backup_' to the original filename.", "output": "for f in *.txt; do mv \"$f\" \"backup_$f\"; done"}
+{"instruction": "Display the top 5 largest files or directories within the '/var/log' path in a human-readable format.", "output": "du -ah /var/log | sort -rh | head -n 5"}
+{"instruction": "Print only lines 10 through 20 of the file 'script.py'.", "output": "sed -n '10,20p' script.py"}
+{"instruction": "Forcefully kill all running processes that match the name 'node' using pkill.", "output": "pkill -9 -f node"}
+{"instruction": "Print all lines from 'data.txt' that contain more than 80 characters.", "output": "awk 'length($0) > 80' data.txt"}
+{"instruction": "Check if TCP port 8080 is currently in a listening state on the local system.", "output": "ss -tuln | grep :8080"}
+{"instruction": "Find all files in the current directory and subdirectories larger than 100MB and display their size in a human-readable format.", "output": "find . -type f -size +100M -exec du -h {} +"}
+{"instruction": "Recursively replace all occurrences of the string 'http://old.com' with 'https://new.com' in all '.html' files within the current folder.", "output": "find . -type f -name \"*.html\" -exec sed -i 's|http://old.com|https://new.com|g' {} +"}
+{"instruction": "Parse an Nginx or Apache access log to find the top 10 most frequent request IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all files with the extension '.txt' to '.md' in the current directory using a native Bash loop.", "output": "for file in *.txt; do mv -- \"$file\" \"${file%.txt}.md\"; done"}
+{"instruction": "Recursively correct file permissions in a web directory: set all directories to 755 and all files to 644.", "output": "find /var/www/html -type d -exec chmod 755 {} + && find /var/www/html -type f -exec chmod 644 {} +"}
+{"instruction": "Calculate the sum of numerical values in the third column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Create a compressed tarball of a directory named 'project', explicitly excluding the '.git' metadata folder.", "output": "tar -czvf project_backup.tar.gz --exclude='.git' project/"}
+{"instruction": "Delete all empty lines or lines containing only whitespace from a file named 'config.conf' in place.", "output": "sed -i '/^\\s*$/d' config.conf"}
+{"instruction": "Extract all unique email addresses from a text file using grep and regex.", "output": "grep -E -o '\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b' input.txt | sort -u"}
+{"instruction": "List the top 5 directories in the current path consuming the most disk space, sorted by size.", "output": "du -sh * 2>/dev/null | sort -rh | head -n 5"}
+{"instruction": "Find all files in the '/var/log' directory that are larger than 100MB and were modified more than 7 days ago, then display their details.", "output": "find /var/log -type f -size +100M -mtime +7 -ls"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in the file 'config.xml' in-place, creating a backup file named 'config.xml.bak'.", "output": "sed -i.bak 's|http://|https://|g' config.xml"}
+{"instruction": "Calculate and print the sum of numbers located in the 3rd column of a comma-separated value (CSV) file named 'expenses.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' expenses.csv"}
+{"instruction": "Recursively search for the string 'API_KEY' in the current directory, showing line numbers, while excluding the 'node_modules' and '.git' directories.", "output": "grep -rn \"API_KEY\" . --exclude-dir={node_modules,.git}"}
+{"instruction": "Parse an Nginx access log to find the top 10 most frequent IP addresses (assuming IP is the first column).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -10"}
+{"instruction": "Batch rename all '.jpeg' files in the current directory to '.jpg' using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Print specific lines from a file, specifically from line 50 to line 60 (inclusive).", "output": "sed -n '50,60p' filename.txt"}
+{"instruction": "Check which process is listening on port 8080 using 'ss' (Socket Statistics).", "output": "ss -lptn 'sport = :8080'"}
+{"instruction": "Remove all empty lines from a text file named 'draft.txt' and save the output to 'clean.txt'.", "output": "sed '/^$/d' draft.txt > clean.txt"}
+{"instruction": "Display the top 5 largest directories within the current path in human-readable format.", "output": "du -ah --max-depth=1 | sort -rh | head -5"}
+{"instruction": "Find and interactively delete all files larger than 50MB in the current directory and its subdirectories.", "output": "find . -type f -size +50M -exec rm -i {} +"}
+{"instruction": "Sum the values in the third column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in 'config.xml' in-place, while creating a backup file.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.xml"}
+{"instruction": "Recursively set permissions to 755 for all directories and 644 for all files in the current path.", "output": "find . -type d -exec chmod 755 {} + && find . -type f -exec chmod 644 {} +"}
+{"instruction": "Parse a standard Apache/Nginx access log to find the top 10 most frequent requesting IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Kill all running processes that match the name 'node' without using pkill or killall.", "output": "ps aux | grep '[n]ode' | awk '{print $2}' | xargs -r kill -9"}
+{"instruction": "Batch rename all '.htm' files to '.html' in the current directory using a Bash loop.", "output": "for f in *.htm; do mv -- \"$f\" \"${f%.htm}.html\"; done"}
+{"instruction": "Display the 5 largest directories within the current path in a human-readable format.", "output": "du -h --max-depth=1 | sort -rh | head -n 5"}
+{"instruction": "Remove duplicate lines from a file based on the content of the first column only, keeping the first occurrence.", "output": "awk '!seen[$1]++' input_file.txt"}
+{"instruction": "Delete all empty lines or lines containing only whitespace from a text file.", "output": "sed -i '/^\\s*$/d' filename.txt"}
+{"instruction": "Parse an Apache/Nginx access log to find the top 10 most frequent IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Recursively find all files in the current directory ending in '.tmp' that are older than 7 days and delete them.", "output": "find . -type f -name \"*.tmp\" -mtime +7 -exec rm {} \\;"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in 'config.php' and create a backup file named 'config.php.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.php"}
+{"instruction": "Sum the values in the third column of a CSV file named 'expenses.csv', skipping the header row.", "output": "awk -F',' 'NR>1 {sum+=$3} END {print sum}' expenses.csv"}
+{"instruction": "Find and kill all running processes matching the name 'worker.py' without using 'killall' or 'pkill'.", "output": "ps aux | grep 'worker.py' | grep -v grep | awk '{print $2}' | xargs -r kill -9"}
+{"instruction": "Recursively search for the string 'TODO' inside all files within the 'src' directory and display line numbers.", "output": "grep -rnw 'src/' -e 'TODO'"}
+{"instruction": "Batch rename all '.txt' files in the current directory to '.md' using a bash loop.", "output": "for file in *.txt; do mv \"$file\" \"${file%.txt}.md\"; done"}
+{"instruction": "Display the 5 largest directories within '/var', sorted by size in human-readable format.", "output": "du -ah /var | sort -rh | head -n 5"}
+{"instruction": "Compare two sorted text files ('list_a.txt' and 'list_b.txt') and output only the lines that appear in both files.", "output": "comm -12 list_a.txt list_b.txt"}
+{"instruction": "Print specific lines of a file (e.g., lines 10 through 20) using sed.", "output": "sed -n '10,20p' filename.txt"}
+{"instruction": "Recursively find all directories in the current path and set permissions to 755, and set all files to 644.", "output": "find . -type d -exec chmod 755 {} + && find . -type f -exec chmod 644 {} +"}
+{"instruction": "Parse an Apache/Nginx access log to find the top 10 most frequent IP addresses.", "output": "grep -oE '([0-9]{1,3}\\.){3}[0-9]{1,3}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Use awk to sum the values in the third column of a comma-separated value (CSV) file.", "output": "awk -F',' '{sum += $3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all log files in the '/var/log' directory that are older than 30 days.", "output": "find /var/log -name \"*.log\" -type f -mtime +30 -delete"}
+{"instruction": "Use sed to delete all empty lines or lines containing only whitespace from a text file in-place.", "output": "sed -i '/^\\s*$/d' filename.txt"}
+{"instruction": "Display the top 5 running processes sorted by memory usage.", "output": "ps aux --sort=-%mem | head -n 6"}
+{"instruction": "Batch rename all files in the current directory with the extension .jpeg to .jpg.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Kill the process currently listening on TCP port 8080.", "output": "lsof -ti:8080 | xargs kill -9"}
+{"instruction": "Use sed to print specific lines from a file (e.g., lines 20 through 30) without printing the rest of the file.", "output": "sed -n '20,30p' filename.txt"}
+{"instruction": "Calculate the total size of the current directory and list the 10 largest items within it, human-readable.", "output": "du -ah --max-depth=1 . | sort -rh | head -n 10"}
+{"instruction": "Calculate the sum of the numbers in the 3rd column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively search for the string 'TODO' in the current directory, displaying line numbers, while excluding the '.git' directory.", "output": "grep -rn --exclude-dir=.git \"TODO\" ."}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in 'config.php' in-place, creating a backup file named 'config.php.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.php"}
+{"instruction": "Find and delete all empty directories recursively starting from the current path.", "output": "find . -type d -empty -delete"}
+{"instruction": "Parse an access log file to find the top 10 most frequent IP addresses (assuming IP is the first column).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all files with the extension '.htm' to '.html' in the current directory using a Bash loop.", "output": "for f in *.htm; do mv -- \"$f\" \"${f%.htm}.html\"; done"}
+{"instruction": "Display the top 5 running processes sorted by memory usage in descending order.", "output": "ps aux --sort=-%mem | head -n 6"}
+{"instruction": "Print only the lines in 'input.txt' that are longer than 80 characters.", "output": "awk 'length($0) > 80' input.txt"}
+{"instruction": "Find all '.log' files modified more than 7 days ago and archive them into a gzip-compressed tarball named 'old_logs.tar.gz'.", "output": "find . -name \"*.log\" -mtime +7 -print0 | xargs -0 tar -czf old_logs.tar.gz"}
+{"instruction": "Extract and print lines from a file that are located between the patterns 'BEGIN_KEY' and 'END_KEY' (inclusive).", "output": "sed -n '/BEGIN_KEY/,/END_KEY/p' rsa_key.pem"}
+{"instruction": "Calculate the sum of numbers in the second column of a CSV file using Awk.", "output": "awk -F',' '{sum+=$2} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files with the extension '.log' in the '/var/log' directory that are older than 7 days.", "output": "find /var/log -name \"*.log\" -type f -mtime +7 -exec rm {} +"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in a file named 'config.conf' in-place, creating a backup file with extension '.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.conf"}
+{"instruction": "Parse an Apache/Nginx access log to count the frequency of requests per IP address (assuming IP is the first column), then sort them in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Batch rename all '.jpg' files in the current directory to '.jpeg' using a Bash loop.", "output": "for f in *.jpg; do mv -- \"$f\" \"${f%.jpg}.jpeg\"; done"}
+{"instruction": "Find the top 10 largest files or directories within the '/var' folder, displaying sizes in human-readable format.", "output": "du -ah /var 2>/dev/null | sort -rh | head -n 10"}
+{"instruction": "Kill all running processes named 'node' by filtering the process list and piping the PIDs to the kill command.", "output": "ps aux | grep '[n]ode' | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Extract all valid email addresses from a text file using grep with extended regex.", "output": "grep -E -o \"\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b\" input.txt"}
+{"instruction": "Print the 5th line of a file using Sed.", "output": "sed -n '5p' filename.txt"}
+{"instruction": "Recursively find all regular files modified today, excluding hidden files, using Zsh glob qualifiers.", "output": "ls -ld **/*(.m0)"}
+{"instruction": "Sum the numerical values in the third column of a CSV file named 'sales.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Recursively find and delete all files in the '/var/logs/backups' directory that are older than 30 days.", "output": "find /var/logs/backups -type f -mtime +30 -exec rm {} \\;"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in all HTML files in the current directory, editing files in-place.", "output": "sed -i 's|http://|https://|g' *.html"}
+{"instruction": "Parse an Nginx/Apache access log to find the top 10 most frequent requesting IP addresses.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all files with the extension '.jpeg' to '.jpg' in the current directory using a shell loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Display only lines 50 through 100 of a large text file named 'dataset.txt'.", "output": "sed -n '50,100p' dataset.txt"}
+{"instruction": "Find the 5 largest directories within the current path, displaying sizes in a human-readable format.", "output": "du -h --max-depth=1 . | sort -hr | head -n 5"}
+{"instruction": "Kill all running processes matching the pattern 'zombie_worker' by extracting their PIDs manually.", "output": "ps -ef | grep 'zombie_worker' | grep -v grep | awk '{print $2}' | xargs kill -9"}
+{"instruction": "Remove duplicate lines from a file named 'unsorted_list.txt' while preserving the original order of the first occurrences.", "output": "awk '!visited[$0]++' unsorted_list.txt"}
+{"instruction": "Watch the number of connections on port 80 updating every 2 seconds.", "output": "watch -n 2 'netstat -an | grep :80 | wc -l'"}
+{"instruction": "Replace all occurrences of \"http\" with \"https\" in the file \"config.txt\", creating a backup file named \"config.txt.bak\".", "output": "sed -i.bak 's/http/https/g' config.txt"}
+{"instruction": "Find and delete all files ending in \".log\" inside the \"/var/log\" directory that have not been modified in the last 30 days.", "output": "find /var/log -name \"*.log\" -mtime +30 -exec rm {} +"}
+{"instruction": "Calculate and print the sum of the numbers in the third column of a comma-separated file named \"data.csv\".", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Rename all files in the current directory with the extension \".jpeg\" to \".jpg\" using a bash loop.", "output": "for f in *.jpeg; do mv -- \"$f\" \"${f%.jpeg}.jpg\"; done"}
+{"instruction": "Forcefully terminate all running processes matching the name \"worker_script\".", "output": "pkill -9 -f worker_script"}
+{"instruction": "Count the frequency of unique lines in \"access.log\" and display them sorted by count in descending order.", "output": "sort access.log | uniq -c | sort -nr"}
+{"instruction": "Display the top 5 largest directories within the current path in a human-readable format.", "output": "du -h --max-depth=1 | sort -hr | head -n 5"}
+{"instruction": "Create a compressed tar archive named \"backup.tar.gz\" of the \"project\" directory, specifically excluding the \"node_modules\" folder.", "output": "tar -czf backup.tar.gz --exclude='node_modules' project"}
+{"instruction": "Recursively search for the string \"FIXME\" in the \"src\" directory, showing line numbers and ignoring binary files.", "output": "grep -rnI \"FIXME\" src"}
+{"instruction": "Extract and list only the usernames from \"/etc/passwd\" for users who have \"/bin/bash\" set as their default shell.", "output": "awk -F: '$7 == \"/bin/bash\" {print $1}' /etc/passwd"}
+{"instruction": "Sum the values in the third column of a CSV file named 'sales.csv' using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' sales.csv"}
+{"instruction": "Find all files in '/var/log' ending in '.log' modified in the last 24 hours and archive them into a tarball.", "output": "find /var/log -name \"*.log\" -mtime -1 -print0 | xargs -0 tar -czf recent_logs.tar.gz"}
+{"instruction": "Recursively replace the string 'http://old-site.com' with 'https://new-site.com' in all HTML files in the current directory.", "output": "find . -type f -name \"*.html\" -exec sed -i 's|http://old-site.com|https://new-site.com|g' {} +"}
+{"instruction": "Extract unique IP addresses from an Apache access log, count their occurrences, and sort them by frequency in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Identify which process ID (PID) and name is listening on TCP port 8080.", "output": "ss -lptn 'sport = :8080'"}
+{"instruction": "Print lines 50 through 100 of a large file named 'data.txt'.", "output": "sed -n '50,100p' data.txt"}
+{"instruction": "Batch rename all files with the extension '.jpeg' to '.jpg' in the current directory using a bash for loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Display the top 10 subdirectories in '/var' consuming the most disk space, formatted in human-readable sizes.", "output": "du -h /var --max-depth=1 2>/dev/null | sort -hr | head -n 10"}
+{"instruction": "Extract all email addresses from a text file using extended grep regex.", "output": "grep -E -o \"\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\\b\" file.txt"}
+{"instruction": "Recursively find and delete all empty directories starting from the current path.", "output": "find . -type d -empty -delete"}
+{"instruction": "Find and delete all files larger than 100MB that have not been modified in the last 30 days.", "output": "find /path/to/search -type f -size +100M -mtime +30 -exec rm {} +"}
+{"instruction": "Parse a CSV file to calculate the sum of the numbers in the third column using awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in a configuration file in-place, creating a backup file with a .bak extension.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.conf"}
+{"instruction": "Extract the top 10 most requesting IP addresses from an Nginx/Apache access log.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Batch rename all .txt files in the current directory to .md using a bash for-loop.", "output": "for file in *.txt; do mv \"$file\" \"${file%.txt}.md\"; done"}
+{"instruction": "Kill all processes currently listening on port 8080.", "output": "lsof -ti :8080 | xargs -r kill -9"}
+{"instruction": "Recursively search for a text string in the current directory, excluding the 'node_modules' and '.git' directories, showing line numbers.", "output": "grep -rn \"search_term\" . --exclude-dir={node_modules,.git}"}
+{"instruction": "Print only the lines between 'START' and 'END' markers (inclusive) from a text file using sed.", "output": "sed -n '/START/,/END/p' filename.txt"}
+{"instruction": "Check if the 'nginx' service is active; if not, attempt to start it.", "output": "systemctl is-active --quiet nginx || sudo systemctl start nginx"}
+{"instruction": "List the top 5 largest directories within '/var' to identify disk usage hotspots.", "output": "du -h /var --max-depth=1 2>/dev/null | sort -hr | head -n 5"}
+{"instruction": "Find the top 10 largest files and directories in the current folder recursively, sorted by human-readable size.", "output": "du -ah . | sort -rh | head -n 10"}
+{"instruction": "Recursively find all '.txt' files and replace the string 'foo' with 'bar' in-place.", "output": "find . -type f -name \"*.txt\" -exec sed -i 's/foo/bar/g' {} +"}
+{"instruction": "Parse a CSV file to calculate the sum of the values in the third column.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Extract the top 5 most frequent IP addresses from an Apache/Nginx access log.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 5"}
+{"instruction": "Find and delete all files in the '/tmp' directory that haven't been accessed in the last 7 days.", "output": "find /tmp -type f -atime +7 -delete"}
+{"instruction": "Batch rename all files in the current directory changing the extension from .html to .php.", "output": "for file in *.html; do mv \"$file\" \"${file%.html}.php\"; done"}
+{"instruction": "Kill all running processes matching a specific name (e.g., 'python_script') using ps, grep, awk, and xargs.", "output": "ps aux | grep '[p]ython_script' | awk '{print $2}' | xargs -r kill -9"}
+{"instruction": "Remove all empty lines and lines containing only whitespace from a file.", "output": "sed -i '/^\\s*$/d' filename.txt"}
+{"instruction": "Print specific lines of a file (e.g., lines 10 through 20) using sed.", "output": "sed -n '10,20p' filename.txt"}
+{"instruction": "Check the HTTP status code of a list of URLs contained in a file named 'urls.txt'.", "output": "while read url; do curl -o /dev/null -s -w \"%{http_code} $url\\n\" \"$url\"; done < urls.txt"}
+{"instruction": "Calculate the sum of the numbers in the third column of a CSV file named 'data.csv'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Find and delete all files ending in '.log' in the '/var/log' directory that are older than 30 days.", "output": "find /var/log -name \"*.log\" -mtime +30 -exec rm {} +"}
+{"instruction": "Replace all occurrences of the string 'http://' with 'https://' in a file named 'config.php' in place.", "output": "sed -i 's|http://|https://|g' config.php"}
+{"instruction": "Parse an Apache/Nginx access log to find the top 10 most frequent IP addresses (assuming IP is the first column).", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -10"}
+{"instruction": "Batch rename all '.jpeg' files in the current directory to '.jpg' using a Bash loop.", "output": "for file in *.jpeg; do mv \"$file\" \"${file%.jpeg}.jpg\"; done"}
+{"instruction": "Remove all empty lines or lines containing only whitespace from a text file named 'draft.txt'.", "output": "sed -i '/^\\s*$/d' draft.txt"}
+{"instruction": "Display the disk usage of all files and directories in the current location, sorted by size in human-readable format (largest on top).", "output": "du -ah . | sort -rh | head -20"}
+{"instruction": "Print the username (column 1) and default shell (column 7) from '/etc/passwd', formatted as 'User: [name] | Shell: [path]'.", "output": "awk -F: '{print \"User: \" $1 \" | Shell: \" $7}' /etc/passwd"}
+{"instruction": "List all running processes that are consuming more than 50% of the CPU.", "output": "ps aux | awk '$3 > 50.0 {print $0}'"}
+{"instruction": "Prepend the shebang '#!/bin/bash' to the first line of a script named 'deploy.sh'.", "output": "sed -i '1i #!/bin/bash' deploy.sh"}
+{"instruction": "Find all log files in the current directory and subdirectories that are older than 7 days and delete them.", "output": "find . -type f -name \"*.log\" -mtime +7 -delete"}
+{"instruction": "Use 'sed' to replace all occurrences of 'http://' with 'https://' in a file named 'config.txt', creating a backup of the original file.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.txt"}
+{"instruction": "Sum the values in the third column of a comma-separated value (CSV) file named 'data.csv' using 'awk'.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "List the top 5 processes consuming the most memory, displaying only the user, PID, memory percentage, and command.", "output": "ps aux --sort=-%mem | awk 'NR<=6 {print $1, $2, $4, $11}'"}
+{"instruction": "Recursively search for the string 'TODO' in all '.js' and '.py' files within the current directory, printing the line number for each match.", "output": "grep -rn \"TODO\" . --include=\"*.{js,py}\""}
+{"instruction": "Batch rename all files in the current directory from uppercase to lowercase using a loop and 'tr'.", "output": "for f in *; do mv \"$f\" \"$(echo \"$f\" | tr 'A-Z' 'a-z')\"; done"}
+{"instruction": "Parse an Apache/Nginx access log to find the top 10 IP addresses by request frequency.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 10"}
+{"instruction": "Create a compressed tarball of the 'project' directory, excluding the 'node_modules' folder.", "output": "tar -czvf project_backup.tar.gz --exclude='node_modules' project/"}
+{"instruction": "Remove duplicate lines from a file named 'list.txt' without sorting (preserving the original order) using 'awk'.", "output": "awk '!visited[$0]++' list.txt"}
+{"instruction": "Print specific lines from a file (e.g., lines 20 through 30) using 'sed'.", "output": "sed -n '20,30p' filename.txt"}
+{"instruction": "Rename all files in the current directory with the extension .txt to .md using a Bash loop.", "output": "for file in *.txt; do mv \"$file\" \"${file%.txt}.md\"; done"}
+{"instruction": "Sum the values in the third column of a CSV file named 'data.csv' using Awk.", "output": "awk -F',' '{sum+=$3} END {print sum}' data.csv"}
+{"instruction": "Recursively find and delete all files in the '/var/log/app' directory that are older than 30 days.", "output": "find /var/log/app -type f -mtime +30 -delete"}
+{"instruction": "Replace all occurrences of 'http://' with 'https://' in 'config.php' in-place, creating a backup file named 'config.php.bak'.", "output": "sed -i.bak 's/http:\\/\\//https:\\/\\//g' config.php"}
+{"instruction": "Display the top 10 memory-consuming processes sorted by memory usage.", "output": "ps aux --sort=-%mem | head -n 11"}
+{"instruction": "Count the frequency of each unique IP address in an Apache/Nginx access log and sort them in descending order.", "output": "awk '{print $1}' access.log | sort | uniq -c | sort -nr"}
+{"instruction": "Create a compressed tarball of the 'project' folder, excluding the 'node_modules' directory.", "output": "tar -czvf project.tar.gz --exclude='node_modules' project/"}
+{"instruction": "Remove all empty lines and lines containing only whitespace from a file named 'text.txt'.", "output": "sed -i '/^\\s*$/d' text.txt"}
+{"instruction": "List the total disk usage of all subdirectories in the current path, sorted by size in human-readable format.", "output": "du -sh * | sort -rh"}
+{"instruction": "Extract and print lines from 'error.log' that occurred between 10:00 and 11:00 (assuming standard timestamp format at start of line).", "output": "awk '$1 >= \"10:00:00\" && $1 < \"11:00:00\"' error.log"}
