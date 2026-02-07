@@ -1,25 +1,23 @@
-# Cartridge Training Strategy
+# Training Protocol: The Path to Sovereignty
 
-## The "Zero Trace" Protocol (User-Side Training)
+## Dataset Scaling Targets (Samples)
 
-Omni allows users to fine-tune custom cartridges (`@roe/custom`) from their own documents. To maintain security, we strictly manage the lifecycle of training data.
+Based on LIMA (Less Is More) and LoRA scaling laws for 1B/3B models.
 
-### Workflow
+| Tier | Status | 1B (Specialist) | 3B (Agent) | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| **MVP** | ✅ **LIVE** | 500 | 1,000 | "It Works." Basic syntax and pattern recognition. |
+| **Production** | 🚧 **NEXT** | 2,500 | 5,000 | "Reliable." Handles edge cases and complex logic. |
+| **Sovereign** | 🔮 **GOAL** | 10,000 | 15,000 | "Perfection." Deep reasoning, zero hallucinations. |
 
-1.  **Ingest:** User points Omni to a folder (`/docs`).
-2.  **Synthesize:** Omni (using the local LLM) generates Question-Answer pairs from the documents.
-    *   *Artifact:* `~/.omni/temp/training_data.jsonl` (Plaintext! Dangerous!)
-3.  **Train:** `mlx` or `llama.cpp` runs the LoRA fine-tuning.
-    *   *Artifact:* `~/.omni/models/adapters/custom_lora.gguf`
-4.  **Sanitize (The Feature):**
-    *   Immediately after training success, the system performs a secure delete (`shred -u` or overwrite) on `training_data.jsonl`.
-    *   The original user documents are touched/read-only.
+## Quality > Quantity
+- **Format:** Chain-of-Thought (CoT) is mandatory for 3B brains.
+- **Diversity:** Samples must cover "How to X", "Fix Y", "Explain Z", and "Refactor Q".
+- **Validation:** Every sample must pass a syntax check before training.
 
-### Implementation Plan
-
-- [ ] Create `train_cartridge.py` (The local training orchestrator).
-- [ ] Add `cleanup_artifacts()` function to secure-delete intermediate JSONL.
-- [ ] Expose via CLI: `omni learn ./my-docs --name "project-x"`
-
-### Internal Note (ROE Defense)
-For our *internal* factory (`synth_gen.py`), we keep the datasets for now to debug quality. But we should apply this same logic to the *release* version of the software.
+## The Training Loop
+1.  **Generate:** `synth_gen.py` creates raw JSONL.
+2.  **Validate:** `supervisor.py` checks syntax (mock execution).
+3.  **Train:** `mlx_lm.lora` runs for 600-1000 iterations.
+4.  **Fuse:** Merge adapter into base model.
+5.  **Benchmark:** Verify improvement against previous version.
