@@ -37,9 +37,9 @@ Omni replaces generic LLMs with a swarm of **Cognitive Cartridges**—hyper-spec
 | Brain | Size | Status | Description |
 | :--- | :--- | :--- | :--- |
 | **`@roe/devops`** | **3B** | ✅ **LIVE** | Docker, K8s, CI/CD, Bash |
-| **`@roe/shell`** | **1B** | 🟡 SOON | The Command Line Assassin (Bash/Awk/Sed) |
-| **`@roe/sql`** | **1B** | 🟡 SOON | The Query Optimizer (PostgreSQL/ANSI) |
-| **`@roe/git`** | **1B** | 🟡 SOON | The Version Controller (Rebase/Bisect) |
+| **`@roe/shell`** | **1B** | ✅ **LIVE** | The Command Line Assassin (Bash/Awk/Sed) |
+| **`@roe/sql`** | **1B** | ✅ **LIVE** | The Query Optimizer (PostgreSQL/ANSI) |
+| **`@roe/git`** | **1B** | 🛠️ SOON | The Version Controller (Rebase/Bisect) |
 
 ### 📱 Mobile
 | Brain | Size | Status | Description |
