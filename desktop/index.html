@@ -1,31 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Omni Desktop</title>
-    <style>
-        body { background: #050505; color: #00ff9d; font-family: monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .loader { text-align: center; }
-        h1 { font-size: 2rem; margin-bottom: 0.5rem; }
-    </style>
-</head>
-<body>
-    <div class="loader">
-        <h1>OMNI</h1>
-        <p>Connecting to Neural Core...</p>
-    </div>
-    <script>
-        // Check if API is up
-        setInterval(async () => {
-            try {
-                const res = await fetch('http://localhost:8000/');
-                if (res.ok) {
-                    document.body.innerHTML = '<h1>CONNECTED</h1>';
-                    // Here we would load the React App
-                }
-            } catch (e) {
-                console.log("Waiting for Core...");
-            }
-        }, 1000);
-    </script>
-</body>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
