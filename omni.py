@@ -43,37 +43,58 @@ class OmniAgent:
     def splash(self):
         console.clear()
         
-        with console.status("[bold green]Initializing Omni Runtime...[/bold green]", spinner="dots"):
-            time.sleep(0.3)
-            console.log("[green]✓[/green] GPU Acceleration: [bold cyan]Metal/MPS[/bold cyan]")
+        # Matrix Effect Simulation
+        with console.status("[bold green]Establishing Secure Uplink...[/bold green]", spinner="dots12"):
+            time.sleep(0.5)
+            console.print("[dim green]0x1F4A ... Connected[/dim green]")
             time.sleep(0.1)
-            console.log(f"[green]✓[/green] Local Context: [bold cyan]{self.context_files} Files[/bold cyan]")
+            console.print("[dim green]0x9B2C ... Decrypting Cartridges[/dim green]")
             time.sleep(0.1)
-            console.log(f"[green]✓[/green] Cognitive Cartridges: [bold cyan]{len(self.available_brains)} Available[/bold cyan]")
+            console.print("[dim green]0xFA11 ... Syncing Neural Weights[/dim green]")
             time.sleep(0.3)
 
+        # System Check
         console.print(Panel.fit(
-            "[bold white]OMNI v0.6.0 (Executor)[/bold white]\n[dim]The Secure AI Stack[/dim]",
+            "[bold white]OMNI v0.6.1[/bold white]\n[dim]The Secure AI Stack[/dim]",
             border_style="green",
-            padding=(1, 4)
+            padding=(1, 4),
+            subtitle="[bold green]ONLINE[/bold green]"
         ))
+        
+        # Stats Grid
+        grid = Table.grid(expand=True)
+        grid.add_column(justify="center", ratio=1)
+        grid.add_column(justify="center", ratio=1)
+        grid.add_column(justify="center", ratio=1)
+        
+        grid.add_row(
+            "[bold cyan]⚡ GPU[/bold cyan]", 
+            "[bold cyan]📂 Context[/bold cyan]", 
+            "[bold cyan]🧠 Brains[/bold cyan]"
+        )
+        grid.add_row(
+            "[green]Metal/MPS[/green]",
+            f"[green]{self.context_files} Files[/green]",
+            f"[green]{len(self.available_brains)} Loaded[/green]"
+        )
+        console.print(Panel(grid, border_style="dim"))
         console.print("")
 
     def dashboard(self):
-        table = Table(show_header=True, header_style="bold magenta", expand=True, border_style="dim")
-        table.add_column("Active Brain", style="cyan")
-        table.add_column("Status", style="green")
-        table.add_column("VRAM", style="yellow")
+        table = Table(show_header=True, header_style="bold magenta", expand=True, border_style="green")
+        table.add_column("🤖 Active Persona", style="cyan")
+        table.add_column("🟢 Status", style="green")
+        table.add_column("💾 VRAM", style="yellow")
         
         mem_usage = "0.0 GB"
         if self.model:
             mem_usage = "~3.5 GB"
             
-        brain_label = f"@roe/{self.active_brain}"
+        brain_label = f"[bold white]@roe/{self.active_brain}[/bold white]"
         if self.active_brain == "None":
-             brain_label = "No Brain Loaded"
+             brain_label = "[dim]No Brain Loaded[/dim]"
         else:
-             brain_label += " (Base Model)"
+             brain_label += " [dim](Base)[/dim]"
             
         table.add_row(brain_label, self.status, mem_usage)
         console.print(table)
