@@ -27,10 +27,8 @@ class OmniAgent:
         self.model = None
         self.tokenizer = None
         self.context_files = self.scan_context()
-        self.available_brains = self.scan_brains()
-
-    def scan_brains(self):
-        return [
+        # Personas are capabilities, not physical downloads (unless finetuned)
+        self.personas = [
             "architect", "backend", "frontend", "devops",
             "ios", "android", "flutter", "react-native",
             "unity", "unreal", "shell", "sql", "git"
@@ -40,158 +38,94 @@ class OmniAgent:
         files = [f for f in os.listdir(".") if os.path.isfile(f) and not f.startswith(".")]
         return len(files)
 
+    def get_installed_brains(self):
+        """Return list of physically present models."""
+        installed = []
+        if os.path.exists(LOCAL_MODEL_DIR):
+            installed.append("Base Model (Llama-3.2-3B)")
+        
+        if os.path.exists("models"):
+            for p in glob.glob("models/*-fused"):
+                installed.append(os.path.basename(p).replace("-fused", ""))
+        return installed
+
     def splash(self):
         console.clear()
-        
-        # Matrix Effect Simulation
-        with console.status("[bold green]Establishing Secure Uplink...[/bold green]", spinner="dots12"):
-            time.sleep(0.5)
-            console.print("[dim green]0x1F4A ... Connected[/dim green]")
-            time.sleep(0.1)
-            console.print("[dim green]0x9B2C ... Decrypting Cartridges[/dim green]")
-            time.sleep(0.1)
-            console.print("[dim green]0xFA11 ... Syncing Neural Weights[/dim green]")
-            time.sleep(0.3)
-
-        # System Check
         console.print(Panel.fit(
-            "[bold white]OMNI v0.6.1[/bold white]\n[dim]The Secure AI Stack[/dim]",
+            "[bold white]OMNI v0.7.0 (Intelligent)[/bold white]\n[dim]The Secure AI Stack[/dim]",
             border_style="green",
-            padding=(1, 4),
-            subtitle="[bold green]ONLINE[/bold green]"
+            padding=(1, 4)
         ))
-        
-        # Stats Grid
-        grid = Table.grid(expand=True)
-        grid.add_column(justify="center", ratio=1)
-        grid.add_column(justify="center", ratio=1)
-        grid.add_column(justify="center", ratio=1)
-        
-        grid.add_row(
-            "[bold cyan]⚡ GPU[/bold cyan]", 
-            "[bold cyan]📂 Context[/bold cyan]", 
-            "[bold cyan]🧠 Brains[/bold cyan]"
-        )
-        grid.add_row(
-            "[green]Metal/MPS[/green]",
-            f"[green]{self.context_files} Files[/green]",
-            f"[green]{len(self.available_brains)} Loaded[/green]"
-        )
-        console.print(Panel(grid, border_style="dim"))
         console.print("")
 
     def dashboard(self):
-        table = Table(show_header=True, header_style="bold magenta", expand=True, border_style="green")
-        table.add_column("🤖 Active Persona", style="cyan")
-        table.add_column("🟢 Status", style="green")
-        table.add_column("💾 VRAM", style="yellow")
+        table = Table(show_header=True, header_style="bold magenta", expand=True, border_style="dim")
+        table.add_column("Active Brain", style="cyan")
+        table.add_column("Status", style="green")
         
-        mem_usage = "0.0 GB"
-        if self.model:
-            mem_usage = "~3.5 GB"
-            
-        brain_label = f"[bold white]@roe/{self.active_brain}[/bold white]"
-        if self.active_brain == "None":
-             brain_label = "[dim]No Brain Loaded[/dim]"
-        else:
-             brain_label += " [dim](Base)[/dim]"
-            
-        table.add_row(brain_label, self.status, mem_usage)
+        brain_label = f"@roe/{self.active_brain}" if self.active_brain != "None" else "Omni (General)"
+        table.add_row(brain_label, self.status)
         console.print(table)
 
     def ensure_model(self):
-        """Ensure the Base Model is downloaded using Python API."""
         if os.path.exists(LOCAL_MODEL_DIR):
             return True
             
-        console.print(f"[yellow]⚠️  Base Brain (Llama-3.2-3B) not found.[/yellow]")
-        if Confirm.ask(f"Download [bold white]Base Brain (3GB)[/bold white] from Hugging Face?"):
+        console.print(f"[yellow]⚠️  I need to download my neural weights (3GB) to function.[/yellow]")
+        if Confirm.ask(f"Download [bold white]Llama-3.2-3B[/bold white] from Hugging Face?"):
             try:
                 from huggingface_hub import snapshot_download
-                
-                with console.status("[bold cyan]Downloading Neural Weights (this may take a while)...[/bold cyan]"):
-                    snapshot_download(
-                        repo_id=BASE_MODEL_REPO,
-                        local_dir=LOCAL_MODEL_DIR,
-                        local_dir_use_symlinks=False
-                    )
-                
+                with console.status("[bold cyan]Downloading...[/bold cyan]"):
+                    snapshot_download(repo_id=BASE_MODEL_REPO, local_dir=LOCAL_MODEL_DIR, local_dir_use_symlinks=False)
                 console.print("[green]✅ Download Complete.[/green]")
                 return True
             except ImportError:
-                console.print("[red]❌ huggingface_hub not installed. Run install.sh again.[/red]")
-                return False
+                console.print("[red]❌ Error: huggingface_hub missing. Run install.sh.[/red]")
             except Exception as e:
                 console.print(f"[red]❌ Download Failed: {e}[/red]")
-                return False
         return False
 
-    def load_brain(self, name):
-        if not self.ensure_model():
-            return False
-            
-        if self.model is None:
-            with console.status(f"[bold cyan]Mounting Base Model into VRAM...[/bold cyan]", spinner="arc"):
-                try:
-                    from mlx_lm import load
-                    self.model, self.tokenizer = load(LOCAL_MODEL_DIR)
-                    self.status = "Ready"
-                except ImportError:
-                    console.print("[red]❌ MLX not installed. Run install.sh again.[/red]")
-                    return False
-                except Exception as e:
-                    console.print(f"[red]❌ Load Failed: {e}[/red]")
-                    return False
+    def load_model_if_needed(self):
+        if self.model: return True
+        if not self.ensure_model(): return False
         
-        # We swap persona, not weights
-        self.active_brain = name
-        console.print(f"[green]✅ Active Persona: @roe/{name}[/green]")
-        return True
+        with console.status(f"[bold cyan]Loading Neural Network...[/bold cyan]", spinner="arc"):
+            try:
+                from mlx_lm import load
+                self.model, self.tokenizer = load(LOCAL_MODEL_DIR)
+                self.status = "Ready"
+                return True
+            except Exception as e:
+                console.print(f"[red]❌ Load Failed: {e}[/red]")
+                return False
 
     def extract_and_run(self, text):
-        """Extract code blocks and offer to run them."""
-        # Regex for ```lang ... ```
         matches = re.findall(r'```(\w+)\n(.*?)```', text, re.DOTALL)
-        
-        if not matches:
-            return
+        if not matches: return
 
-        lang, code = matches[-1] # Take the last block
-        
-        # Determine filename
+        lang, code = matches[-1]
         ext = "txt"
         if lang in ["python", "py"]: ext = "py"
         elif lang in ["html", "js", "javascript"]: ext = "html"
         elif lang in ["sh", "bash"]: ext = "sh"
         
         filename = f"omni_output.{ext}"
-        
         console.print(f"\n[bold yellow]⚡ Detected {lang} code block.[/bold yellow]")
         
         if Confirm.ask(f"Save and run as [bold white]{filename}[/bold white]?"):
-            with open(filename, "w") as f:
-                f.write(code)
-            
+            with open(filename, "w") as f: f.write(code)
             console.print(f"[green]✓ Saved to {filename}[/green]")
-            
-            # Execute
             try:
                 if ext == "py":
-                    # Run with current python
-                    result = subprocess.run([sys.executable, filename], capture_output=True, text=True)
-                    print(result.stdout)
-                    if result.returncode != 0:
-                        console.print(f"[red]Execution Error:[/red]\n{result.stderr}")
-                        
-                        # Auto-Fix Dependencies
-                        if "ModuleNotFoundError" in result.stderr:
-                            missing_module = result.stderr.split("'")[1]
-                            if Confirm.ask(f"[yellow]Missing module '{missing_module}'. Install via pip?[/yellow]"):
-                                with console.status(f"Installing {missing_module}..."):
-                                    subprocess.run([sys.executable, "-m", "pip", "install", missing_module])
-                                console.print("[green]✓ Installed. Re-running...[/green]")
+                    res = subprocess.run([sys.executable, filename], capture_output=True, text=True)
+                    print(res.stdout)
+                    if res.returncode != 0:
+                        console.print(f"[red]Error:[/red]\n{res.stderr}")
+                        if "ModuleNotFoundError" in res.stderr:
+                            mod = res.stderr.split("'")[1]
+                            if Confirm.ask(f"[yellow]Install missing '{mod}'?[/yellow]"):
+                                subprocess.run([sys.executable, "-m", "pip", "install", mod])
                                 subprocess.run([sys.executable, filename])
-
                 elif ext == "html":
                     opener = "open" if sys.platform == "darwin" else "xdg-open"
                     subprocess.run([opener, filename])
@@ -201,95 +135,61 @@ class OmniAgent:
                 console.print(f"[red]❌ Execution Failed: {e}[/red]")
 
     def generate(self, user_prompt):
-        if not self.model:
-            console.print("[red]❌ No brain loaded.[/red]")
-            return
+        if not self.load_model_if_needed(): return
 
-        personas = {
-            "frontend": "You are @roe/frontend. Write a single HTML5 file with embedded CSS/JS for the requested app/game.",
-            "backend": "You are @roe/backend. Write a single Python script using standard libraries where possible.",
-            "flutter": "You are @roe/flutter. Write a single Dart file.",
-            "shell": "You are @roe/shell. Write a bash script.",
-            "None": "You are Omni. Write code if requested."
-        }
+        # Intelligent System Prompt
+        installed = self.get_installed_brains()
         
-        system_prompt = personas.get(self.active_brain, personas["None"])
-        full_prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{user_prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+        base_prompt = f"""You are Omni, a Secure AI Stack running locally.
+Your goal is to help the user build software.
+You have access to the following Physical Brains: {', '.join(installed)}.
+You can act as the following Personas: {', '.join(self.personas)}.
+
+Current Context:
+- User is in a directory with {self.context_files} files.
+- You can write code. If you write code, the user can run it immediately.
+- If the user asks about system status or brains, answer truthfully based on the 'Physical Brains' list above.
+- Do not simulate. Do not hallucinate capabilities you don't have.
+- If asked to build something, choose the best persona and WRITE THE CODE.
+"""
         
-        console.print(f"\n[bold green]@{self.active_brain}:[/bold green]", end=" ")
+        # Persona Injection
+        if self.active_brain != "None":
+            base_prompt += f"\nCURRENT PERSONA: You are acting as @roe/{self.active_brain}."
+
+        full_prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{base_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{user_prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+        
+        console.print(f"\n[bold green]Omni:[/bold green]", end=" ")
         
         from mlx_lm import generate
-        
-        with console.status("[dim]Thinking...[/dim]", spinner="dots"):
+        with console.status("[dim]Processing...[/dim]", spinner="dots"):
             response = generate(self.model, self.tokenizer, prompt=full_prompt, max_tokens=1024, verbose=False)
         
         console.print(Markdown(response))
-        
-        # Check for code execution
         self.extract_and_run(response)
         console.print("")
 
     def chat_loop(self):
         self.splash()
-        console.print("[dim]Type 'menu' to see brains, or just ask for what you need.[/dim]")
+        console.print("[dim]System Ready. I am listening.[/dim]")
 
         while True:
             user_input = Prompt.ask("\n[bold white]omni[/bold white] [dim]>[/dim]")
-            
             if not user_input: continue
             if user_input.lower() in ["exit", "quit"]: break
             
+            # Simple keyword shortcut for menu
             if user_input.lower() == "menu":
-                self.available_brains = self.scan_brains()
-                console.print(f"[cyan]Available Personas:[/cyan] {', '.join(self.available_brains)}")
+                console.print(f"[cyan]Personas:[/cyan] {', '.join(self.personas)}")
                 continue
 
-            # System Inspection Logic
-            if any(x in user_input.lower() for x in ["what brains", "list brains", "which brains", "downloaded", "installed"]):
-                table = Table(title="Cognitive Cartridge Status", border_style="cyan")
-                table.add_column("Brain", style="white")
-                table.add_column("Status", style="green")
-                
-                # Check Local
-                local_brains = []
-                if os.path.exists("models"):
-                    for p in glob.glob("models/*-fused"):
-                        local_brains.append(os.path.basename(p).replace("-fused", ""))
-                
-                # Base Model
-                if os.path.exists(LOCAL_MODEL_DIR):
-                    table.add_row("Base Model (Llama-3B)", "✅ Downloaded")
-                else:
-                    table.add_row("Base Model (Llama-3B)", "❌ Missing")
-
-                for brain in self.available_brains:
-                    if brain in local_brains:
-                        table.add_row(f"@roe/{brain}", "✅ Fine-Tuned")
-                    else:
-                        table.add_row(f"@roe/{brain}", "☁️  Remote / Simulated")
-                
-                console.print(table)
-                continue
-
-            # Auto-Routing Logic
-            if self.active_brain == "None":
-                keywords = {
-                    "unity": "unity", "flutter": "flutter", "react": "frontend", 
-                    "web": "frontend", "game": "frontend", "api": "backend", "python": "backend",
-                    "atari": "frontend", "pitfall": "frontend", "snake": "frontend"
-                }
-                for k, v in keywords.items():
-                    if k in user_input.lower():
-                        console.print(f"[dim]Routing to @roe/{v}...[/dim]")
-                        self.load_brain(v)
-                        break
+            # Auto-Persona Switcher (Simple Heuristic to help the LLM)
+            # We allow the LLM to handle most things, but setting active_brain helps context.
+            if "flutter" in user_input.lower(): self.active_brain = "flutter"
+            elif "react" in user_input.lower() or "web" in user_input.lower(): self.active_brain = "frontend"
+            elif "python" in user_input.lower() or "backend" in user_input.lower(): self.active_brain = "backend"
+            elif "game" in user_input.lower(): self.active_brain = "frontend" # Default simple game
             
-            if self.active_brain == "None":
-                if Confirm.ask("[yellow]No brain selected. Load default (Backend)?[/yellow]"):
-                    self.load_brain("backend")
-                else:
-                    continue
-
             self.generate(user_input)
 
     def run_cli(self):
