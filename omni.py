@@ -10,6 +10,9 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.markdown import Markdown
 from rich.prompt import Prompt, Confirm
+from swarm.bus import OmniBus
+from swarm.agent import SwarmAgent
+from swarm.types import SwarmMessage, MessageType
 
 # Omni - The Secure Interface
 # Usage: omni run
@@ -27,12 +30,57 @@ class OmniAgent:
         self.model = None
         self.tokenizer = None
         self.context_files = self.scan_context()
-        # Personas are capabilities, not physical downloads (unless finetuned)
         self.personas = [
             "architect", "backend", "frontend", "devops",
             "ios", "android", "flutter", "react-native",
             "unity", "unreal", "shell", "sql", "git"
         ]
+        
+        # Swarm Init
+        self.bus = OmniBus()
+        self.agents = {}
+        self.init_swarm()
+
+    def init_swarm(self):
+        """Spawn virtual agents connected to the bus."""
+        for p in self.personas:
+            agent_name = f"@roe/{p}"
+            self.agents[p] = SwarmAgent(
+                name=agent_name,
+                bus=self.bus,
+                llm_client=self.llm_interface,
+                system_prompt=f"You are {agent_name}. Expert in {p}."
+            )
+        
+        # Subscribe UI to log everything
+        self.bus.subscribe("broadcast", self.on_swarm_message)
+        self.bus.subscribe("user", self.on_swarm_message)
+
+    def on_swarm_message(self, msg: SwarmMessage):
+        if msg.sender == "user": return # Don't echo self
+        
+        color = "green" if msg.type == MessageType.ARTIFACT else "yellow"
+        console.print(Panel(
+            Markdown(str(msg.payload.get('content') or msg.payload)),
+            title=f"{msg.sender} -> {msg.recipient} ({msg.type.value})",
+            border_style=color
+        ))
+        
+        # If code execution needed
+        if msg.type == MessageType.ARTIFACT:
+            content = msg.payload.get("content", "")
+            self.extract_and_run(content)
+
+    def llm_interface(self, system, user):
+        """Bridge between Swarm Agents and the shared MLX model."""
+        if not self.load_model_if_needed():
+            return "Error: Brain not loaded."
+            
+        full_prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{system}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{user}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+        
+        from mlx_lm import generate
+        response = generate(self.model, self.tokenizer, prompt=full_prompt, max_tokens=1024, verbose=False)
+        return response
 
     def scan_context(self):
         files = [f for f in os.listdir(".") if os.path.isfile(f) and not f.startswith(".")]
@@ -52,7 +100,7 @@ class OmniAgent:
     def splash(self):
         console.clear()
         console.print(Panel.fit(
-            "[bold white]OMNI v0.7.0 (Intelligent)[/bold white]\n[dim]The Secure AI Stack[/dim]",
+            "[bold white]OMNI v0.7.0 (Swarm Alpha)[/bold white]\n[dim]The Secure AI Stack[/dim]",
             border_style="green",
             padding=(1, 4)
         ))
@@ -135,43 +183,37 @@ class OmniAgent:
                 console.print(f"[red]❌ Execution Failed: {e}[/red]")
 
     def generate(self, user_prompt):
-        if not self.load_model_if_needed(): return
-
-        # Intelligent System Prompt
-        installed = self.get_installed_brains()
+        # Swarm Routing Logic
+        recipient = "@roe/backend" # Default
         
-        base_prompt = f"""You are Omni, a Secure AI Stack running locally.
-Your goal is to help the user build software.
-You have access to the following Physical Brains: {', '.join(installed)}.
-You can act as the following Personas: {', '.join(self.personas)}.
-
-Current Context:
-- User is in a directory with {self.context_files} files.
-- You can write code. If you write code, the user can run it immediately.
-- If the user asks about system status or brains, answer truthfully based on the 'Physical Brains' list above.
-- Do not simulate. Do not hallucinate capabilities you don't have.
-- If asked to build something, choose the best persona and WRITE THE CODE.
-"""
-        
-        # Persona Injection
+        # Simple Router
         if self.active_brain != "None":
-            base_prompt += f"\nCURRENT PERSONA: You are acting as @roe/{self.active_brain}."
-
-        full_prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{base_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{user_prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+            recipient = f"@roe/{self.active_brain}"
+        else:
+            # Try to route
+            for p in self.personas:
+                if p in user_prompt.lower():
+                    recipient = f"@roe/{p}"
+                    break
         
-        console.print(f"\n[bold green]Omni:[/bold green]", end=" ")
+        console.print(f"[dim]Dispatching to {recipient}...[/dim]")
         
-        from mlx_lm import generate
-        with console.status("[dim]Processing...[/dim]", spinner="dots"):
-            response = generate(self.model, self.tokenizer, prompt=full_prompt, max_tokens=1024, verbose=False)
+        # Publish to Bus
+        msg = SwarmMessage(
+            sender="user",
+            recipient=recipient,
+            type=MessageType.INSTRUCTION,
+            payload={"task": user_prompt}
+        )
+        self.bus.publish(msg)
         
-        console.print(Markdown(response))
-        self.extract_and_run(response)
-        console.print("")
+        # Wait for reply? 
+        # Since bus is sync in v0.7.0, the on_swarm_message callback handles the print.
+        # So we just return.
 
     def chat_loop(self):
         self.splash()
-        console.print("[dim]System Ready. I am listening.[/dim]")
+        console.print("[dim]Swarm Online. Type 'menu' or ask a question.[/dim]")
 
         while True:
             user_input = Prompt.ask("\n[bold white]omni[/bold white] [dim]>[/dim]")
@@ -181,6 +223,33 @@ Current Context:
             # Simple keyword shortcut for menu
             if user_input.lower() == "menu":
                 console.print(f"[cyan]Personas:[/cyan] {', '.join(self.personas)}")
+                continue
+            
+            # System Inspection Logic
+            if any(x in user_input.lower() for x in ["what brains", "list brains", "which brains", "downloaded", "installed"]):
+                table = Table(title="Cognitive Cartridge Status", border_style="cyan")
+                table.add_column("Brain", style="white")
+                table.add_column("Status", style="green")
+                
+                # Check Local
+                local_brains = []
+                if os.path.exists("models"):
+                    for p in glob.glob("models/*-fused"):
+                        local_brains.append(os.path.basename(p).replace("-fused", ""))
+                
+                # Base Model
+                if os.path.exists(LOCAL_MODEL_DIR):
+                    table.add_row("Base Model (Llama-3B)", "✅ Downloaded")
+                else:
+                    table.add_row("Base Model (Llama-3B)", "❌ Missing")
+
+                for brain in self.personas:
+                    if brain in local_brains:
+                        table.add_row(f"@roe/{brain}", "✅ Fine-Tuned")
+                    else:
+                        table.add_row(f"@roe/{brain}", "☁️  Remote / Simulated")
+                
+                console.print(table)
                 continue
 
             # Auto-Persona Switcher (Simple Heuristic to help the LLM)
