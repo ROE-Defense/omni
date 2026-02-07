@@ -3,14 +3,16 @@ import sys
 import glob
 import subprocess
 import re
+import psutil
 from typing import List, Optional
 from swarm.bus import OmniBus
 from swarm.agent import SwarmAgent
 from swarm.types import SwarmMessage, MessageType
 
-# Configuration
-BASE_MODEL_REPO = "mlx-community/Llama-3.2-3B-Instruct"
-LOCAL_MODEL_DIR = os.path.expanduser("~/.omni/models/base-3b")
+# Models
+MODEL_LITE = "mlx-community/Llama-3.2-3B-Instruct"
+MODEL_PRO = "mlx-community/Meta-Llama-3.1-8B-Instruct-4bit"
+LOCAL_MODEL_DIR = os.path.expanduser("~/.omni/models/base")
 
 class OmniCore:
     def __init__(self):
@@ -18,6 +20,7 @@ class OmniCore:
         self.status = "Idle"
         self.model = None
         self.tokenizer = None
+        self.base_model_repo = self.detect_hardware()
         
         self.personas = [
             "architect", "backend", "frontend", "devops",
@@ -29,6 +32,18 @@ class OmniCore:
         self.bus = OmniBus()
         self.agents = {}
         self.init_swarm()
+
+    def detect_hardware(self):
+        """Auto-select best Brain based on RAM."""
+        total_ram_gb = psutil.virtual_memory().total / (1024 ** 3)
+        print(f"[Core] System RAM: {total_ram_gb:.1f} GB")
+        
+        if total_ram_gb >= 14: # Safe buffer for 16GB machines
+            print(f"[Core] High-Spec Detected. Selecting PRO Brain (8B).")
+            return MODEL_PRO
+        else:
+            print(f"[Core] Standard-Spec Detected. Selecting LITE Brain (3B).")
+            return MODEL_LITE
 
     def init_swarm(self):
         """Spawn virtual agents connected to the bus."""
@@ -46,13 +61,12 @@ class OmniCore:
         self.bus.subscribe("user", self.on_swarm_message)
 
     def on_swarm_message(self, msg: SwarmMessage):
-        # This will be hooked by the API to stream events to WebSocket
         pass
 
     def get_installed_brains(self) -> List[str]:
         installed = []
         if os.path.exists(LOCAL_MODEL_DIR):
-            installed.append("Base Model (Llama-3.2-3B)")
+            installed.append(f"Base Brain ({self.base_model_repo.split('/')[-1]})")
         
         if os.path.exists("models"):
             for p in glob.glob("models/*-fused"):
@@ -62,9 +76,8 @@ class OmniCore:
     def load_model_if_needed(self):
         if self.model: return True
         
-        # Check existence
         if not os.path.exists(LOCAL_MODEL_DIR):
-            return False # Caller handles download prompt
+            return False 
         
         try:
             from mlx_lm import load
@@ -106,7 +119,7 @@ Current Persona: @roe/{active_brain if active_brain != "None" else "omni"}
     def download_model(self):
         try:
             from huggingface_hub import snapshot_download
-            snapshot_download(repo_id=BASE_MODEL_REPO, local_dir=LOCAL_MODEL_DIR, local_dir_use_symlinks=False)
+            snapshot_download(repo_id=self.base_model_repo, local_dir=LOCAL_MODEL_DIR, local_dir_use_symlinks=False)
             return True
         except Exception as e:
             raise e
