@@ -13,6 +13,7 @@ from rich.prompt import Prompt, Confirm
 from swarm.bus import OmniBus
 from swarm.agent import SwarmAgent
 from swarm.types import SwarmMessage, MessageType
+from server.app import app as api_app
 
 # Omni - The Secure Interface
 # Usage: omni run
@@ -271,7 +272,7 @@ def main():
         if sys.argv[1] == "serve":
             console.print("[bold green]Starting Omni Local API...[/bold green]")
             import uvicorn
-            uvicorn.run("server.app:app", host="127.0.0.1", port=8000, reload=False)
+            uvicorn.run(api_app, host="127.0.0.1", port=8000)
         else:
             agent.run_cli()
     else:

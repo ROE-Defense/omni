@@ -39,7 +39,7 @@ Omni replaces generic LLMs with a swarm of **Cognitive Cartridges**—hyper-spec
 | **`@roe/devops`** | **3B** | ✅ **LIVE** | Docker, K8s, CI/CD, Bash |
 | **`@roe/shell`** | **1B** | ✅ **LIVE** | The Command Line Assassin (Bash/Awk/Sed) |
 | **`@roe/sql`** | **1B** | ✅ **LIVE** | The Query Optimizer (PostgreSQL/ANSI) |
-| **`@roe/git`** | **1B** | 🛠️ SOON | The Version Controller (Rebase/Bisect) |
+| **`@roe/git`** | **1B** | ✅ **LIVE** | The Version Controller (Rebase/Bisect) |
 
 ### 📱 Mobile
 | Brain | Size | Status | Description |
@@ -47,17 +47,21 @@ Omni replaces generic LLMs with a swarm of **Cognitive Cartridges**—hyper-spec
 | **`@roe/ios`** | **3B** | ✅ **LIVE** | Native Swift, SwiftUI, Combine |
 | **`@roe/android`** | **3B** | ✅ **LIVE** | Native Kotlin, Jetpack Compose, NDK |
 | **`@roe/flutter`** | **3B** | ✅ **LIVE** | Dart, Riverpod, Cross-Platform Widgets |
-| **`@roe/react-native`** | **3B** | 🟡 SOON | TypeScript, Expo, Native Modules |
+| **`@roe/react-native`** | **3B** | 🛠️ **WIP** | TypeScript, Expo, Native Modules (340/1k) |
 
-### 🛡️ Defense (TAK Suite)
+### 🧠 Core Engineering
 | Brain | Size | Status | Description |
 | :--- | :--- | :--- | :--- |
-| **`@roe/atak`** | **3B** | 🟡 SOON | Android Team Awareness Kit Plugin Dev |
-| **`@roe/wintak`** | **3B** | 🟡 SOON | Windows TAK Plugin Dev (C#/.NET) |
-| **`@roe/itak`** | **3B** | 🟡 SOON | iOS TAK Plugin Dev (Swift) |
-| **`@roe/tak-server`** | **3B** | 🟡 SOON | Infra Admin, SSL, Federation, Data Packages |
-| **`@roe/tak-ops`** | **1B** | 🟡 SOON | Field Operator Q&A ("How to pair drone?") |
-| **`@roe/cot`** | **1B** | 🟡 SOON | Cursor on Target XML Protocol Generator |
+| **`@roe/ai-eng`** | **3B** | 🛠️ **WIP** | LLM Pipelines, RAG, Dataset Gen (110/1k) |
+| **`@roe/sec-ops`** | **3B** | 🛠️ **WIP** | Audits, Hardening, Firewalls (135/1k) |
+
+### 🛑 Tabled (Deferred)
+| Brain | Size | Status | Description |
+| :--- | :--- | :--- | :--- |
+| **`@roe/atak`** | **3B** | ⏸️ **TABLED** | Defense: Android Team Awareness Kit |
+| **`@roe/wintak`** | **3B** | ⏸️ **TABLED** | Defense: Windows TAK Plugin Dev |
+| **`@roe/unity`** | **3B** | ⏸️ **TABLED** | Game: C# Scripting & Physics |
+| **`@roe/unreal`** | **3B** | ⏸️ **TABLED** | Game: C++ Actor Logic |
 
 ---
 
@@ -81,9 +85,10 @@ omni train --name @my/secret-project --path ./docs
 ## 🗺️ Roadmap
 
 - [x] **v0.2.0:** Foundation (Web Trinity + DevOps)
-- [ ] **v0.3.0:** Expansion (Mobile, 1B Tools, TAK Defense)
-- [ ] **v0.4.0:** The Swarm (Multi-Agent Bus)
-- [ ] **v1.0.0:** Sovereign OS (Zero-Telemetry Hardware)
+- [x] **v0.3.0:** Expansion (Mobile, 1B Tools)
+- [x] **v0.7.0 (Current):** Swarm Alpha (Multi-Agent Bus + Memory)
+- [ ] **v0.8.0:** Omni OS (Screen Awareness, Air Gap)
+- [ ] **v0.9.0:** Heavy Industries (Defense/Games - Deferred)
 
 ## 📄 License
 

@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, WebSocket, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 import asyncio
 import json
 import shutil
@@ -11,11 +11,10 @@ import os
 from .core import OmniCore
 from swarm.types import SwarmMessage
 
-app = FastAPI(title="Omni Local API", version="0.9.1")
+app = FastAPI(title="Omni Local API", version="1.0.0")
 UPLOAD_DIR = os.path.expanduser("~/.omni/uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-# CORS (Allow local frontend)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,11 +23,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Singleton Core
 omni = OmniCore()
 active_websockets: List[WebSocket] = []
 
-# Hook Swarm Bus to WebSockets
 def swarm_hook(msg: SwarmMessage):
     data = msg.to_json()
     for ws in active_websockets:
@@ -37,22 +34,26 @@ def swarm_hook(msg: SwarmMessage):
 omni.bus.subscribe("broadcast", swarm_hook)
 omni.bus.subscribe("user", swarm_hook)
 
-# -- Data Models --
 class ChatRequest(BaseModel):
     message: str
     brain: str = "None"
 
 class ChatResponse(BaseModel):
-    response: str
+    response: Dict[str, Any]
 
 class SpeakRequest(BaseModel):
     text: str
 
-# -- Endpoints --
+class PilotRequest(BaseModel):
+    instruction: str
+    
+class RunRequest(BaseModel):
+    filename: str
+    language: str
 
 @app.get("/")
 def read_root():
-    return {"status": "Omni Online", "version": "v0.9.1"}
+    return {"status": "Omni Online", "version": "v1.0.0"}
 
 @app.get("/brains")
 def list_brains():
@@ -72,6 +73,7 @@ def download_model():
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):
     try:
+        # Returns { text: "...", artifacts: [...] }
         resp = omni.run_inference(req.message, req.brain)
         return {"response": resp}
     except Exception as e:
@@ -85,7 +87,6 @@ async def analyze_image(prompt: str = "Describe this", file: UploadFile = File(.
         file_path = os.path.join(UPLOAD_DIR, file.filename)
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
-            
         description = omni.run_vision(file_path, prompt)
         return {"description": description}
     except Exception as e:
@@ -97,7 +98,6 @@ async def transcribe_audio(file: UploadFile = File(...)):
         file_path = os.path.join(UPLOAD_DIR, file.filename)
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
-            
         text = omni.run_transcription(file_path)
         return {"transcription": text}
     except Exception as e:
@@ -112,13 +112,72 @@ async def speak_text(req: SpeakRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/pilot")
+async def run_pilot(req: PilotRequest):
+    try:
+        result = omni.run_pilot_action(req.instruction)
+        return {"status": "success", "result": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/execute")
+async def execute_code(req: RunRequest):
+    try:
+        if req.language in ["python", "py"]:
+            res = omni.executor._run_python(req.filename)
+        elif req.language in ["bash", "sh"]:
+            res = omni.executor._run_bash(req.filename)
+        else:
+            res = "Unsupported language."
+        return {"status": "executed", "log": res}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.websocket("/ws/chat")
+async def chat_socket(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        data = await websocket.receive_json() # { message, brain }
+        prompt = data.get("message")
+        brain = data.get("brain", "None")
+        
+        # Accumulate full text for final processing (saving)
+        full_response = ""
+        
+        # Stream Tokens
+        for token in omni.stream_generate(prompt, brain):
+            if token.startswith("__BRAIN__:"):
+                # Send Brain Update Event
+                new_brain = token.split(":", 1)[1]
+                await websocket.send_json({"type": "brain_update", "brain": new_brain})
+                continue
+                
+            full_response += token
+            await websocket.send_json({"type": "token", "content": token})
+            await asyncio.sleep(0.001) # Yield to event loop
+            
+        # Post-Processing (Save Artifacts)
+        # We process the FULL text at the end to extract files cleanly
+        processed = omni.executor.process(full_response)
+        
+        # Send Artifacts Metadata
+        if processed.get("artifacts"):
+            await websocket.send_json({"type": "artifacts", "data": processed["artifacts"]})
+            
+        await websocket.send_json({"type": "done"})
+        
+    except Exception as e:
+        await websocket.send_json({"type": "error", "content": str(e)})
+    finally:
+        await websocket.close()
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     active_websockets.append(websocket)
     try:
         while True:
-            data = await websocket.receive_text()
+            await websocket.receive_text()
     except:
         active_websockets.remove(websocket)
 

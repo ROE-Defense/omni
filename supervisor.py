@@ -25,10 +25,10 @@ BRAINS = [
     {"name": "android",   "file": "datasets/android_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
     {"name": "flutter",   "file": "datasets/flutter_training.jsonl",   "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
     {"name": "ai_eng",    "file": "datasets/ai_eng_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
-    {"name": "shell",     "file": "datasets/shell_training.jsonl",     "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
-    {"name": "sql",       "file": "datasets/sql_training.jsonl",       "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
-    {"name": "git",       "file": "datasets/git_training.jsonl",       "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
-    {"name": "regex-pro", "file": "datasets/regex_training.jsonl",     "base": "mlx-community/Llama-3.2-1B-Instruct", "status": "pending"},
+    {"name": "shell",     "file": "datasets/shell_training.jsonl",     "base": "mlx-community/Llama-3.2-1B-Instruct-4bit", "status": "pending"},
+    {"name": "sql",       "file": "datasets/sql_training.jsonl",       "base": "mlx-community/Llama-3.2-1B-Instruct-4bit", "status": "pending"},
+    {"name": "git",       "file": "datasets/git_training.jsonl",       "base": "mlx-community/Llama-3.2-1B-Instruct-4bit", "status": "pending"},
+    {"name": "regex-pro", "file": "datasets/regex_training.jsonl",     "base": "mlx-community/Llama-3.2-1B-Instruct-4bit", "status": "pending"},
     {"name": "sec-ops",   "file": "datasets/secops_training.jsonl",    "base": "mlx-community/Llama-3.2-3B-Instruct", "status": "pending"},
 ]
 

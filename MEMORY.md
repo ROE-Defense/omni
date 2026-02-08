@@ -10,8 +10,8 @@
     - Backup to `roe-mind`.
     - **Protocol:** Zero Tolerance for old codenames (Aurelius).
 
-## Operational State (2026-02-06)
-- **Project Omni:** Developing specialized "Brain" models (Llama-3.2 based).
+## Operational State (2026-02-08)
+- **Project Omni:** **SOLE PRIORITY.** All other initiatives tabled.
 - **Target:** 1,000 samples per brain (MVP).
 
 ### Brain Status

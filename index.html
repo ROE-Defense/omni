@@ -498,13 +498,21 @@
         function switchSection(sectionId) {
             // Update Buttons
             document.querySelectorAll('.main-nav .filter-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            // Only try to set active if event exists and is an element interaction
+            if (window.event && window.event.target && window.event.target.classList && window.event.target.classList.contains('filter-btn')) {
+                window.event.target.classList.add('active');
+            } else {
+                // Fallback for manual calls (like onload)
+                const btn = document.querySelector(`.filter-btn[onclick*="'${sectionId}'"]`);
+                if (btn) btn.classList.add('active');
+            }
 
             // Hide all main sections
             document.querySelectorAll('.tab-section').forEach(el => el.style.display = 'none');
 
             // Show target
-            document.getElementById(sectionId).style.display = 'block';
+            const target = document.getElementById(sectionId);
+            if (target) target.style.display = 'block';
             
             // Smooth Scroll to Top of Content (Fix Jolt)
             // Only scroll if we are below the nav bar
@@ -594,16 +602,16 @@
                     <span class="tag"><b>@roe/ai-eng</b> 🛠️ Building</span>
                     <span class="tag"><b>@roe/sec-ops</b> 🛠️ Building</span>
                     <!-- v0.9.0 Planned -->
-                    <span class="tag"><b>@roe/macos</b> 🥚 v0.9.0</span>
-                    <span class="tag"><b>@roe/windows</b> 🥚 v0.9.0</span>
-                    <span class="tag"><b>@roe/atak</b> 🥚 v0.9.0</span>
-                    <span class="tag"><b>@roe/wintak</b> 🥚 v0.9.0</span>
-                    <span class="tag"><b>@roe/itak</b> 🥚 v0.9.0</span>
-                    <span class="tag"><b>@roe/tak-server</b> 🥚 v0.9.0</span>
-                    <span class="tag"><b>@roe/tak-ops</b> 🥚 v0.9.0</span>
-                    <span class="tag"><b>@roe/cot</b> 🥚 v0.9.0</span>
-                    <span class="tag"><b>@roe/unity</b> 🥚 v0.9.0</span>
-                    <span class="tag"><b>@roe/unreal</b> 🥚 v0.9.0</span>
+                    <span class="tag"><b>@roe/macos</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/windows</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/atak</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/wintak</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/itak</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/tak-server</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/tak-ops</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/cot</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/unity</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/unreal</b> ⏸️ Tabled</span>
                     <!-- Duplicate for infinite scroll -->
                     <span class="tag"><b>@roe/architect</b> ✅ Live</span>
                     <span class="tag"><b>@roe/backend</b> ✅ Live</span>
@@ -618,16 +626,16 @@
                     <span class="tag"><b>@roe/git</b> ✅ Live</span>
                     <span class="tag"><b>@roe/ai-eng</b> 🛠️ Building</span>
                     <span class="tag"><b>@roe/sec-ops</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/macos</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/windows</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/atak</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/wintak</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/itak</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/tak-server</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/tak-ops</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/cot</b> 🛠️ Building</span>
-                    <span class="tag"><b>@roe/unity</b> 🥚 Planned</span>
-                    <span class="tag"><b>@roe/unreal</b> 🥚 Planned</span>
+                    <span class="tag"><b>@roe/macos</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/windows</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/atak</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/wintak</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/itak</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/tak-server</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/tak-ops</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/cot</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/unity</b> ⏸️ Tabled</span>
+                    <span class="tag"><b>@roe/unreal</b> ⏸️ Tabled</span>
                 </div>
             </div>
 
@@ -916,7 +924,7 @@
                         <span class="brain-name">@roe/react-native</span>
                         <div class="brain-meta">
                             <span class="brain-size">3B</span>
-                            <span class="brain-status">SOON</span>
+                            <span class="brain-status">WIP</span>
                         </div>
                     </div>
                     <p class="brain-desc">TypeScript-based native apps. Expert in Reanimated, Expo, and Native Modules.</p>
@@ -933,7 +941,7 @@
                         <span class="brain-name">@roe/unity</span>
                         <div class="brain-meta">
                             <span class="brain-size">3B</span>
-                            <span class="brain-status">PLANNED</span>
+                            <span class="brain-status">TABLED</span>
                         </div>
                     </div>
                     <p class="brain-desc">C# scripting and Unity Editor logic. Prefabs, Physics, and DOTS.</p>
@@ -948,7 +956,7 @@
                         <span class="brain-name">@roe/unreal</span>
                         <div class="brain-meta">
                             <span class="brain-size">3B</span>
-                            <span class="brain-status">PLANNED</span>
+                            <span class="brain-status">TABLED</span>
                         </div>
                     </div>
                     <p class="brain-desc">C++ actor logic and Blueprint graphs. Engine API mastery.</p>
@@ -965,7 +973,7 @@
                         <span class="brain-name">@roe/atak</span>
                         <div class="brain-meta">
                             <span class="brain-size">3B</span>
-                            <span class="brain-status">PLANNED</span>
+                            <span class="brain-status">TABLED</span>
                         </div>
                     </div>
                     <p class="brain-desc">Android Team Awareness Kit plugin dev. Map overlays, custom tools, and sensor integration.</p>
@@ -980,7 +988,7 @@
                         <span class="brain-name">@roe/wintak</span>
                         <div class="brain-meta">
                             <span class="brain-size">3B</span>
-                            <span class="brain-status">PLANNED</span>
+                            <span class="brain-status">TABLED</span>
                         </div>
                     </div>
                     <p class="brain-desc">Windows TAK plugin dev. C#/.NET based TOC tools and heavy data visualization.</p>
@@ -995,7 +1003,7 @@
                         <span class="brain-name">@roe/itak</span>
                         <div class="brain-meta">
                             <span class="brain-size">3B</span>
-                            <span class="brain-status">PLANNED</span>
+                            <span class="brain-status">TABLED</span>
                         </div>
                     </div>
                     <p class="brain-desc">iOS Team Awareness Kit plugin dev. Swift/SwiftUI for mobile-first situational awareness.</p>
@@ -1010,7 +1018,7 @@
                         <span class="brain-name">@roe/tak-server</span>
                         <div class="brain-meta">
                             <span class="brain-size">3B</span>
-                            <span class="brain-status">PLANNED</span>
+                            <span class="brain-status">TABLED</span>
                         </div>
                     </div>
                     <p class="brain-desc">Infrastructure admin. SSL cert management, Federation config, and Data Packages.</p>
@@ -1025,7 +1033,7 @@
                         <span class="brain-name">@roe/tak-ops</span>
                         <div class="brain-meta">
                             <span class="brain-size">1B</span>
-                            <span class="brain-status">PLANNED</span>
+                            <span class="brain-status">TABLED</span>
                         </div>
                     </div>
                     <p class="brain-desc">Operator Q&A. "How to pair drone?", "Broadcast 9-line", and field troubleshooting.</p>
@@ -1040,7 +1048,7 @@
                         <span class="brain-name">@roe/cot</span>
                         <div class="brain-meta">
                             <span class="brain-size">1B</span>
-                            <span class="brain-status">PLANNED</span>
+                            <span class="brain-status">TABLED</span>
                         </div>
                     </div>
                     <p class="brain-desc">Cursor on Target (CoT) Protocol generator. Strict XML schemas for sensor feeds.</p>
@@ -1057,7 +1065,7 @@
                         <span class="brain-name">@roe/macos</span>
                         <div class="brain-meta">
                             <span class="brain-size">3B</span>
-                            <span class="brain-status">PLANNED</span>
+                            <span class="brain-status">TABLED</span>
                         </div>
                     </div>
                     <p class="brain-desc">Native macOS apps with Swift and AppKit. System extensions and XPC.</p>
@@ -1072,7 +1080,7 @@
                         <span class="brain-name">@roe/windows</span>
                         <div class="brain-meta">
                             <span class="brain-size">3B</span>
-                            <span class="brain-status">PLANNED</span>
+                            <span class="brain-status">TABLED</span>
                         </div>
                     </div>
                     <p class="brain-desc">Modern Windows development. C#, .NET 8, and WinUI 3.</p>
@@ -1186,28 +1194,28 @@
             <h2 class="section-title">Master Roadmap</h2>
             <div class="roadmap-tree">
                 <div class="roadmap-item done">
+                    <span>v0.2.0</span>
+                    <h3>The Foundation</h3>
+                    <p>Core Runtime, Shell, and the Trinity Brains (Architect, Backend, Frontend). 1k training samples per brain.</p>
+                </div>
+                <div class="roadmap-item done">
                     <span>v0.3.0</span>
                     <h3>The Expansion</h3>
-                    <p>Mobile, Desktop, and AI Engineering brains. "Train Your Own Brain" (Local LoRA) wizard.</p>
+                    <p>Mobile (iOS/Android), 1B Tools (Shell, SQL, Git), and Local Training Wizard.</p>
                 </div>
                 <div class="roadmap-item active">
-                    <span>v0.6.2 (Current)</span>
-                    <h3>The Agentic Core</h3>
-                    <p>Real Inference (Llama-3B), Code Execution, and the "Secure" TUI. Live now.</p>
-                </div>
-                <div class="roadmap-item">
-                    <span>v0.7.0</span>
-                    <h3>The Swarm</h3>
+                    <span>v0.7.0 (Current)</span>
+                    <h3>The Swarm Alpha</h3>
                     <p>Multi-agent bus. Brains talk to each other to solve complex tasks. Shared Vector Memory.</p>
                 </div>
                 <div class="roadmap-item">
                     <span>v0.8.0</span>
-                    <h3>Secure OS</h3>
+                    <h3>Omni OS</h3>
                     <p>Screen Awareness (Vision) + Voice Mode + Air Gap Kill Switch.</p>
                 </div>
                 <div class="roadmap-item">
                     <span>v0.9.0</span>
-                    <h3>Heavy Industries</h3>
+                    <h3>Heavy Industries (Deferred)</h3>
                     <p>Defense Suite (TAK), Desktop (Mac/Win), and Game Engines (Unity/Unreal).</p>
                 </div>
                 <div class="roadmap-item">
