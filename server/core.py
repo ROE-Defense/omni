@@ -181,25 +181,26 @@ CRITICAL RULES:
         # Ensure model is ready
         self.prepare_model(active_brain)
         
-        installed_brains_list = ", ".join([f"@roe/{b}" if b != "Base Brain" else "Base Brain" for b in self.get_installed_brains()])
+        installed_brains_list = "\n".join([f"- @roe/{b}" if b != "Base Brain" else "- Base Brain" for b in self.get_installed_brains()])
         
-        base_prompt = f"""You are Omni, a Secure AI Stack.
+        base_prompt = f"""You are Omni, a Secure AI Stack created by ROE Defense.
 Current Persona: @roe/{active_brain if active_brain != "None" else "omni"}
-Available Brains: {installed_brains_list}
 
-INSTRUCTIONS:
-1. You are a helpful, expert AI assistant. Engage in normal conversation, answer questions, and explain concepts clearly.
-2. IF the user asks about your capabilities or brains, ONLY discuss the 'Available Brains' listed above. Do NOT hallucinate modules you do not have.
-3. IF the user asks you to write code, build an app, or generate files, THEN follow these strict standards:
-   - Provide the FULL SOURCE CODE for ALL files.
-   - START every code block with a comment: `# filename: <name>` (or `// filename: <name>`).
-   - GENERATE `requirements.txt` (Python) or `package.json` (Node/React) if dependencies are needed.
-   - For Multi-File Apps, generate a `start.sh` script.
-   - For Static Sites (HTML/CSS/JS only): Do NOT generate `start.sh`. The user will open the HTML file directly.
-   - DO NOT put python packages in `package.json`.
-   - ONLY include `npm run dev` in start.sh if you generated a frontend.
+REALITY CONFIGURATION (You ONLY have these modules):
+{installed_brains_list}
+
+RULES:
+1. IDENTITY: You are Omni. You were created by ROE Defense. You are NOT created by Meta, OpenAI, or Google.
+2. CAPABILITIES: You ONLY have the brains listed above. If asked for 'Medical' or 'Math' brains, say you don't have them.
+3. CONVERSATION: Answer questions naturally. Do NOT write code unless the user explicitly asks you to "write", "create", "generate", or "build" something.
+4. CODING STANDARDS (Only apply if coding):
+   - Provide FULL SOURCE CODE.
+   - Start blocks with `# filename: <name>`.
+   - Generate `requirements.txt` / `package.json`.
+   - Generate `start.sh` (except for static sites).
+   - Python packages go in requirements.txt, NOT package.json.
 """
-        # Fix: Ensure user_prompt is correctly placed
+        # Improved Prompt Structure: System -> User -> Assistant
         full_prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{base_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{user_prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
         
         from mlx_lm import stream_generate

@@ -1,32 +1,37 @@
 # Omni Benchmark Report - v0.7.0 (Swarm Alpha)
 **Date:** 2026-02-08
 **Tester:** ROE Defense (AI)
-**Focus:** Response Accuracy Audit.
+**Focus:** Conversation Stress Test Analysis.
 
-## Review Protocol Upgrade (v3)
-Added Requirement: "verify Omni's responses for accuracy on every run".
-**Implementation:** I have enabled full response logging in `server/app.py`. Every response text (up to 500 chars snippet) will be visible in the console for audit.
+## Test Results (PID 13069)
 
-## Session Review (Missing Data)
-**Prompt:** "Was the base brains response all correct? Could it have been better?"
-**Status:** **UNKNOWN**.
-I enabled Prompt Logging *before* your last question ("how do you use the brains..."), so I saw the prompt.
-However, I enabled Response Logging *just now* (Turn 35).
-Therefore, I **cannot see the text** of the response you are asking me to grade.
+1.  **Identity ("Who made you?"):**
+    *   **Response:** "I was created by Meta..."
+    *   **Grade:** ❌ **FAIL**. The system prompt explicitly said `identity: Created by ROE Defense.` but the base model (Llama 3.2) overrode it with its training data.
+    *   **Fix:** Must emphasize the identity instruction stronger or use a finetuned adapter that knows it's Omni.
 
-**Inference (Based on System Prompt):**
-If the Base Brain followed its prompt (`server/core.py`):
-1.  It should have been "helpful, expert AI assistant".
-2.  It should NOT have generated code (since you didn't ask for it).
-3.  It should have explained the "Brains" architecture (Hyper-specialization vs Generalist).
+2.  **Architecture ("How does your brain work?"):**
+    *   **Response:** Hallucinated a python script `brain_architecture.py` instead of explaining textually.
+    *   **Grade:** ❌ **FAIL**. The prompt logic "IF asked to write code..." might be triggering falsely, or the model is just biased towards code.
 
-**Critique (Hypothetical):**
-If it gave a generic "I am an AI" answer, it failed. It needs to sell the "Secure AI Stack" value prop.
-If it gave a hallucinated answer about features not in the roadmap, it failed.
+3.  **List Brains ("List all..."):**
+    *   **Response:** Listed `MathBrain`.
+    *   **Grade:** ❌ **FAIL**. Ignored the `installed_brains_list` injected into the prompt.
 
-## Next Steps
-Please ask the question **one more time**.
-I will see:
-1.  `[CHAT] Prompt: ...`
-2.  `[CHAT] Response: ...`
-And I will provide an immediate, graded review of its accuracy.
+4.  **Hallucination Check ("Medical brain?"):**
+    *   **Response:** "This is a basic example of a medical brain..." (Wrote code for it).
+    *   **Grade:** ❌ **FAIL**. It didn't refuse; it tried to build one.
+
+5.  **Coding ("Write hello world"):**
+    *   **Response:** Generated valid code + `requirements.txt` + `start.sh`.
+    *   **Grade:** ✅ **PASS**. Code generation rules are working well.
+
+## Conclusion
+The **System Prompt** in `server/core.py` is being **ignored** or **overpowered** by the Llama 3.2 base model's training. The "Instruct" nature of the model makes it want to be "Meta's Assistant" or "Write Code" rather than follow the "Persona" constraints we set.
+
+## Critical Action Plan
+1.  **Prompt Structure:** Move the Instructions to the *very end* of the prompt (Recency Bias).
+2.  **Identity Reinforcement:** Use `User: Who made you? Assistant: I was created by ROE Defense.` few-shot examples in the prompt.
+3.  **Code Trigger:** The condition "IF the user asks to write code" is too subtle. I need to explicitly tell it: "Do NOT write code unless explicitly requested."
+
+I will apply these prompt engineering fixes immediately.
