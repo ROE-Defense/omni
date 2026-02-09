@@ -1,29 +1,20 @@
 # Omni Benchmark Report - v0.7.0 (Swarm Alpha)
 **Date:** 2026-02-08
 **Tester:** ROE Defense (AI)
-**Focus:** CLI vs. Desktop Integration.
+**Focus:** Desktop App Experience.
 
 ## Incident Report
-User reported `net::ERR_CONNECTION_REFUSED` when using the Desktop App.
-**Root Cause:** The Benchmark passed for the CLI core (`omni.py`) but the Desktop App relies on the API Server (`omni serve`) which was not running.
-**Fix:** Manually started `omni serve` and verified API availability.
+User reported two issues:
+1.  **"Green empty square" response:** The Desktop App uses a markdown renderer that hides code blocks (`pre: () => <div className="hidden" />`) to move them to the sidebar. However, if the sidebar logic fails or the user doesn't see it, they just see an empty square (the hidden div style/placeholder).
+2.  **Missing Sidebar Features:** The sidebar shows "Generated Artifacts" only when `artifacts.length > 0`. If generation fails or returns no files, the sidebar is empty.
 
-## Test Suite Results
+## Root Cause
+*   **UI Design:** The `App.jsx` actively hides code blocks in the main chat window (`pre: () => <div className="hidden" />`).
+*   **Artifacts:** The artifacts array only populates *after* the `processed` event from the backend. If the backend crashed or returned early (before `done`), the artifacts array remains empty, leaving the user with hidden code in chat and an empty sidebar.
 
-### 1. CLI Core (Offline Generation)
-*   **Test:** `run_benchmark.py` (Snake, Dashboard, Deduplicator)
-*   **Status:** ✅ PASS (Verified via `03523a4`)
-*   **Notes:** Successfully creates files in `public/` when run from terminal.
+## Action Plan
+1.  **Fix UI:** Stop hiding code blocks in the chat. They should be visible *and* in the sidebar (or at least visible until processed).
+2.  **Verify Backend:** Ensure the backend (`omni serve`) is actually returning artifacts properly via the WebSocket.
 
-### 2. API Server (Desktop Backend)
-*   **Test:** `curl` request to `http://127.0.0.1:8000/chat`
-*   **Status:** ✅ PASS
-*   **Notes:** Server is now running (PID 10241). Returns valid JSON artifacts.
-
-### 3. Integrated Experience
-*   **Action:** User must run `omni serve` before launching Desktop App.
-*   **Verification:** Verified via `curl` that backend is listening.
-
-## Conclusion
-The system is functional, but user error (server not started) caused the perceived failure.
-**Action Item:** Update documentation/UI to auto-start server or warn user.
+## Test
+I will modify `desktop/src/App.jsx` to show code blocks again, so the user can at least see the raw code even if the sidebar extraction fails.
