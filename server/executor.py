@@ -101,6 +101,7 @@ class AutoExecutor:
 
     def _run_bash(self, command_or_path):
         try:
+            # 1. Resolve Script Path
             is_file = os.path.exists(command_or_path)
             if is_file:
                 target_script = command_or_path
@@ -108,33 +109,53 @@ class AutoExecutor:
                 target_script = os.path.join(WORKSPACE_DIR, "temp_run.sh")
                 with open(target_script, "w") as f: f.write(command_or_path)
             
-            launcher_path = target_script + ".command"
+            os.chmod(target_script, 0o755)
+            
+            # 2. Prepare Environment
+            env = os.environ.copy()
             venv_bin = os.path.abspath("./venv/bin")
+            env["PATH"] = f"{venv_bin}:{env['PATH']}"
             
-            with open(launcher_path, "w") as f:
-                f.write("#!/bin/bash\n")
-                f.write(f'export PATH="{venv_bin}:$PATH"\n')
-                f.write(f'cd "{WORKSPACE_DIR}"\n')
-                f.write("echo '🚀 Omni Executor: Preparing Environment...'\n")
-                
-                if os.path.exists(os.path.join(WORKSPACE_DIR, "requirements.txt")):
-                    f.write("echo '📦 Installing Python dependencies...'\n")
-                    f.write("pip install -r requirements.txt\n")
-                
-                if os.path.exists(os.path.join(WORKSPACE_DIR, "package.json")):
-                     # Don't install if node_modules exists to save time, unless forced
-                    if not os.path.exists(os.path.join(WORKSPACE_DIR, "node_modules")):
-                        f.write("echo '📦 Installing Node dependencies...'\n")
-                        f.write("npm install\n")
-
-                if is_file: f.write(f'bash "{target_script}"\n')
-                else: f.write(f'bash "{target_script}"\n')
-
-                f.write('echo "\n[Process completed. Press Enter to close]"\n')
-                f.write('read\n')
+            # 3. Execution (Background, No Terminal)
+            log_path = os.path.join(WORKSPACE_DIR, "app.log")
+            log_file = open(log_path, "w")
             
-            os.chmod(launcher_path, 0o755)
-            subprocess.Popen(["open", launcher_path])
-            return f"🚀 Executed: {os.path.basename(launcher_path)}"
+            # Install deps if needed (Blocking)
+            if os.path.exists(os.path.join(WORKSPACE_DIR, "requirements.txt")):
+                subprocess.run(["pip", "install", "-r", "requirements.txt"], cwd=WORKSPACE_DIR, env=env, stdout=log_file, stderr=log_file)
+                
+            # Launch App (Detached)
+            proc = subprocess.Popen(
+                ["bash", target_script],
+                cwd=WORKSPACE_DIR,
+                env=env,
+                stdout=log_file,
+                stderr=subprocess.STDOUT,
+                preexec_fn=os.setsid # Detach from parent
+            )
+            self.active_process = proc
+            
+            # 4. Open Browser (Heuristic)
+            # Wait a moment for server to spin up
+            import threading
+            def open_browser():
+                time.sleep(3)
+                # Check log for URL
+                with open(log_path, "r") as f:
+                    content = f.read()
+                    # Find http://...
+                    match = re.search(r'(http://127\.0\.0\.1:\d+|http://localhost:\d+|http://0\.0\.0\.0:\d+)', content)
+                    if match:
+                        url = match.group(1).replace("0.0.0.0", "localhost")
+                        subprocess.run(["open", url])
+                    else:
+                        # Fallback defaults
+                        if "flask" in content.lower() or "5000" in content: subprocess.run(["open", "http://127.0.0.1:5000"])
+                        elif "8000" in content: subprocess.run(["open", "http://127.0.0.1:8000"])
+                        elif "3000" in content: subprocess.run(["open", "http://localhost:3000"]) # React
+            
+            threading.Thread(target=open_browser).start()
+
+            return f"🚀 Launched in background (PID {proc.pid}). Logs: {log_path}"
         except Exception as e:
             return f"❌ Launch Failed: {e}"

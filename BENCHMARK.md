@@ -1,28 +1,26 @@
 # Omni Benchmark Report - v0.7.0 (Swarm Alpha)
 **Date:** 2026-02-08
 **Tester:** ROE Defense (AI)
-**Focus:** Performance Tuning.
+**Focus:** Error Analysis (22:17 MST).
 
 ## Incident Report
-User reported "it took forever thinking this run".
-**Data:**
-*   `models/architect-fused`: 6.0GB
-*   `models/backend-fused`: 6.0GB
-*   ... and so on.
-**Total Brains Size:** ~44GB.
+**User Issue:** "figure out what failed on this run"
+**Files Analyzed:**
+*   `generated_1770614230.py`: Contains **React/JSX code** (`import React...`). Extension is wrong (`.py`).
+*   `generated_1770614230.sh`: Contains a list of dependencies (`fastapi`, `react`...). This is a `requirements.txt` or package list, NOT a shell script.
+*   `launch_1770614230.sh`: Tries to run `python3 main.py` (which doesn't exist) and `npm run start`.
 
-## Root Cause
-The system is using **Full Fused Models** (6GB each) instead of **LoRA Adapters** (which would be ~100MB + 1 Base Model).
-Every time the intent router switches personas (e.g., from "Base" to "Architect"), the system has to:
-1.  Dump 6GB from RAM.
-2.  Load a new 6GB file from disk.
-3.  Re-initialize the Metal cache.
-On a MacBook, this takes 5-15 seconds of pure I/O and memory bandwidth, appearing as "thinking" time.
+**Root Cause:**
+1.  **Orchestration Failure:** The model generated a mix of Python (Backend) and React (Frontend) content but labeled them poorly.
+2.  **File Naming:** The React component was saved as `.py` because the regex likely missed a filename comment or defaulted.
+3.  **Dependency Mixing:** The shell script is actually a requirements list.
 
-## Optimization Plan
-1.  **Short Term:** Inform user that switching "Brains" is heavy.
-2.  **Code Optimization:** Ensure `route_intent` is not "flapping" (switching back and forth unnecessarily).
-3.  **Long Term (v0.8.0):** Switch to LoRA Adapter runtime (load Base Model once, hot-swap 100MB adapters). *Current MLX implementation in `server/core.py` uses `load()` which implies full weights.*
+## Fix Strategy
+1.  **Suppress Terminal:** Update `server/executor.py` to run processes in the background (detached) and redirect output to a log file, rather than using `open *.command`.
+2.  **Smart Execution:** Add logic to detect if the "app" is a web server and open the browser URL automatically after a delay.
 
-## Immediate Action
-I will verify if `server/core.py` can be made "sticky" to avoid switching back to Base Brain for simple queries if a Specialized Brain is already loaded.
+## Action Plan
+1.  Modify `server/executor.py`:
+    *   Remove `.command` file generation.
+    *   Use `subprocess.Popen` with `stdout=open('app.log', 'w')`.
+    *   Add `webbrowser.open("http://localhost:...")` logic.
