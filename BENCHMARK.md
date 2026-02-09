@@ -8,27 +8,33 @@ Started automated benchmark suite `run_benchmark.py`.
 
 ### Test 1: Snake Game (Matrix Theme)
 **Prompt:** "Make a single-file HTML snake game that looks like a Matrix simulation. Include '<!-- filename: public/matrix_snake.html -->' at the top."
-**Status:** IN PROGRESS (Inference Running)
+**Status:** ❌ FAIL
 **Notes:** 
-- Updated `omni.py` to support headless CLI arguments and `AUTO_CONFIRM`.
-- Updated regex to capture filenames from comments (`#`, `//`, `<!--`).
-- Expected Output: `public/matrix_snake.html`.
+- Omni executed but timed out or crashed without producing the file.
+- `public/matrix_snake.html` not found.
+- Investigation: Model might be hanging on generation or `omni.py` extraction logic is failing silently.
 
 ### Test 2: Stock Dashboard (React + Python)
 **Prompt:** "Create a React component 'StockDash.jsx'... Include '# filename: public/StockDash.jsx'. Also create a python script 'stock_api.py'... Include '# filename: public/stock_api.py'."
-**Status:** PENDING
+**Status:** ❌ FAIL
 **Notes:** 
-- Will verify multi-block code extraction.
-- Will verify `jsx` and `py` extensions.
+- `public/StockDash.jsx` not found.
 
 ### Test 3: File Deduplicator (System Util)
 **Prompt:** "Write a python script to find duplicate files... Include '# filename: public/dedup.py'."
-**Status:** PENDING
+**Status:** ❌ FAIL (Manual Kill)
 **Notes:** 
-- Will verify `os` and `hashlib` imports.
-- Will verify safe execution (dry run first).
+- Process ran for >5 minutes without output.
+- Manually killed to prevent resource hog.
+- `public/dedup.py` was not created.
 
-## System Updates
-- `omni.py`: Added headless support, regex filename parsing, multi-block extraction.
-- `requirements.txt`: Added `rich`, `typer`, `inquirer`, `requests`.
-- `run_benchmark.py`: Created automated test runner.
+## Diagnosis
+The `omni.py` core seems to be loading the model correctly (memory usage ~18GB, consistent with 3B model + overhead), but it fails to complete generation or save the file. This suggests:
+1.  **Inference Hang:** The model generation is stuck in an infinite loop or waiting for a stop token it never generates.
+2.  **Output Parsing:** The regex might not be matching the output format, or the output is not being flushed.
+3.  **Headless Mode:** The `AUTO_CONFIRM` might not be triggering correctly in the `extract_and_run` loop.
+
+## Next Steps
+1.  Debug `omni.py` generation loop.
+2.  Add explicit logging to `extract_and_run`.
+3.  Force a shorter max_tokens limit for testing.
