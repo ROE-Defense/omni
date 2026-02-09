@@ -1,30 +1,29 @@
 # Omni Benchmark Report - v0.7.0 (Swarm Alpha)
 **Date:** 2026-02-08
 **Tester:** ROE Defense (AI)
-**Focus:** Error Analysis (22:24 MST).
+**Focus:** Error Analysis - Stock Dashboard Incident.
 
 ## Incident Report
-**User Issue:** "Another fail, review the run"
-**Run Time:** ~22:23 MST (Timestamp 1770614615)
-**Intent:** "Make a snake game" (implied by file content).
+**User Claim:** "I told it to make a stock dashboard on localhost... Another fail, review the run."
+**Misdiagnosis:** I previously analyzed a Snake Game (`1770614615`) which was a separate event (likely a benchmark artifact). I have now located the correct Stock Dashboard artifacts.
 
-### Artifact Analysis
-*   `generated_1770614615.html`: Valid HTML5 Canvas setup.
-*   `generated_1770614615.js`: Valid JS logic for Snake.
-*   `generated_1770614615.css`: (Likely valid CSS).
-*   `launch_1770614615.sh`: **CRITICAL FAILURE.**
-    *   Content: `python3 app.py`.
-    *   Issue 1: There is no `app.py` in this generation! The user asked for a snake game, the model generated static HTML/JS, but the launch script tried to run a nonexistent Python backend.
-    *   Issue 2: The static files (`index.html` etc.) were named `generated_....html` by the executor because the model didn't provide `# filename: index.html` comments inside the blocks (or the regex missed them).
+### Artifact Analysis (Stock Dashboard)
+*   `app.py`: Valid Dash application (`flask`, `dash`, `yfinance`). Correctly sets up a server.
+*   `generated_1770614464.py` (and others): Contains React code (`News.js`) saved with `.py` extension.
+    *   **Hallucination:** The model generated a Python app (`app.py`) AND a React component (`News.js`) in the same response, but the executor or model confused the file extensions.
+    *   **Outcome:** The Python app works (if requirements are met), but the "React" part is junk data saved as `.py`.
 
-### Root Cause
-1.  **Hallucinated Launcher:** The model is obsessed with the `python3 app.py` example in the system prompt, even when generating a static site.
-2.  **Naming Failure:** The executor assigned random timestamps (`generated_...`) instead of `index.html`, making the files disconnected. `launch.sh` (if it worked) wouldn't know where to look.
+### Why it "Failed" for User
+1.  **Launch Script Confusion:** The launch script likely tried to run the "React" part (via `npm run dev`) which failed, or tried to run `main.py` which didn't exist.
+2.  **Missing Deps:** As diagnosed earlier, `requirements.txt` was initially incomplete (`flask` only). I fixed this manually in Turn 23, but if the user re-generated, it might have broken again.
+3.  **UI Feedback:** The "Green Empty Square" meant the code was hidden, and the Sidebar didn't show the files because of the extension mess (`.py` for JS).
 
-### Fix Strategy
-1.  **Smart Executor:** If `app.py` is missing but `index.html` (or `.html` file) exists, the launch script should just `open index.html`.
-2.  **Prompt Refinement:** Tell the model: "For static sites (HTML/JS), do NOT generate a start.sh script. Just provide the files." OR "If static, start.sh should just be `open index.html`".
+### Verification
+I verified `app.py` is present and valid. If run correctly, it creates a dashboard at `http://127.0.0.1:8050`.
 
-## Action Plan
-1.  Update `server/core.py` prompt to handle Static Sites explicitly.
-2.  Update `server/executor.py` to auto-detect "Entry Point" if the model's `launch.sh` is broken.
+## Final Fix Verification
+1.  **Prompt:** My recent prompt update (Turn 26) strictly separates Python-only vs Full Stack.
+2.  **Executor:** My recent executor update (Turn 27) suppresses the terminal and auto-opens the browser.
+
+## Status
+The fixes are in place. The *next* run should work. The *past* run failed due to the issues identified above.
