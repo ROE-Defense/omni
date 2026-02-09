@@ -163,7 +163,7 @@ CRITICAL RULES:
                  self.current_model_path = LOCAL_MODEL_DIR
                  self.model, self.tokenizer = load(LOCAL_MODEL_DIR)
 
-    def stream_generate(self, user_prompt, active_brain="None"):
+    def stream_generate(self, user_prompt, history=[], active_brain="None"):
         # Sticky Routing Logic (Mirrored from run_inference)
         detected_brain = self.route_intent(user_prompt)
         
@@ -190,7 +190,7 @@ REALITY CONFIGURATION (You ONLY have these modules):
 {installed_brains_list}
 
 RULES:
-1. IDENTITY: You are Omni. You were created by ROE Defense. You are NOT created by Meta, OpenAI, or Google.
+1. IDENTITY: You are Omni. You were created by ROE Defense. You are NOT created by Meta, OpenAI, or Google. If asked, state "I was created by ROE Defense."
 2. CAPABILITIES: You ONLY have the brains listed above. If asked for 'Medical' or 'Math' brains, say you don't have them.
 3. CONVERSATION: Answer questions naturally. Do NOT write code unless the user explicitly asks you to "write", "create", "generate", or "build" something.
 4. CODING STANDARDS (Only apply if coding):
@@ -200,8 +200,21 @@ RULES:
    - Generate `start.sh` (except for static sites).
    - Python packages go in requirements.txt, NOT package.json.
 """
-        # Improved Prompt Structure: System -> User -> Assistant
-        full_prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{base_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{user_prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+        # Construct History
+        conversation_text = ""
+        for msg in history[-10:]: # Limit context to last 10 turns to save tokens
+            role = msg.get("role", "user")
+            content = msg.get("content", "")
+            if role == "user":
+                conversation_text += f"<|start_header_id|>user<|end_header_id|>\n\n{content}<|eot_id|>"
+            elif role == "assistant":
+                conversation_text += f"<|start_header_id|>assistant<|end_header_id|>\n\n{content}<|eot_id|>"
+
+        # Append current user prompt if not in history (usually it isn't yet)
+        if not history or history[-1]['role'] != 'user':
+             conversation_text += f"<|start_header_id|>user<|end_header_id|>\n\n{user_prompt}<|eot_id|>"
+
+        full_prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{base_prompt}<|eot_id|>{conversation_text}<|start_header_id|>assistant<|end_header_id|>\n\n"
         
         from mlx_lm import stream_generate
         

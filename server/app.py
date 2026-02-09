@@ -140,19 +140,20 @@ inference_lock = asyncio.Lock()
 async def chat_socket(websocket: WebSocket):
     await websocket.accept()
     try:
-        data = await websocket.receive_json() # { message, brain }
+        data = await websocket.receive_json() # { message, brain, history }
         prompt = data.get("message")
         brain = data.get("brain", "None")
+        history = data.get("history", []) # Receive history from frontend
         
-        print(f"[CHAT] Prompt: {prompt} | Brain: {brain}") # LOGGING ADDED
+        print(f"[CHAT] Prompt: {prompt} | Brain: {brain}", flush=True) # FORCE FLUSH
         
         # Accumulate full text for final processing (saving)
         full_response = ""
         
         # Acquire Lock
         async with inference_lock:
-            # Stream Tokens
-            for token in omni.stream_generate(prompt, brain):
+            # Stream Tokens (Pass history to core)
+            for token in omni.stream_generate(prompt, history=history, active_brain=brain):
                 if token.startswith("__BRAIN__:"):
                     # Send Brain Update Event
                     new_brain = token.split(":", 1)[1]
@@ -165,6 +166,8 @@ async def chat_socket(websocket: WebSocket):
             
         # Post-Processing (Save Artifacts)
         # We process the FULL text at the end to extract files cleanly
+        print(f"[CHAT] Response: {full_response[:500]}..." if len(full_response) > 500 else f"[CHAT] Response: {full_response}", flush=True) # LOG RESPONSE
+        
         processed = omni.executor.process(full_response)
         
         # Send Artifacts Metadata

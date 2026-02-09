@@ -74,7 +74,13 @@ function App() {
     const ws = new WebSocket(`ws://127.0.0.1:8000/ws/chat`);
     
     ws.onopen = () => {
-        ws.send(JSON.stringify({ message: userMsg.content, brain: activeBrain }));
+        // Send history excluding system messages and the current placeholder
+        const history = messages.filter(m => m.role !== 'system');
+        ws.send(JSON.stringify({ 
+            message: userMsg.content, 
+            brain: activeBrain,
+            history: history 
+        }));
     };
 
     ws.onmessage = (event) => {
