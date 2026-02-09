@@ -1,29 +1,39 @@
 # Omni Benchmark Report - v0.7.0 (Swarm Alpha)
 **Date:** 2026-02-08
 **Tester:** ROE Defense (AI)
-**Focus:** Error Analysis - Stock Dashboard Incident.
+**Focus:** Log Analysis.
 
 ## Incident Report
-**User Claim:** "I told it to make a stock dashboard on localhost... Another fail, review the run."
-**Misdiagnosis:** I previously analyzed a Snake Game (`1770614615`) which was a separate event (likely a benchmark artifact). I have now located the correct Stock Dashboard artifacts.
+**User Claim:** "ok, that was an inferred prompt, and it was not what I input."
+**Action:** Reviewed logs for session `faint-harbor` (PID 11774).
 
-### Artifact Analysis (Stock Dashboard)
-*   `app.py`: Valid Dash application (`flask`, `dash`, `yfinance`). Correctly sets up a server.
-*   `generated_1770614464.py` (and others): Contains React code (`News.js`) saved with `.py` extension.
-    *   **Hallucination:** The model generated a Python app (`app.py`) AND a React component (`News.js`) in the same response, but the executor or model confused the file extensions.
-    *   **Outcome:** The Python app works (if requirements are met), but the "React" part is junk data saved as `.py`.
+### Log Evidence (Timestamps & Artifacts)
+1.  **1770614230 (Run 1):** Stock Dashboard request.
+    *   Artifacts: `generated_1770614230.py` (News.js inside .py), `generated_1770614230.sh` (Dependencies), `launch_1770614230.sh` (`python3 main.py`).
+    *   **User Prompt (Inferred):** "Make a stock dashboard..."
+    *   **Outcome:** Mixed languages, bad launch script.
 
-### Why it "Failed" for User
-1.  **Launch Script Confusion:** The launch script likely tried to run the "React" part (via `npm run dev`) which failed, or tried to run `main.py` which didn't exist.
-2.  **Missing Deps:** As diagnosed earlier, `requirements.txt` was initially incomplete (`flask` only). I fixed this manually in Turn 23, but if the user re-generated, it might have broken again.
-3.  **UI Feedback:** The "Green Empty Square" meant the code was hidden, and the Sidebar didn't show the files because of the extension mess (`.py` for JS).
+2.  **1770614464 (Run 2):** Same/Similar request?
+    *   Artifacts: Identical pattern (React in .py).
 
-### Verification
-I verified `app.py` is present and valid. If run correctly, it creates a dashboard at `http://127.0.0.1:8050`.
+3.  **1770614615 (Run 3):** Snake Game.
+    *   Artifacts: `.html`, `.js`, `.css`, `launch.sh`.
+    *   **Outcome:** Static site generated, but `launch.sh` tried `python3 app.py`.
 
-## Final Fix Verification
-1.  **Prompt:** My recent prompt update (Turn 26) strictly separates Python-only vs Full Stack.
-2.  **Executor:** My recent executor update (Turn 27) suppresses the terminal and auto-opens the browser.
+4.  **1770615341 (Run 4):**
+    *   Artifacts: `.sh` (reqs), `.py` (React code?), `launch.sh` (python3 main.py).
+    *   **Outcome:** Fail.
 
-## Status
-The fixes are in place. The *next* run should work. The *past* run failed due to the issues identified above.
+5.  **1770615459 (Run 5 - "Multi-Agent System"?):**
+    *   Artifacts: `base_brain.py` (containing `DataBrain` code too), `launch_1770615459.sh` (runs both).
+    *   **Outcome:** File merging issue.
+
+### Missing Data
+The `omni serve` logs (`faint-harbor`) show *when* a WebSocket connected and *what files* were saved, but they **DO NOT LOG THE PROMPT TEXT**.
+The prompt text is inside the WebSocket message payload `{"message": "..."}` which is processed inside `server/app.py`. My current logging configuration (Uvicorn default) does not print the JSON body of WS messages.
+
+**Correction:** I cannot see *exactly* what you typed unless I add logging to `server/app.py` to print `data.get("message")`.
+
+## Corrective Action
+I will add explicit prompt logging to `server/app.py` so future reviews are accurate.
+I will assume the user's report is correct: The system is still failing to separate concerns correctly.

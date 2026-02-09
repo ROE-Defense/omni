@@ -133,6 +133,9 @@ async def execute_code(req: RunRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Lock for inference to prevent concurrent access to Metal resources
+inference_lock = asyncio.Lock()
+
 @app.websocket("/ws/chat")
 async def chat_socket(websocket: WebSocket):
     await websocket.accept()
@@ -141,20 +144,24 @@ async def chat_socket(websocket: WebSocket):
         prompt = data.get("message")
         brain = data.get("brain", "None")
         
+        print(f"[CHAT] Prompt: {prompt} | Brain: {brain}") # LOGGING ADDED
+        
         # Accumulate full text for final processing (saving)
         full_response = ""
         
-        # Stream Tokens
-        for token in omni.stream_generate(prompt, brain):
-            if token.startswith("__BRAIN__:"):
-                # Send Brain Update Event
-                new_brain = token.split(":", 1)[1]
-                await websocket.send_json({"type": "brain_update", "brain": new_brain})
-                continue
-                
-            full_response += token
-            await websocket.send_json({"type": "token", "content": token})
-            await asyncio.sleep(0.001) # Yield to event loop
+        # Acquire Lock
+        async with inference_lock:
+            # Stream Tokens
+            for token in omni.stream_generate(prompt, brain):
+                if token.startswith("__BRAIN__:"):
+                    # Send Brain Update Event
+                    new_brain = token.split(":", 1)[1]
+                    await websocket.send_json({"type": "brain_update", "brain": new_brain})
+                    continue
+                    
+                full_response += token
+                await websocket.send_json({"type": "token", "content": token})
+                await asyncio.sleep(0.001) # Yield to event loop
             
         # Post-Processing (Save Artifacts)
         # We process the FULL text at the end to extract files cleanly
@@ -167,6 +174,7 @@ async def chat_socket(websocket: WebSocket):
         await websocket.send_json({"type": "done"})
         
     except Exception as e:
+        print(f"WS Error: {e}")
         await websocket.send_json({"type": "error", "content": str(e)})
     finally:
         await websocket.close()
