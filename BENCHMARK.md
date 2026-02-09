@@ -1,24 +1,28 @@
 # Omni Benchmark Report - v0.7.0 (Swarm Alpha)
 **Date:** 2026-02-08
 **Tester:** ROE Defense (AI)
-**Focus:** Error Analysis (20:09 MST Run).
+**Focus:** Performance Tuning.
 
-## Analysis of Last Run (20:09:52 MST)
-**User Inquiry:** "review the last run for issues"
-**Log ID:** `sharp-haven` (PID 11157)
+## Incident Report
+User reported "it took forever thinking this run".
+**Data:**
+*   `models/architect-fused`: 6.0GB
+*   `models/backend-fused`: 6.0GB
+*   ... and so on.
+**Total Brains Size:** ~44GB.
 
-### Detected Issues:
-1.  **Malformed Requirements:** `generated_1770606592.flask` was created with content `==2.0.2\n`.
-    *   **Reason:** The executor (`server/executor.py`) fell back to `generated_{time}.{ext}` logic because the model did not provide a `# filename:` comment inside the block.
-    *   **Ext Issue:** The model tagged the code block as ` ```flask `, causing the executor to use `.flask` as the extension.
-    *   **Content Issue:** The model output `==2.0.2` instead of `Flask==2.0.2`.
-2.  **Phantom React:** `launch_1770606592.sh` contained `npm run dev`, but no React files were generated.
-    *   **Reason:** The system prompt in `server/core.py` gave an example: `python3 app.py & npm run dev`. The model blindly copied this example instead of adapting to the *actual* generated code (pure python).
+## Root Cause
+The system is using **Full Fused Models** (6GB each) instead of **LoRA Adapters** (which would be ~100MB + 1 Base Model).
+Every time the intent router switches personas (e.g., from "Base" to "Architect"), the system has to:
+1.  Dump 6GB from RAM.
+2.  Load a new 6GB file from disk.
+3.  Re-initialize the Metal cache.
+On a MacBook, this takes 5-15 seconds of pure I/O and memory bandwidth, appearing as "thinking" time.
 
-### Fix Strategy
-1.  **Executor:** Update `_get_filename` to handle `flask` language tag -> `.txt` or `.py` fallback, and detect `requirements.txt` content more robustly.
-2.  **Core Prompt:** Update `server/core.py` to remove the misleading `npm run dev` example and explicitly warn against including it for Python-only apps.
+## Optimization Plan
+1.  **Short Term:** Inform user that switching "Brains" is heavy.
+2.  **Code Optimization:** Ensure `route_intent` is not "flapping" (switching back and forth unnecessarily).
+3.  **Long Term (v0.8.0):** Switch to LoRA Adapter runtime (load Base Model once, hot-swap 100MB adapters). *Current MLX implementation in `server/core.py` uses `load()` which implies full weights.*
 
-## Action Plan
-1.  Patch `server/executor.py` to map `flask` -> `txt` (or better, detect requirements content).
-2.  Patch `server/core.py` to fix the `start.sh` example prompt.
+## Immediate Action
+I will verify if `server/core.py` can be made "sticky" to avoid switching back to Base Brain for simple queries if a Specialized Brain is already loaded.

@@ -103,14 +103,22 @@ class OmniCore:
         return "None"
 
     def run_inference(self, user_prompt: str, active_brain: str = "None"):
+        # Sticky Routing: If the user didn't specify a brain, use the currently loaded one
+        # unless a strong signal detects a different intent.
+        
+        detected_brain = self.route_intent(user_prompt)
+        
         if active_brain in ["None", "Base Brain"]:
-            detected_brain = self.route_intent(user_prompt)
-            if detected_brain != "None": active_brain = detected_brain
+            if detected_brain != "None":
+                active_brain = detected_brain
+            elif self.active_brain not in ["None", "Base Brain"] and self.active_brain is not None:
+                # Keep current brain if no new intent detected (prevent fallback to Base causing reload)
+                active_brain = self.active_brain
 
         self.prepare_model(active_brain)
         self.active_brain = active_brain
         
-        installed = self.get_installed_brains()
+        # ... rest of function
         base_prompt = f"""You are Omni, a Secure AI Stack.
 Current Persona: @roe/{active_brain if active_brain != "None" else "omni"}
 
@@ -156,9 +164,15 @@ CRITICAL RULES:
                  self.model, self.tokenizer = load(LOCAL_MODEL_DIR)
 
     def stream_generate(self, user_prompt, active_brain="None"):
+        # Sticky Routing Logic (Mirrored from run_inference)
+        detected_brain = self.route_intent(user_prompt)
+        
         if active_brain in ["None", "Base Brain"]:
-            detected = self.route_intent(user_prompt)
-            if detected != "None": active_brain = detected
+            if detected_brain != "None":
+                active_brain = detected_brain
+            elif self.active_brain not in ["None", "Base Brain"] and self.active_brain is not None:
+                # Keep current brain if no new intent detected
+                active_brain = self.active_brain
 
         yield f"__BRAIN__:{active_brain}"
 
