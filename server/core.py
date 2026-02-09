@@ -191,6 +191,7 @@ INSTRUCTIONS:
    - START every code block with a comment: `# filename: <name>` (or `// filename: <name>`).
    - GENERATE `requirements.txt` (Python) or `package.json` (Node/React) if dependencies are needed.
    - For Multi-File Apps, generate a `start.sh` script.
+   - For Static Sites (HTML/CSS/JS only): Do NOT generate `start.sh`. The user will open the HTML file directly.
    - DO NOT put python packages in `package.json`.
    - ONLY include `npm run dev` in start.sh if you generated a frontend.
 """

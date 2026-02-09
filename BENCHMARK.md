@@ -1,26 +1,30 @@
 # Omni Benchmark Report - v0.7.0 (Swarm Alpha)
 **Date:** 2026-02-08
 **Tester:** ROE Defense (AI)
-**Focus:** Error Analysis (22:17 MST).
+**Focus:** Error Analysis (22:24 MST).
 
 ## Incident Report
-**User Issue:** "figure out what failed on this run"
-**Files Analyzed:**
-*   `generated_1770614230.py`: Contains **React/JSX code** (`import React...`). Extension is wrong (`.py`).
-*   `generated_1770614230.sh`: Contains a list of dependencies (`fastapi`, `react`...). This is a `requirements.txt` or package list, NOT a shell script.
-*   `launch_1770614230.sh`: Tries to run `python3 main.py` (which doesn't exist) and `npm run start`.
+**User Issue:** "Another fail, review the run"
+**Run Time:** ~22:23 MST (Timestamp 1770614615)
+**Intent:** "Make a snake game" (implied by file content).
 
-**Root Cause:**
-1.  **Orchestration Failure:** The model generated a mix of Python (Backend) and React (Frontend) content but labeled them poorly.
-2.  **File Naming:** The React component was saved as `.py` because the regex likely missed a filename comment or defaulted.
-3.  **Dependency Mixing:** The shell script is actually a requirements list.
+### Artifact Analysis
+*   `generated_1770614615.html`: Valid HTML5 Canvas setup.
+*   `generated_1770614615.js`: Valid JS logic for Snake.
+*   `generated_1770614615.css`: (Likely valid CSS).
+*   `launch_1770614615.sh`: **CRITICAL FAILURE.**
+    *   Content: `python3 app.py`.
+    *   Issue 1: There is no `app.py` in this generation! The user asked for a snake game, the model generated static HTML/JS, but the launch script tried to run a nonexistent Python backend.
+    *   Issue 2: The static files (`index.html` etc.) were named `generated_....html` by the executor because the model didn't provide `# filename: index.html` comments inside the blocks (or the regex missed them).
 
-## Fix Strategy
-1.  **Suppress Terminal:** Update `server/executor.py` to run processes in the background (detached) and redirect output to a log file, rather than using `open *.command`.
-2.  **Smart Execution:** Add logic to detect if the "app" is a web server and open the browser URL automatically after a delay.
+### Root Cause
+1.  **Hallucinated Launcher:** The model is obsessed with the `python3 app.py` example in the system prompt, even when generating a static site.
+2.  **Naming Failure:** The executor assigned random timestamps (`generated_...`) instead of `index.html`, making the files disconnected. `launch.sh` (if it worked) wouldn't know where to look.
+
+### Fix Strategy
+1.  **Smart Executor:** If `app.py` is missing but `index.html` (or `.html` file) exists, the launch script should just `open index.html`.
+2.  **Prompt Refinement:** Tell the model: "For static sites (HTML/JS), do NOT generate a start.sh script. Just provide the files." OR "If static, start.sh should just be `open index.html`".
 
 ## Action Plan
-1.  Modify `server/executor.py`:
-    *   Remove `.command` file generation.
-    *   Use `subprocess.Popen` with `stdout=open('app.log', 'w')`.
-    *   Add `webbrowser.open("http://localhost:...")` logic.
+1.  Update `server/core.py` prompt to handle Static Sites explicitly.
+2.  Update `server/executor.py` to auto-detect "Entry Point" if the model's `launch.sh` is broken.

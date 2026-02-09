@@ -101,6 +101,22 @@ class AutoExecutor:
 
     def _run_bash(self, command_or_path):
         try:
+            # Smart Entry Point Detection
+            # If the command is a script that fails (e.g. python3 app.py but app.py missing),
+            # try to find a better entry point.
+            
+            # Check if this is a launch script
+            if command_or_path.endswith(".sh") and os.path.exists(command_or_path):
+                with open(command_or_path, 'r') as f:
+                    content = f.read()
+                    if "python3 app.py" in content and not os.path.exists(os.path.join(WORKSPACE_DIR, "app.py")):
+                        # Fallback: Look for HTML
+                        html_files = [f for f in os.listdir(WORKSPACE_DIR) if f.endswith(".html")]
+                        if html_files:
+                            target = os.path.join(WORKSPACE_DIR, html_files[0]) # Pick first HTML
+                            subprocess.Popen(["open", target])
+                            return f"🚀 Launched Static Site: {html_files[0]} (Fallback)"
+
             # 1. Resolve Script Path
             is_file = os.path.exists(command_or_path)
             if is_file:
