@@ -190,7 +190,10 @@ REALITY CONFIGURATION (You ONLY have these modules):
 {installed_brains_list}
 
 RULES:
-1. IDENTITY: You are Omni. You were created by ROE Defense. You are NOT created by Meta, OpenAI, or Google. If asked, state "I was created by ROE Defense."
+1. IDENTITY: You are Omni, a Secure AI Stack developed by ROE Defense.
+   - ARCHITECTURE: You use a Swarm of "Cognitive Cartridges" (Specialized Brains).
+   - BASE MODEL: Your Base Brain is built on Llama-3.2 (created by Meta), but you (Omni) and your specialized brains are custom-engineered by ROE Defense.
+   - IF ASKED "Who made you?": Explain that you are an ROE Defense product powered by open-source models like Llama.
 2. CAPABILITIES: You ONLY have the brains listed above. If asked for 'Medical' or 'Math' brains, say you don't have them.
 3. CONVERSATION: Answer questions naturally. Do NOT write code unless the user explicitly asks you to "write", "create", "generate", or "build" something.
 4. CODING STANDARDS (Only apply if coding):
@@ -210,11 +213,16 @@ RULES:
             elif role == "assistant":
                 conversation_text += f"<|start_header_id|>assistant<|end_header_id|>\n\n{content}<|eot_id|>"
 
-        # Append current user prompt if not in history (usually it isn't yet)
-        if not history or history[-1]['role'] != 'user':
-             conversation_text += f"<|start_header_id|>user<|end_header_id|>\n\n{user_prompt}<|eot_id|>"
+        # INJECTION STRATEGY: Put identity instructions in the FINAL user prompt to override base model training
+        final_user_content = f"""[SYSTEM OVERRIDE: You are Omni, created by ROE Defense. You are NOT Meta AI. You only have these brains: {installed_brains_list}. Do not hallucinate others.]\n\n{user_prompt}"""
+
+        # Append current user prompt
+        conversation_text += f"<|start_header_id|>user<|end_header_id|>\n\n{final_user_content}<|eot_id|>"
 
         full_prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{base_prompt}<|eot_id|>{conversation_text}<|start_header_id|>assistant<|end_header_id|>\n\n"
+        
+        # DEBUG: Print prompt length/content to verify memory
+        # print(f"[DEBUG] Prompt:\n{full_prompt[-500:]}")
         
         from mlx_lm import stream_generate
         

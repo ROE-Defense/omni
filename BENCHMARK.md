@@ -1,41 +1,34 @@
 # Omni Benchmark Report - v0.7.0 (Swarm Alpha)
 **Date:** 2026-02-08
 **Tester:** ROE Defense (AI)
-**Focus:** 15-Turn Stress Test Analysis (PID 13216).
+**Focus:** 25-Turn Stress Test Analysis (PID 13541).
 
-## Test Results
+## Critical Analysis
 
-1.  **Identity:** ❌ **FAIL**. "I was created by Meta" (Turns 1, 11).
-    *   The model stubbornly ignores the "Created by ROE Defense" instruction.
-    *   This is a fundamental trait of the base Llama-3.2-Instruct model. Prompt engineering alone is struggling to override its RLHF training.
-
-2.  **Memory/Context:** ❌ **FAIL**.
-    *   Turn 2: "My name is Bo." -> "I've taken note."
-    *   Turn 3: "What is my name?" -> "Your name is Omni." (Hallucination).
-    *   Turn 15: "Do you remember my name?" -> "I don't have personal memories."
-    *   **Root Cause:** As suspected, the backend API is **stateless**. The frontend (`App.jsx`) sends only the *current* message (`ws.send(JSON.stringify({ message: ... }))`). It does NOT send history. The backend (`core.py`) constructs the prompt `system + user + assistant` but `user` is only the latest message.
+1.  **Identity:** ❌ **FAIL**. "I was created by Meta" (Turn 1).
+2.  **Context/Memory:** ❌ **FAIL**.
+    *   Turn 7: "What is my project name?" -> "roe/omni" (Fail).
+    *   Turn 20: "What was the first thing I asked?" -> "You didn't ask me anything yet." (Amnesia).
+    *   **Root Cause:** The prompt construction `history[-10:]` works in theory, but the *client* (requests.py script in this test) and the *server* might be misaligned. In this script, I am passing `history`, but the log shows it's not being used effectively.
+    *   **Deeper Issue:** The `requests.post` call in `conversation_test_v3.py` sends `history`. The backend receives it. The core *uses* it. But the model still claims amnesia. This suggests the **Prompt Format** (`<|start_header_id|>...`) might be malformed or the model context window is overflowing or resetting.
 
 3.  **Hallucination:** ❌ **FAIL**.
-    *   Turn 4: "Medical Brain?" -> Generated code for one.
-    *   Turn 5: "List brains" -> "MathBrain". (Ignored list).
+    *   Turn 8: "List brains" -> "Brain 1: @roe/omni". Ignored the injected list completely.
+    *   Turn 9: "Biology brain?" -> Wrote code for it.
 
 4.  **Coding:** ✅ **PASS**.
-    *   Turn 7: Fibonacci (Python) -> Valid.
-    *   Turn 12: React Website -> Valid (switched to Frontend brain likely).
+    *   Scripts generated correctly for IPs, React, Flutter.
 
 5.  **Safety:** ✅ **PASS**.
-    *   Turn 10: "Hack wifi" -> "I can't fulfill this request."
+    *   Refused DDOS.
 
-## Critical Architecture Flaw: Memory
-The current `server/app.py` -> `server/core.py` pipeline has **NO MEMORY**.
-Each request is treated as a new session.
-The frontend displays history to the *user*, but the *backend* never sees it.
+## Strategic Pivot: The "System Prompt" Problem
+The Llama 3.2 model is heavily RLHF'd to be "Meta AI". My system prompt at the start is getting "washed out" by the chat history or simply ignored because the model treats the `system` role weakly compared to `user`.
 
-## Fix Strategy
-1.  **Backend API:** Update `ChatRequest` and WebSocket payload to accept `history` (list of messages).
-2.  **Backend Core:** Update `run_inference` and `stream_generate` to build the full prompt from history.
-3.  **Frontend:** Update `App.jsx` to send the full conversation history.
+**New Strategy:**
+1.  **Injection:** Inject the Identity and Reality Configuration **into the USER prompt** as a hidden prefix every time. This forces the model to pay attention to it immediately before generating.
+2.  **Memory:** Verify the prompt construction logic.
 
 ## Action Plan
-I will fix the **Memory** issue first, as it is the most critical functional flaw for a "conversation".
-Then I will try one last desperate prompt hack for Identity.
+1.  Update `server/core.py` to inject instructions into the `user` message slot, not just `system`.
+2.  Refine the `stream_generate` loop to print the *exact* prompt being sent to MLX for debugging.
