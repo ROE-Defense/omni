@@ -80,8 +80,9 @@ class OmniAgent:
             
         full_prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{system}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{user}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
         
+        console.print("[dim]Generating response (max 512 tokens)...[/dim]")
         from mlx_lm import generate
-        response = generate(self.model, self.tokenizer, prompt=full_prompt, max_tokens=1024, verbose=False)
+        response = generate(self.model, self.tokenizer, prompt=full_prompt, max_tokens=512, verbose=True) # Reduced tokens, verbose=True
         return response
 
     def scan_context(self):
@@ -150,23 +151,50 @@ class OmniAgent:
                 return False
 
     def extract_and_run(self, text):
-        matches = re.findall(r'```(\w+)\n(.*?)```', text, re.DOTALL)
-        if not matches: return
+        # DEBUG: Print raw text to see what the model actually outputted
+        console.print(f"\n[bold magenta]RAW MODEL OUTPUT:[/bold magenta]\n{text}\n[bold magenta]END RAW OUTPUT[/bold magenta]\n")
 
-        # Iterate through all code blocks
-        for lang, code in matches:
+        # Regex to capture:
+        # 1. Optional filename line before code block (e.g. **file.txt**)
+        # 2. Code block start (```lang)
+        # 3. Content
+        # 4. Code block end (```)
+        # Note: This regex needs to be careful with newlines.
+        
+        # Method A: Find all code blocks first, then look behind for filename
+        code_blocks = list(re.finditer(r'```(\w+)\n(.*?)```', text, re.DOTALL))
+        if not code_blocks:
+             code_blocks = list(re.finditer(r'```(\w+)\n(.*)', text, re.DOTALL)) # Unclosed fallback
+
+        if not code_blocks: 
+            console.print("[yellow]No code blocks detected in output.[/yellow]")
+            return
+
+        for match in code_blocks:
+            lang = match.group(1)
+            code = match.group(2)
+            start_index = match.start()
+            
+            # Default extension
             ext = "txt"
             if lang in ["python", "py"]: ext = "py"
-            elif lang in ["html", "js", "javascript", "jsx"]: ext = "html" # For now, treat JS/JSX as HTML wrapper or just JS file
+            elif lang in ["html", "js", "javascript", "jsx"]: ext = "html"
             elif lang in ["sh", "bash"]: ext = "sh"
             
-            # Simple heuristic for filename if provided in comments or just increment
-            # For now, just save them sequentially or by type
+            # Strategy 1: Look for filename INSIDE code (comments)
             filename = f"omni_output_{int(time.time())}_{lang}.{ext}"
-            
-            # Check if filename is mentioned in the code (e.g. # filename: ... or // filename: ...)
             name_match = re.search(r'(?:#|//|<!--)\s*filename:\s*([\w./-]+)', code)
-            if name_match:
+            
+            # Strategy 2: Look for filename BEFORE code block (e.g. **public/app.html**)
+            if not name_match:
+                # Look at the text immediately preceding the code block (up to 100 chars back)
+                pre_text = text[max(0, start_index-200):start_index]
+                # Look for bold filenames or just lines ending with extension
+                # Regex: matches **filename.ext** or just filename.ext at end of line
+                file_before = re.search(r'(?:\*\*|`|^|\n)([\w./-]+\.\w+)(?:\*\*|`|$|\n|:)', pre_text)
+                if file_before:
+                    filename = file_before.group(1)
+            else:
                 filename = name_match.group(1)
             
             console.print(f"\n[bold yellow]⚡ Detected {lang} code block.[/bold yellow]")

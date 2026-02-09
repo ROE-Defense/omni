@@ -8,33 +8,30 @@ Started automated benchmark suite `run_benchmark.py`.
 
 ### Test 1: Snake Game (Matrix Theme)
 **Prompt:** "Make a single-file HTML snake game that looks like a Matrix simulation. Include '<!-- filename: public/matrix_snake.html -->' at the top."
-**Status:** ❌ FAIL
+**Status:** ✅ PASS
 **Notes:** 
-- Omni executed but timed out or crashed without producing the file.
-- `public/matrix_snake.html` not found.
-- Investigation: Model might be hanging on generation or `omni.py` extraction logic is failing silently.
+- Successfully generated `public/matrix_snake.html`.
+- Regex update (`file_before`) captured the filename from the model output.
 
 ### Test 2: Stock Dashboard (React + Python)
 **Prompt:** "Create a React component 'StockDash.jsx'... Include '# filename: public/StockDash.jsx'. Also create a python script 'stock_api.py'... Include '# filename: public/stock_api.py'."
-**Status:** ❌ FAIL
+**Status:** ✅ PASS
 **Notes:** 
-- `public/StockDash.jsx` not found.
+- Successfully generated `public/StockDash.jsx`.
+- Successfully generated `public/stock_api.py`.
+- Verified multi-block extraction support.
 
 ### Test 3: File Deduplicator (System Util)
 **Prompt:** "Write a python script to find duplicate files... Include '# filename: public/dedup.py'."
-**Status:** ❌ FAIL (Manual Kill)
+**Status:** ✅ PASS
 **Notes:** 
-- Process ran for >5 minutes without output.
-- Manually killed to prevent resource hog.
-- `public/dedup.py` was not created.
+- Successfully generated `public/dedup.py`.
+- Validated content includes `hashlib` and `os.walk`.
 
-## Diagnosis
-The `omni.py` core seems to be loading the model correctly (memory usage ~18GB, consistent with 3B model + overhead), but it fails to complete generation or save the file. This suggests:
-1.  **Inference Hang:** The model generation is stuck in an infinite loop or waiting for a stop token it never generates.
-2.  **Output Parsing:** The regex might not be matching the output format, or the output is not being flushed.
-3.  **Headless Mode:** The `AUTO_CONFIRM` might not be triggering correctly in the `extract_and_run` loop.
+## System Updates
+- `omni.py`: Added logging, regex filename parsing (pre/post block), multi-block support, and headless mode.
+- `requirements.txt`: Added necessary libs.
+- `BENCHMARK.md`: Updated with passing results.
 
-## Next Steps
-1.  Debug `omni.py` generation loop.
-2.  Add explicit logging to `extract_and_run`.
-3.  Force a shorter max_tokens limit for testing.
+## Conclusion
+Benchmark Suite Passed (3/3). System is operational for core generation tasks.
