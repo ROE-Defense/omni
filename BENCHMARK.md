@@ -1,20 +1,28 @@
 # Omni Benchmark Report - v0.7.0 (Swarm Alpha)
 **Date:** 2026-02-08
 **Tester:** ROE Defense (AI)
-**Focus:** Desktop App Experience.
+**Focus:** Desktop App Experience (UI Logic).
 
 ## Incident Report
-User reported two issues:
-1.  **"Green empty square" response:** The Desktop App uses a markdown renderer that hides code blocks (`pre: () => <div className="hidden" />`) to move them to the sidebar. However, if the sidebar logic fails or the user doesn't see it, they just see an empty square (the hidden div style/placeholder).
-2.  **Missing Sidebar Features:** The sidebar shows "Generated Artifacts" only when `artifacts.length > 0`. If generation fails or returns no files, the sidebar is empty.
+User stated: "I never want the code in the chat window, only the right sidebar. Remember that."
+This reverses my previous fix (which made code visible in chat). The original logic was correct per user preference, but the **sidebar was not populating**, leading to the "empty green square" experience.
 
-## Root Cause
-*   **UI Design:** The `App.jsx` actively hides code blocks in the main chat window (`pre: () => <div className="hidden" />`).
-*   **Artifacts:** The artifacts array only populates *after* the `processed` event from the backend. If the backend crashed or returned early (before `done`), the artifacts array remains empty, leaving the user with hidden code in chat and an empty sidebar.
+## Root Cause (Sidebar Failure)
+The sidebar *only* populates when `artifacts.length > 0`.
+Artifacts are populated via the WebSocket message `{type: 'artifacts', data: [...]}`.
+This message is sent by the backend (`server/app.py`) *after* processing the full response.
+If the model output format does not perfectly match the executor's regex (e.g., missing `# filename:` comments), `omni.executor.process` returns no artifacts, and thus the sidebar remains empty.
 
-## Action Plan
-1.  **Fix UI:** Stop hiding code blocks in the chat. They should be visible *and* in the sidebar (or at least visible until processed).
-2.  **Verify Backend:** Ensure the backend (`omni serve`) is actually returning artifacts properly via the WebSocket.
+**The catch:** The Desktop App hides the code block in the chat (`div class="hidden"`) *assuming* it will appear in the sidebar. If extraction fails, the user sees nothing.
 
-## Test
-I will modify `desktop/src/App.jsx` to show code blocks again, so the user can at least see the raw code even if the sidebar extraction fails.
+## Fix Strategy
+1.  **Revert Chat Visibility:** Hide code blocks in chat again (per user request).
+2.  **Fix Sidebar Populating:** Ensure the sidebar shows *something* even if formal artifact extraction fails, OR ensure extraction is robust.
+3.  **Intermediate State:** The `streamingCode` state in `App.jsx` handles the "Incoming Transmission" view in the sidebar while generating. This works!
+4.  **Final State:** Once done, `streamingCode` is cleared. If `artifacts` is empty, the sidebar goes blank.
+
+**Solution:**
+We need to capture the *raw code blocks* during streaming and keep them in the sidebar even if the backend validator doesn't "bless" them as official artifacts. Or, strictly enforce the backend to return "Unknown Artifact" if it finds code without a filename.
+
+**Immediate Action:**
+I will revert the chat visibility change (hide code again). I will verify `omni.py` and `server/core.py` are forcing filenames so `artifacts` always populate.

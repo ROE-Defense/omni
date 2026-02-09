@@ -181,22 +181,12 @@ function App() {
                         <ReactMarkdown 
                             className="prose prose-invert prose-sm max-w-none break-words overflow-hidden"
                             components={{
+                                // HIDE ALL CODE BLOCKS IN CHAT (Moved to Sidebar)
+                                pre: () => <div className="hidden" />, 
                                 code: ({node, inline, className, children, ...props}) => {
-                                    const match = /language-(\w+)/.exec(className || '')
-                                    return !inline ? (
-                                        <div className="bg-[#111] p-3 rounded-md border border-[#333] my-2 overflow-x-auto">
-                                            <div className="flex justify-between items-center mb-2 pb-2 border-b border-[#222]">
-                                                <span className="text-xs text-gray-500 uppercase">{match ? match[1] : 'code'}</span>
-                                            </div>
-                                            <code className={className} {...props}>
-                                                {children}
-                                            </code>
-                                        </div>
-                                    ) : (
-                                        <code className="bg-[#111] px-1 rounded text-[#00ff9d]" {...props}>
-                                            {children}
-                                        </code>
-                                    )
+                                    return inline 
+                                        ? <code className="bg-[#111] px-1 rounded text-[#00ff9d]" {...props}>{children}</code>
+                                        : null; // Hide block code
                                 }
                             }}
                         >
