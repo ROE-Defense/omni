@@ -251,7 +251,7 @@ function App() {
             <div className="p-4 border-b border-[#1a1a1a] bg-[#0a0a0a] animate-pulse flex-1 overflow-hidden flex flex-col">
                 <div className="text-[9px] uppercase text-[#00ff9d] mb-2 flex items-center gap-2">
                     <Activity size={10} className="animate-spin" />
-                    Incoming Transmission...
+                    Generating...
                 </div>
                 <pre className="text-[10px] text-gray-300 font-mono overflow-y-auto flex-1 opacity-90 whitespace-pre-wrap break-all p-2 bg-[#111] rounded border border-[#222]">
                     <HighlightCode code={streamingCode} />
