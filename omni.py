@@ -19,6 +19,7 @@ from server.app import app as api_app
 # Usage: omni run
 
 console = Console()
+AUTO_CONFIRM = os.getenv("OMNI_HEADLESS", "false").lower() == "true"
 
 # Configuration
 BASE_MODEL_REPO = "mlx-community/Llama-3.2-3B-Instruct"
@@ -121,7 +122,7 @@ class OmniAgent:
             return True
             
         console.print(f"[yellow]⚠️  I need to download my neural weights (3GB) to function.[/yellow]")
-        if Confirm.ask(f"Download [bold white]Llama-3.2-3B[/bold white] from Hugging Face?"):
+        if AUTO_CONFIRM or Confirm.ask(f"Download [bold white]Llama-3.2-3B[/bold white] from Hugging Face?"):
             try:
                 from huggingface_hub import snapshot_download
                 with console.status("[bold cyan]Downloading...[/bold cyan]"):
@@ -152,36 +153,48 @@ class OmniAgent:
         matches = re.findall(r'```(\w+)\n(.*?)```', text, re.DOTALL)
         if not matches: return
 
-        lang, code = matches[-1]
-        ext = "txt"
-        if lang in ["python", "py"]: ext = "py"
-        elif lang in ["html", "js", "javascript"]: ext = "html"
-        elif lang in ["sh", "bash"]: ext = "sh"
-        
-        filename = f"omni_output.{ext}"
-        console.print(f"\n[bold yellow]⚡ Detected {lang} code block.[/bold yellow]")
-        
-        if Confirm.ask(f"Save and run as [bold white]{filename}[/bold white]?"):
-            with open(filename, "w") as f: f.write(code)
-            console.print(f"[green]✓ Saved to {filename}[/green]")
-            try:
-                if ext == "py":
-                    res = subprocess.run([sys.executable, filename], capture_output=True, text=True)
-                    print(res.stdout)
-                    if res.returncode != 0:
-                        console.print(f"[red]Error:[/red]\n{res.stderr}")
-                        if "ModuleNotFoundError" in res.stderr:
-                            mod = res.stderr.split("'")[1]
-                            if Confirm.ask(f"[yellow]Install missing '{mod}'?[/yellow]"):
-                                subprocess.run([sys.executable, "-m", "pip", "install", mod])
-                                subprocess.run([sys.executable, filename])
-                elif ext == "html":
-                    opener = "open" if sys.platform == "darwin" else "xdg-open"
-                    subprocess.run([opener, filename])
-                elif ext == "sh":
-                    subprocess.run(["bash", filename])
-            except Exception as e:
-                console.print(f"[red]❌ Execution Failed: {e}[/red]")
+        # Iterate through all code blocks
+        for lang, code in matches:
+            ext = "txt"
+            if lang in ["python", "py"]: ext = "py"
+            elif lang in ["html", "js", "javascript", "jsx"]: ext = "html" # For now, treat JS/JSX as HTML wrapper or just JS file
+            elif lang in ["sh", "bash"]: ext = "sh"
+            
+            # Simple heuristic for filename if provided in comments or just increment
+            # For now, just save them sequentially or by type
+            filename = f"omni_output_{int(time.time())}_{lang}.{ext}"
+            
+            # Check if filename is mentioned in the code (e.g. # filename: ... or // filename: ...)
+            name_match = re.search(r'(?:#|//|<!--)\s*filename:\s*([\w./-]+)', code)
+            if name_match:
+                filename = name_match.group(1)
+            
+            console.print(f"\n[bold yellow]⚡ Detected {lang} code block.[/bold yellow]")
+            
+            if AUTO_CONFIRM or Confirm.ask(f"Save and run as [bold white]{filename}[/bold white]?"):
+                # Ensure directory exists
+                os.makedirs(os.path.dirname(filename) if os.path.dirname(filename) else ".", exist_ok=True)
+                with open(filename, "w") as f: f.write(code)
+                console.print(f"[green]✓ Saved to {filename}[/green]")
+                try:
+                    if ext == "py":
+                        res = subprocess.run([sys.executable, filename], capture_output=True, text=True)
+                        print(res.stdout)
+                        if res.returncode != 0:
+                            console.print(f"[red]Error:[/red]\n{res.stderr}")
+                            if "ModuleNotFoundError" in res.stderr:
+                                mod = res.stderr.split("'")[1]
+                                if AUTO_CONFIRM or Confirm.ask(f"[yellow]Install missing '{mod}'?[/yellow]"):
+                                    subprocess.run([sys.executable, "-m", "pip", "install", mod])
+                                    subprocess.run([sys.executable, filename])
+                    elif ext == "html":
+                        opener = "open" if sys.platform == "darwin" else "xdg-open"
+                        # Only open if GUI available (or just log it)
+                        subprocess.run([opener, filename])
+                    elif ext == "sh":
+                        subprocess.run(["bash", filename])
+                except Exception as e:
+                    console.print(f"[red]❌ Execution Failed: {e}[/red]")
 
     def generate(self, user_prompt):
         # Swarm Routing Logic
@@ -274,7 +287,12 @@ def main():
             import uvicorn
             uvicorn.run(api_app, host="127.0.0.1", port=8000)
         else:
-            agent.run_cli()
+            # Single-shot mode for testing/CLI
+            query = " ".join(sys.argv[1:])
+            console.print(f"[bold blue]Executing Single-Shot:[/bold blue] {query}")
+            agent.generate(query)
+            # Allow time for async bus to process (simple wait since we lack callback coordination here)
+            time.sleep(5) 
     else:
         agent.run_cli()
 
