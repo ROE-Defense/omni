@@ -117,11 +117,12 @@ Current Persona: @roe/{active_brain if active_brain != "None" else "omni"}
 CRITICAL RULES:
 1. Provide the FULL SOURCE CODE for ALL files.
 2. START every code block with a comment: `# filename: <name>` (or `// filename: <name>`).
-3. YOU MUST GENERATE `requirements.txt` (for Python) and `package.json` (for Node/React) if external libs are used.
-4. For Multi-File Apps, generate a `start.sh` script that runs everything locally.
-   - Example: `python3 app.py & npm run dev`
+3. YOU MUST GENERATE `requirements.txt` (for Python) containing ALL used libraries (e.g., flask, pandas, dash).
+4. DO NOT put python packages in `package.json`. `package.json` is ONLY for Node.js/React.
+5. For Multi-File Apps, generate a `start.sh` script that runs everything locally.
+   - Example: `python3 app.py`
    - DO NOT USE DOCKER unless explicitly asked. Run processes directly.
-5. PREFERENCE: Use `flask`/`fastapi` for Python, `react` for Frontend.
+6. PREFERENCE: Use `flask`/`fastapi` for Python, `react` for Frontend.
 """
         response = self.llm_interface(base_prompt, user_prompt)
         return self.executor.process(response)
@@ -131,15 +132,26 @@ CRITICAL RULES:
         target_path = LOCAL_MODEL_DIR
         if os.path.exists(potential_path): target_path = potential_path
         
+        # Concurrency safety: if we are already loading or running, we might need to be careful.
+        # But this method is called within inference flow.
+        
         if not hasattr(self, 'current_model_path') or self.current_model_path != target_path:
              print(f"[Core] Loading Weights: {target_path}...")
              try:
+                 # Clear previous model to free memory/buffers if possible
+                 if self.model:
+                     del self.model
+                     del self.tokenizer
+                     import gc
+                     gc.collect() # Force cleanup to release Metal buffers
+                     
                  from mlx_lm import load
                  self.model, self.tokenizer = load(target_path)
                  self.current_model_path = target_path
                  self.status = f"Active: {active_brain}"
              except Exception as e:
                  print(f"[Core] Load Failed: {e}")
+                 # Fallback
                  self.current_model_path = LOCAL_MODEL_DIR
                  self.model, self.tokenizer = load(LOCAL_MODEL_DIR)
 
@@ -151,6 +163,8 @@ CRITICAL RULES:
         yield f"__BRAIN__:{active_brain}"
 
         if not self.load_model_if_needed(): yield "Error: Model missing."
+        
+        # Ensure model is ready
         self.prepare_model(active_brain)
         
         base_prompt = f"""You are Omni, a Secure AI Stack.
@@ -159,17 +173,24 @@ Current Persona: @roe/{active_brain if active_brain != "None" else "omni"}
 CRITICAL RULES:
 1. Provide the FULL SOURCE CODE for ALL files.
 2. START every code block with a comment: `# filename: <name>` (or `// filename: <name>`).
-3. YOU MUST GENERATE `requirements.txt` (for Python) and `package.json` (for Node/React) if external libs are used.
-4. For Multi-File Apps, generate a `start.sh` script that runs everything locally.
-   - Example: `python3 app.py & npm run dev`
+3. YOU MUST GENERATE `requirements.txt` (for Python) containing ALL used libraries (e.g., flask, pandas, dash).
+4. DO NOT put python packages in `package.json`. `package.json` is ONLY for Node.js/React.
+5. For Multi-File Apps, generate a `start.sh` script that runs everything locally.
+   - Example: `python3 app.py`
    - DO NOT USE DOCKER unless explicitly asked. Run processes directly.
-5. PREFERENCE: Use `flask`/`fastapi` for Python, `react` for Frontend.
+6. PREFERENCE: Use `flask`/`fastapi` for Python, `react` for Frontend.
 """
         full_prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{base_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{user_prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
         
         from mlx_lm import stream_generate
-        for response in stream_generate(self.model, self.tokenizer, full_prompt, max_tokens=2048):
-            yield response.text
+        
+        # Adding a small delay or try/except block around generation to handle Metal flakiness
+        try:
+            for response in stream_generate(self.model, self.tokenizer, full_prompt, max_tokens=2048):
+                yield response.text
+        except Exception as e:
+            print(f"[Core] Generation Error: {e}")
+            yield f"\n[Error: {str(e)}]"
 
     def download_model(self):
         try:
