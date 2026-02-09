@@ -176,7 +176,9 @@ CRITICAL RULES:
 3. YOU MUST GENERATE `requirements.txt` (for Python) containing ALL used libraries (e.g., flask, pandas, dash).
 4. DO NOT put python packages in `package.json`. `package.json` is ONLY for Node.js/React.
 5. For Multi-File Apps, generate a `start.sh` script that runs everything locally.
-   - Example: `python3 app.py`
+   - Example (Python Only): `python3 app.py`
+   - Example (Full Stack): `python3 app.py & npm run dev`
+   - ONLY include `npm run dev` if you actually generated a frontend!
    - DO NOT USE DOCKER unless explicitly asked. Run processes directly.
 6. PREFERENCE: Use `flask`/`fastapi` for Python, `react` for Frontend.
 """
