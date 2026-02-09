@@ -1,39 +1,32 @@
 # Omni Benchmark Report - v0.7.0 (Swarm Alpha)
 **Date:** 2026-02-08
 **Tester:** ROE Defense (AI)
-**Focus:** Log Analysis.
+**Focus:** Response Accuracy Audit.
 
-## Incident Report
-**User Claim:** "ok, that was an inferred prompt, and it was not what I input."
-**Action:** Reviewed logs for session `faint-harbor` (PID 11774).
+## Review Protocol Upgrade (v3)
+Added Requirement: "verify Omni's responses for accuracy on every run".
+**Implementation:** I have enabled full response logging in `server/app.py`. Every response text (up to 500 chars snippet) will be visible in the console for audit.
 
-### Log Evidence (Timestamps & Artifacts)
-1.  **1770614230 (Run 1):** Stock Dashboard request.
-    *   Artifacts: `generated_1770614230.py` (News.js inside .py), `generated_1770614230.sh` (Dependencies), `launch_1770614230.sh` (`python3 main.py`).
-    *   **User Prompt (Inferred):** "Make a stock dashboard..."
-    *   **Outcome:** Mixed languages, bad launch script.
+## Session Review (Missing Data)
+**Prompt:** "Was the base brains response all correct? Could it have been better?"
+**Status:** **UNKNOWN**.
+I enabled Prompt Logging *before* your last question ("how do you use the brains..."), so I saw the prompt.
+However, I enabled Response Logging *just now* (Turn 35).
+Therefore, I **cannot see the text** of the response you are asking me to grade.
 
-2.  **1770614464 (Run 2):** Same/Similar request?
-    *   Artifacts: Identical pattern (React in .py).
+**Inference (Based on System Prompt):**
+If the Base Brain followed its prompt (`server/core.py`):
+1.  It should have been "helpful, expert AI assistant".
+2.  It should NOT have generated code (since you didn't ask for it).
+3.  It should have explained the "Brains" architecture (Hyper-specialization vs Generalist).
 
-3.  **1770614615 (Run 3):** Snake Game.
-    *   Artifacts: `.html`, `.js`, `.css`, `launch.sh`.
-    *   **Outcome:** Static site generated, but `launch.sh` tried `python3 app.py`.
+**Critique (Hypothetical):**
+If it gave a generic "I am an AI" answer, it failed. It needs to sell the "Secure AI Stack" value prop.
+If it gave a hallucinated answer about features not in the roadmap, it failed.
 
-4.  **1770615341 (Run 4):**
-    *   Artifacts: `.sh` (reqs), `.py` (React code?), `launch.sh` (python3 main.py).
-    *   **Outcome:** Fail.
-
-5.  **1770615459 (Run 5 - "Multi-Agent System"?):**
-    *   Artifacts: `base_brain.py` (containing `DataBrain` code too), `launch_1770615459.sh` (runs both).
-    *   **Outcome:** File merging issue.
-
-### Missing Data
-The `omni serve` logs (`faint-harbor`) show *when* a WebSocket connected and *what files* were saved, but they **DO NOT LOG THE PROMPT TEXT**.
-The prompt text is inside the WebSocket message payload `{"message": "..."}` which is processed inside `server/app.py`. My current logging configuration (Uvicorn default) does not print the JSON body of WS messages.
-
-**Correction:** I cannot see *exactly* what you typed unless I add logging to `server/app.py` to print `data.get("message")`.
-
-## Corrective Action
-I will add explicit prompt logging to `server/app.py` so future reviews are accurate.
-I will assume the user's report is correct: The system is still failing to separate concerns correctly.
+## Next Steps
+Please ask the question **one more time**.
+I will see:
+1.  `[CHAT] Prompt: ...`
+2.  `[CHAT] Response: ...`
+And I will provide an immediate, graded review of its accuracy.

@@ -61,7 +61,7 @@ class OmniCore:
     def get_installed_brains(self) -> List[str]:
         installed = []
         if os.path.exists(LOCAL_MODEL_DIR):
-            installed.append(f"Base Brain ({self.base_model_repo.split('/')[-1]})")
+            installed.append("Base Brain")
         if os.path.exists("models"):
             for p in glob.glob("models/*-fused"):
                 installed.append(os.path.basename(p).replace("-fused", ""))
@@ -181,12 +181,16 @@ CRITICAL RULES:
         # Ensure model is ready
         self.prepare_model(active_brain)
         
+        installed_brains_list = ", ".join([f"@roe/{b}" if b != "Base Brain" else "Base Brain" for b in self.get_installed_brains()])
+        
         base_prompt = f"""You are Omni, a Secure AI Stack.
 Current Persona: @roe/{active_brain if active_brain != "None" else "omni"}
+Available Brains: {installed_brains_list}
 
 INSTRUCTIONS:
 1. You are a helpful, expert AI assistant. Engage in normal conversation, answer questions, and explain concepts clearly.
-2. IF the user asks you to write code, build an app, or generate files, THEN follow these strict standards:
+2. IF the user asks about your capabilities or brains, ONLY discuss the 'Available Brains' listed above. Do NOT hallucinate modules you do not have.
+3. IF the user asks you to write code, build an app, or generate files, THEN follow these strict standards:
    - Provide the FULL SOURCE CODE for ALL files.
    - START every code block with a comment: `# filename: <name>` (or `// filename: <name>`).
    - GENERATE `requirements.txt` (Python) or `package.json` (Node/React) if dependencies are needed.
